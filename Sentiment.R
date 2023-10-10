@@ -18,14 +18,19 @@ save(bing, nrc, file = "dsfi-lexicons.Rdata")
 tidy_sona <- sona %>% unnest_tokens(word, speech, token = "words", to_lower = T) %>% 
   filter(!word %in% stop_words$word)
 
-##################### BING ##########################
 # Join bing lexicon
 sona_sentiment <- tidy_sona %>% 
   left_join(bing, by = "word") %>%
   rename(bing_sentiment = sentiment) %>%
   mutate(bing_sentiment = ifelse(is.na(bing_sentiment), 'neutral', bing_sentiment))
 
-# Top 20 positive words
+# Join nrc lexicon
+sona_sentiment <- sona_sentiment %>% 
+  left_join(nrc, by = "word", relationship = "many-to-many") %>%
+  rename(nrc_sentiment = sentiment) %>%
+  mutate(nrc_sentiment = ifelse(is.na(nrc_sentiment), 'neutral', nrc_sentiment))
+
+# Top 20 positive words (bing)
 sona_sentiment %>%
   filter(bing_sentiment == 'positive') %>%
   count(word) %>%
@@ -33,7 +38,7 @@ sona_sentiment %>%
   filter(rank(desc(n)) <= 20) %>%
   ggplot(aes(reorder(word,n),n)) + geom_col() + coord_flip() + xlab('')  
 
-# Top 20 negative words
+# Top 20 negative words (bing)
 sona_sentiment %>%
   filter(bing_sentiment == 'negative') %>%
   count(word) %>%
@@ -41,7 +46,7 @@ sona_sentiment %>%
   filter(rank(desc(n)) <= 20) %>%
   ggplot(aes(reorder(word,n),n)) + geom_col() + coord_flip() + xlab('')  
 
-# Sentiment by President (while excluding neutral words)
+# Sentiment by President while excluding neutral words (bing)
 sentiment_prop <- sona_sentiment %>%
   group_by(president_13, bing_sentiment) %>%
   summarize(word_count = n()) %>% 
@@ -58,7 +63,7 @@ ggplot(sentiment_prop, aes(x = president_13, y = word_count, fill = bing_sentime
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   scale_fill_discrete(name = "Sentiment", labels = c("Negative", "Positive"))
 
-# Top 10 positive words by President
+# Top 10 positive words by President (bing)
 top_pos_pres <- sona_sentiment %>%
   filter(bing_sentiment == "positive") %>%
   count(president_13, word) %>%
@@ -73,7 +78,7 @@ top_pos_pres %>%
   xlab('') +
   labs(title = "Top 10 Positive Words per President", y = "Frequency") 
 
-# Top 10 negative words by President
+# Top 10 negative words by President (bing)
 top_neg_pres <- sona_sentiment %>%
   filter(bing_sentiment == "negative") %>%
   count(president_13, word) %>%
@@ -88,14 +93,7 @@ top_neg_pres %>%
   xlab('') +
   labs(title = "Top 10 Negative Words per President", y = "Frequency") 
 
-##################### NRC ##########################
-# Join nrc lexicon
-sona_sentiment <- sona_sentiment %>% 
-  left_join(nrc, by = "word", relationship = "many-to-many") %>%
-  rename(nrc_sentiment = sentiment) %>%
-  mutate(nrc_sentiment = ifelse(is.na(nrc_sentiment), 'neutral', nrc_sentiment))
-
-# Sentiment chart
+# Sentiment chart (nrc)
 sona_sentiment %>%
   add_count(president_13, name = "n_words") %>% 
   group_by(president_13, nrc_sentiment) %>%
@@ -104,8 +102,8 @@ sona_sentiment %>%
   summarize(mean_prop = mean(prop)) %>% ungroup() %>%
   ggplot(aes(reorder(nrc_sentiment, mean_prop), mean_prop, fill = president_13)) + 
   geom_bar(stat = "identity", position = 'dodge') + coord_flip() +
-  xlab('Mean Proportion') +
-  labs(title = "Proportion of words in each NRC sentiment") +
-  scale_fill_discrete(name = "President")
+  ylab('Mean Proportion') +
+  xlab("") +
+  labs(title = "Proportion of words in each NRC sentiment", fill ="President")
 
 
