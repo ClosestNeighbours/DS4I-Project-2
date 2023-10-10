@@ -10,11 +10,13 @@ library(devtools)
 source("https://raw.githubusercontent.com/ClosestNeighbours/DS4I-Project-2/main/sona-first-steps%20(1).R")
 
 # Load dictionaries
-bing <- get_sentiments('bing') 
-nrc <- get_sentiments('nrc') 
-save(bing, nrc, file = "dsfi-lexicons.Rdata")
+load(url("https://raw.githubusercontent.com/ClosestNeighbours/DS4I-Project-2/Sentiment-Analysis/dsfi-lexicons.Rdata"))
 
 # Preprocess: tokenise & remove stop words
+sona$president_13 <- as.factor(sona$president_13)
+sona$year <- as.numeric(sona$year)
+sona$date <- as.Date(sona$date,format = "%d-%m-%Y")
+
 tidy_sona <- sona %>% unnest_tokens(word, speech, token = "words", to_lower = T) %>% 
   filter(!word %in% stop_words$word)
 
@@ -36,7 +38,10 @@ sona_sentiment %>%
   count(word) %>%
   arrange(desc(n)) %>%
   filter(rank(desc(n)) <= 20) %>%
-  ggplot(aes(reorder(word,n),n)) + geom_col() + coord_flip() + xlab('')  
+  ggplot(aes(reorder(word,n),n)) + 
+  geom_col() + coord_flip() +
+  labs(title = "Top 20 Positive Words", x = "Word", y = "Count")
+  
 
 # Top 20 negative words (bing)
 sona_sentiment %>%
@@ -44,7 +49,8 @@ sona_sentiment %>%
   count(word) %>%
   arrange(desc(n)) %>%
   filter(rank(desc(n)) <= 20) %>%
-  ggplot(aes(reorder(word,n),n)) + geom_col() + coord_flip() + xlab('')  
+  ggplot(aes(reorder(word,n),n)) + geom_col() + coord_flip() + 
+  labs(title = "Top 20 Negative Words", x = "Word", y = "Count")
 
 # Sentiment by President while excluding neutral words (bing)
 sentiment_prop <- sona_sentiment %>%
@@ -73,10 +79,9 @@ top_pos_pres <- sona_sentiment %>%
 top_pos_pres %>%
   ggplot(aes(reorder(word, n), n)) +
   geom_col(fill = "skyblue") +
-  facet_wrap(~president_13, scales = "free_y") +
+  facet_wrap(~president_13, scales = "free") +
   coord_flip() +
-  xlab('') +
-  labs(title = "Top 10 Positive Words per President", y = "Frequency") 
+  labs(title = "Top 10 Positive Words per President", x = "", y = "Frequency") 
 
 # Top 10 negative words by President (bing)
 top_neg_pres <- sona_sentiment %>%
@@ -88,10 +93,9 @@ top_neg_pres <- sona_sentiment %>%
 top_neg_pres %>%
   ggplot(aes(reorder(word, n), n)) +
   geom_col(fill = "skyblue") +
-  facet_wrap(~president_13, scales = "free_y") +
+  facet_wrap(~president_13, scales = "free") +
   coord_flip() +
-  xlab('') +
-  labs(title = "Top 10 Negative Words per President", y = "Frequency") 
+  labs(title = "Top 10 Negative Words per President", x = "", y = "Frequency") 
 
 # Sentiment chart (nrc)
 sona_sentiment %>%
@@ -102,8 +106,32 @@ sona_sentiment %>%
   summarize(mean_prop = mean(prop)) %>% ungroup() %>%
   ggplot(aes(reorder(nrc_sentiment, mean_prop), mean_prop, fill = president_13)) + 
   geom_bar(stat = "identity", position = 'dodge') + coord_flip() +
-  ylab('Mean Proportion') +
-  xlab("") +
-  labs(title = "Proportion of words in each NRC sentiment", fill ="President")
+  labs(title = "Proportion of words per Sentiment", fill ="President", x = "", y = 'Mean Proportion')
 
+# Sentiment over time
+sentiments_time <- sona_sentiment %>%
+  group_by(date, bing_sentiment) %>%
+  summarize(n = n()) 
 
+ggplot(filter(sentiments_time, bing_sentiment != 'neutral'), 
+       aes(x = date, y = n, fill = bing_sentiment)) +
+  geom_col() +
+  labs(title = "Sentiments over Time", fill ="Sentiment", x = "Date", y = "Count")
+
+sentiments_time <- sentiments_time %>% 
+  left_join(sentiments_time %>% 
+              group_by(date) %>% 
+              summarise(total = sum(n))) %>%
+  mutate(freq = n/total) 
+
+sentiments_time %>% filter(bing_sentiment != 'neutral') %>%
+  ggplot(aes(x = date, y = freq, colour = bing_sentiment)) +
+  geom_line() + 
+  geom_smooth(aes(colour = bing_sentiment)) +
+  labs(title = "Sentiments over Time", fill ="Sentiment", x = "Date", y = "Frequency") 
+
+# Fit a linear model
+model <- lm(freq ~ date, data = subset(sentiments_time, bing_sentiment == 'positive'))
+summary(model)
+
+# Fit binomial GLM
