@@ -24,3 +24,9 @@ sona$speech[35] <- z
 a <- sub("\\d{1,2} [A-Za-z]+ \\d{4}", "", x[36])
 
 sona$speech[36] <- a
+
+
+sona$speech <- str_replace_all(sona$speech, "[^[:alnum:]]", " ")
+
+
+
