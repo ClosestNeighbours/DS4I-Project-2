@@ -22,6 +22,8 @@ sona$speech[36] <- a
 
 sona$speech <- str_replace_all(sona$speech, "[^[:alnum:]]", " ")
 
+sona$speech <- gsub('[[:digit:]]+', '', x)    #remove numbers
+
 
 ## tidy format
 tidy_sona <- sona %>% 
@@ -38,16 +40,36 @@ tidy_sona %>%
 
 # Identify the most common words for each president
 most_common_words_per_pres <- tidy_sona %>% group_by(president_13) %>% count(word) %>% arrange(desc(n)) %>%
-  slice_head(n = 15) %>%
+  slice_head(n = 20) %>%
   ungroup()
 
 ggplot(most_common_words_per_pres, aes(x = reorder(word, n), y = n, fill = president_13)) +
   geom_bar(stat = "identity") +
-  labs(title = "Top 10 Words by President",
+  labs(title = "Top 15 Words by President",
        x = "Word",
        y = "Frequency") +
   theme_minimal() + coord_flip() + theme(legend.position = "none") +
   facet_wrap(~ president_13, scales = "free")
+
+
+
+
+exclude_words <- c("government", "people", "south")
+
+most_common_words_filtered <- most_common_words_per_pres %>%
+  filter(!word %in% exclude_words)
+
+# Create the plot using the filtered data frame
+ggplot(most_common_words_filtered, aes(x = reorder(word, n), y = n, fill = president_13)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Top 15 Words by President",
+       x = "Word",
+       y = "Frequency") +
+  theme_minimal() + coord_flip() + theme(legend.position = "none") +
+  facet_wrap(~ president_13, scales = "free")
+
+
+
 
 
 ## lda
@@ -61,7 +83,6 @@ sona_tdf <- tidy_sona %>%
 
 dtm_sona <- sona_tdf %>% 
   cast_dtm(president_13, word, n)
-
 
 
 sona_lda <- LDA(dtm_sona, k = 6, control = list(seed = 5291))
@@ -81,11 +102,11 @@ sona_topics %>%
 
 
 
-#greatest diff in beta values
+#greatest diff in beta values - not sure if helpful
 beta_spread <- sona_topics %>%
   mutate(topic = paste0('topic', topic)) %>%
   pivot_wider(names_from = topic, values_from = beta) %>%
-  filter(topic1 > .005 | topic6 > .005) %>%
+  filter(topic2 > .005 | topic5 > .005) %>%
   mutate(log_ratio = log2(topic6 / topic1))
 
 beta_spread %>%
@@ -108,10 +129,19 @@ sona_gamma <- left_join(sona %>% mutate(president_13 = as.character(president_13
                            by = c("president_13" = "document"), 
                            relationship = "many-to-many")
 
-#misatken to be about topic 6
+#misatken to be about topic 
 sona_gamma %>% 
   filter(president_13 == "deKlerk") %>%
-  filter(topic == 6 & gamma > 0.005) 
- 
+  filter(topic == 1 & gamma > 0.005) 
+
+pres_group_by_topic <- sona_gamma %>% group_by(topic) %>% group_by(topic, president_13) %>%
+  summarise(president_appearances = n_distinct(filename))
+
+
+
+
+
+#interesting plots or observations
+
 
 
