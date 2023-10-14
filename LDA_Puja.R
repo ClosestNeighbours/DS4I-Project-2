@@ -54,7 +54,7 @@ ggplot(most_common_words_per_pres, aes(x = reorder(word, n), y = n, fill = presi
 
 
 
-exclude_words <- c("government", "people", "south")
+exclude_words <- c("government", "people", "south", "africa", "african")
 
 most_common_words_filtered <- most_common_words_per_pres %>%
   filter(!word %in% exclude_words)
@@ -167,7 +167,156 @@ pres_group_by_topic <- sona_gamma %>% group_by(topic) %>% group_by(topic, presid
 
 
 
-#interesting plots or observations
+#individual presidents 
+
+#mandela
+
+mandela_tidy <- tidy_sona %>% filter(president_13 == "Mandela")
+
+mandela_tdf <- mandela_tidy %>%
+  group_by(president_13,word) %>%
+  count() %>%  
+  ungroup() 
+
+dtm_mandela <- mandela_tdf %>% 
+  cast_dtm(president_13, word, n)
+
+
+k_values <- c(2:20)
+
+lda_models_mandela <- list()
+
+for (k in k_values) {
+  lda_models_mandela[[as.character(k)]] <- LDA(dtm_mandela, k, control = list(seed = 5291))
+}
+
+coherence_values_mandela <- numeric(length(k_values))
+
+for (i in 2:length(k_values)) {
+  lda_models_mandela <- lda_models_mandela[[as.character(k_values[i])]]
+  coherence_values_mandela[i] <- topicdoc::topic_coherence(lda_models_mandela, dtm_mandela)
+}
+
+plot(k_values, coherence_values_mandela, type = "b", xlab = "Number of Topics (k)", ylab = "Topic Coherence")
+
+optimal_k <- k_values[which.max(coherence_values_mandela)]
+
+mandela_lda <- LDA(dtm_mandela, k = 2, control = list(seed = 5291))
+str(mandela_lda)
+
+mandela_topics <- tidy(mandela_lda, matrix = 'beta')
+head(mandela_topics)
+
+#top 20 terms in each topic
+mandela_topics %>%
+  group_by(topic) %>%
+  slice_max(n = 20, order_by = beta) %>% ungroup() %>%
+  arrange(topic, -beta) %>%
+  ggplot(aes(reorder(term, beta), beta, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = 'free') + coord_flip()
+
+
+
+
+
+#zuma
+
+zuma_tidy <- tidy_sona %>% filter(president_13 == "Zuma")
+
+zuma_tdf <- zuma_tidy %>%
+  group_by(president_13,word) %>%
+  count() %>%  
+  ungroup() 
+
+dtm_zuma <- zuma_tdf %>% 
+  cast_dtm(president_13, word, n)
+
+
+k_values <- c(2:20)
+
+lda_models_zuma <- list()
+
+for (k in k_values) {
+  lda_models_zuma[[as.character(k)]] <- LDA(dtm_zuma, k, control = list(seed = 5291))
+}
+
+coherence_values_zuma <- numeric(length(k_values))
+
+for (i in 1:length(k_values)) {
+  lda_models_zuma <- lda_models_zuma[[as.character(k_values[i])]]
+  coherence_values_zuma[i] <- topicdoc::topic_coherence(lda_models_zuma, dtm_zuma)
+}
+
+plot(k_values, coherence_values_zuma, type = "b", xlab = "Number of Topics (k)", ylab = "Topic Coherence")
+
+optimal_k <- k_values[which.max(coherence_values_zuma)]
+
+zuma_lda <- LDA(dtm_zuma, k = 2, control = list(seed = 5291))
+str(zuma_lda)
+
+zuma_topics <- tidy(zuma_lda, matrix = 'beta')
+head(zuma_topics)
+
+#top 20 terms in each topic
+zuma_topics %>%
+  group_by(topic) %>%
+  slice_max(n = 20, order_by = beta) %>% ungroup() %>%
+  arrange(topic, -beta) %>%
+  ggplot(aes(reorder(term, beta), beta, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = 'free') + coord_flip()
+
+
+
+
+
+#mbeki
+
+mbeki_tidy <- tidy_sona %>% filter(president_13 == "Mbeki")
+
+mbeki_tdf <- mbeki_tidy %>%
+  group_by(president_13,word) %>%
+  count() %>%  
+  ungroup() 
+
+dtm_mbeki <- mbeki_tdf %>% 
+  cast_dtm(president_13, word, n)
+
+
+k_values <- c(2:20)
+
+lda_models_mbeki <- list()
+
+for (k in k_values) {
+  lda_models_mbeki[[as.character(k)]] <- LDA(dtm_mbeki, k, control = list(seed = 5291))
+}
+
+coherence_values_mbeki <- numeric(length(k_values))
+
+for (i in 1:length(k_values)) {
+  lda_models_mbeki <- lda_models_mbeki[[as.character(k_values[i])]]
+  coherence_values_mbeki[i] <- topicdoc::topic_coherence(lda_models_mbeki, dtm_mbeki)
+}
+
+plot(k_values, coherence_values_mbeki, type = "b", xlab = "Number of Topics (k)", ylab = "Topic Coherence")
+
+optimal_k <- k_values[which.max(coherence_values_mbeki)]
+
+mbeki_lda <- LDA(dtm_mbeki, k = 2, control = list(seed = 5291))
+str(mbeki_lda)
+
+mbeki_topics <- tidy(mbeki_lda, matrix = 'beta')
+head(mbeki_topics)
+
+#top 20 terms in each topic
+mbeki_topics %>%
+  group_by(topic) %>%
+  slice_max(n = 20, order_by = beta) %>% ungroup() %>%
+  arrange(topic, -beta) %>%
+  ggplot(aes(reorder(term, beta), beta, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = 'free') + coord_flip()
 
 
 
@@ -175,5 +324,98 @@ pres_group_by_topic <- sona_gamma %>% group_by(topic) %>% group_by(topic, presid
 
 
 
+#ramaphosa
 
+ramaphosa_tidy <- tidy_sona %>% filter(president_13 == "Ramaphosa")
+
+ramaphosa_tdf <- ramaphosa_tidy %>%
+  group_by(president_13,word) %>%
+  count() %>%  
+  ungroup() 
+
+dtm_ramaphosa <- ramaphosa_tdf %>% 
+  cast_dtm(president_13, word, n)
+
+
+k_values <- c(2:20)
+
+lda_models_ramaphosa <- list()
+
+for (k in k_values) {
+  lda_models_ramaphosa[[as.character(k)]] <- LDA(dtm_ramaphosa, k, control = list(seed = 5291))
+}
+
+coherence_values_ramaphosa <- numeric(length(k_values))
+
+for (i in 1:length(k_values)) {
+  lda_models_ramaphosa <- lda_models_ramaphosa[[as.character(k_values[i])]]
+  coherence_values_ramaphosa[i] <- topicdoc::topic_coherence(lda_models_ramaphosa, dtm_ramaphosa)
+}
+
+plot(k_values, coherence_values_ramaphosa, type = "b", xlab = "Number of Topics (k)", ylab = "Topic Coherence")
+
+optimal_k <- k_values[which.max(coherence_values_ramaphosa)]
+
+ramaphosa_lda <- LDA(dtm_ramaphosa, k = 2, control = list(seed = 5291))
+str(ramaphosa_lda)
+
+ramaphosa_topics <- tidy(ramaphosa_lda, matrix = 'beta')
+head(ramaphosa_topics)
+
+#top 20 terms in each topic
+ramaphosa_topics %>%
+  group_by(topic) %>%
+  slice_max(n = 20, order_by = beta) %>% ungroup() %>%
+  arrange(topic, -beta) %>%
+  ggplot(aes(reorder(term, beta), beta, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = 'free') + coord_flip()
+
+
+#deKlerk
+
+deKlerk_tidy <- tidy_sona %>% filter(president_13 == "deKlerk")
+
+deKlerk_tdf <- deKlerk_tidy %>%
+  group_by(president_13,word) %>%
+  count() %>%  
+  ungroup() 
+
+dtm_deKlerk <- deKlerk_tdf %>% 
+  cast_dtm(president_13, word, n)
+
+
+k_values <- c(2:20)
+
+lda_models_deKlerk <- list()
+
+for (k in k_values) {
+  lda_models_deKlerk[[as.character(k)]] <- LDA(dtm_deKlerk, k, control = list(seed = 5291))
+}
+
+coherence_values_deKlerk <- numeric(length(k_values))
+
+for (i in 1:length(k_values)) {
+  lda_models_deKlerk <- lda_models_deKlerk[[as.character(k_values[i])]]
+  coherence_values_deKlerk[i] <- topicdoc::topic_coherence(lda_models_deKlerk, dtm_deKlerk)
+}
+
+plot(k_values, coherence_values_deKlerk, type = "b", xlab = "Number of Topics (k)", ylab = "Topic Coherence")
+
+optimal_k <- k_values[which.max(coherence_values_deKlerk)]
+
+deKlerk_lda <- LDA(dtm_deKlerk, k = 2, control = list(seed = 5291))
+str(deKlerk_lda)
+
+deKlerk_topics <- tidy(deKlerk_lda, matrix = 'beta')
+head(deKlerk_topics)
+
+#top 20 terms in each topic
+deKlerk_topics %>%
+  group_by(topic) %>%
+  slice_max(n = 20, order_by = beta) %>% ungroup() %>%
+  arrange(topic, -beta) %>%
+  ggplot(aes(reorder(term, beta), beta, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = 'free') + coord_flip()
 
