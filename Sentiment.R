@@ -44,7 +44,6 @@ sona_sentiment %>%
   geom_col() + coord_flip() +
   labs(title = "Top 20 Positive Words", x = "Word", y = "Count")
   
-
 #### Top 20 negative words (bing) ####
 sona_sentiment %>%
   filter(bing_sentiment == 'negative') %>%
@@ -168,10 +167,15 @@ bigrams_separated <- bigrams_separated %>%
   left_join(bing, by = c(word1 = 'word')) %>%
   rename(sentiment1 = sentiment) %>%
   mutate(sentiment1 = ifelse(is.na(sentiment1), 'neutral', sentiment1)) %>%
-  
+  mutate(sentiment1 = ifelse(sentiment1 == "oppressed", "negative", sentiment1)) %>%
+  mutate(sentiment1 = ifelse(sentiment1 %in% c("honour", "hope"), "positive", sentiment1)) %>%         
+
   left_join(bing, by = c(word2 = 'word')) %>%
   rename(sentiment2 = sentiment) %>%
   mutate(sentiment2 = ifelse(is.na(sentiment2), 'neutral', sentiment2)) %>%
+  mutate(sentiment2 = ifelse(sentiment2 == "oppressed", "negative", sentiment2)) %>%
+  mutate(sentiment2 = ifelse(sentiment2 %in% c("honour", "hope"), "positive", sentiment2)) %>%         
+  
   select(date, word1, word2, sentiment1, sentiment2, everything())
 
 # Reverse the sentiment if preceding word is negative
@@ -213,11 +217,12 @@ bigrams_separated %>%
 
 bigrams_separated %>%
   filter(net_sentiment < 0) %>% # get negative bigrams
-  filter(word1 %in% negation_words) %>% # get bigrams where first word is negation
+  filter(word1 %in% negation_words) %>% # get bigrams where the first word is negation
   count(bigram, sort = TRUE) %>%
-  filter(rank(desc(n)) < 20) %>%
-  ggplot(aes(reorder(bigram,n),n)) + geom_col() + coord_flip() +
-  labs(x = "", y="Count", title = "Top 20 Negative Bigrams")
+  arrange(desc(n)) %>% 
+  head(20) %>%
+  ggplot(aes(reorder(bigram, n), n)) + geom_col() + coord_flip() +
+  labs(x = "", y = "Count", title = "Top 20 Negative Bigrams with Negation")
 
 #### Playing around with Wordclouds ####
 library(wordcloud)
