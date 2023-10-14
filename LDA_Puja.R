@@ -50,8 +50,68 @@ ggplot(most_common_words_per_pres, aes(x = reorder(word, n), y = n, fill = presi
   facet_wrap(~ president_13, scales = "free")
 
 
+## lda
+
+library(topicmodels)
+
+sona_tdf <- tidy_sona %>%
+  group_by(president_13,word) %>%
+  count() %>%  
+  ungroup() 
+
+dtm_sona <- sona_tdf %>% 
+  cast_dtm(president_13, word, n)
 
 
 
+sona_lda <- LDA(dtm_sona, k = 6, control = list(seed = 5291))
+str(sona_lda)
+
+sona_topics <- tidy(sona_lda, matrix = 'beta')
+head(sona_topics)
+
+#top 20 terms in each topic
+sona_topics %>%
+  group_by(topic) %>%
+  slice_max(n = 20, order_by = beta) %>% ungroup() %>%
+  arrange(topic, -beta) %>%
+  ggplot(aes(reorder(term, beta), beta, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = 'free') + coord_flip()
+
+
+
+#greatest diff in beta values
+beta_spread <- sona_topics %>%
+  mutate(topic = paste0('topic', topic)) %>%
+  pivot_wider(names_from = topic, values_from = beta) %>%
+  filter(topic1 > .005 | topic6 > .005) %>%
+  mutate(log_ratio = log2(topic6 / topic1))
+
+beta_spread %>%
+  group_by(direction = log_ratio > 0) %>%
+  top_n(10, abs(log_ratio)) %>%
+  ungroup() %>%
+  mutate(term = reorder(term, log_ratio)) %>%
+  ggplot(aes(term, log_ratio)) +
+  geom_col() +
+  labs(y = 'Log2 ratio of beta in topic 2 / topic 1') +
+  coord_flip()
+
+
+#gamma
+gamma <- tidy(sona_lda, matrix = 'gamma') 
+head(gamma)
+
+sona_gamma <- left_join(sona %>% mutate(president_13 = as.character(president_13)), 
+                           gamma,
+                           by = c("president_13" = "document"), 
+                           relationship = "many-to-many")
+
+#misatken to be about topic 6
+sona_gamma %>% 
+  filter(president_13 == "deKlerk") %>%
+  filter(topic == 6 & gamma > 0.005) 
+ 
 
 
