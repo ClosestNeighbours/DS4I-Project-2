@@ -8,6 +8,7 @@ library(tm)
 library(topicmodels)
 library(magrittr)
 library(qdap)
+library(lubridate)
 
 df <- sona
 # Simple EDA
@@ -112,4 +113,40 @@ ggplot(result2, aes(x=factor(value), y=count, fill=factor(value))) +
 avg_sentiment <- result %>%
   group_by(year) %>%
   summarize(average_sentiment = sum(value * count) / sum(count))
+
+# pre/post comparisons
+
+prepostsona <- sona %>%
+  filter(grepl("pre|post", filename))
+
+
+sentiments_pre_post <- prepostsona %>%
+  unnest_tokens(word, speech) %>%
+  inner_join(get_sentiments("afinn"))
+
+
+
+sentiments_pre_post <- sentiments_pre_post %>%
+  mutate(election_time = case_when(
+    grepl("post", filename) ~ "post",
+    grepl("pre", filename) ~ "pre",
+    TRUE ~ NA_character_
+  ))
+
+post_pre <- sentiments_pre_post %>% group_by(president_13,election_time) %>% summarise(avg_sent=mean(value))
+
+post_pre <- post_pre %>% filter(!(president_13 %in% c("Motlanthe", "deKlerk")))
+
+ggplot(post_pre, aes(x = president_13, y = avg_sent, fill = election_time)) + 
+  geom_bar(stat = "identity", position = "dodge") + 
+  theme_minimal() + 
+  labs(title = "Average Sentiment Pre and Post Elections", 
+       x = "President", 
+       y = "Average Sentiment", 
+       fill = "Election Time")
+
+## maybe has something to do with the impeachment
+
+
+
 
