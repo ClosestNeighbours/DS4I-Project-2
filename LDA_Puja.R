@@ -85,7 +85,33 @@ dtm_sona <- sona_tdf %>%
   cast_dtm(president_13, word, n)
 
 
-sona_lda <- LDA(dtm_sona, k = 6, control = list(seed = 5291))
+#best k value
+library(tm)
+
+k_values <- c(2:20)
+
+lda_models <- list()
+
+for (k in k_values) {
+  lda_models[[as.character(k)]] <- LDA(dtm_sona, k, control = list(seed = 5291))
+}
+
+coherence_values <- numeric(length(k_values))
+
+for (i in 1:length(k_values)) {
+  lda_model <- lda_models[[as.character(k_values[i])]]
+  coherence_values[i] <- topicdoc::topic_coherence(lda_model, dtm_sona)
+}
+
+plot(k_values, coherence_values, type = "b", xlab = "Number of Topics (k)", ylab = "Topic Coherence")
+
+optimal_k <- k_values[which.max(coherence_values)]
+
+
+
+
+#with optimal k 
+sona_lda <- LDA(dtm_sona, k = 4, control = list(seed = 5291))
 str(sona_lda)
 
 sona_topics <- tidy(sona_lda, matrix = 'beta')
@@ -142,6 +168,12 @@ pres_group_by_topic <- sona_gamma %>% group_by(topic) %>% group_by(topic, presid
 
 
 #interesting plots or observations
+
+
+
+
+
+
 
 
 
