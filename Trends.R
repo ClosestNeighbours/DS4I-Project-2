@@ -171,4 +171,72 @@ ggplot(avg_sentiment_per_decade, aes(x = as.factor(decade), y = avg_sentiment)) 
   ) +
   theme_minimal()
 
+# List of keywords to search for
+keywords <- c("loadshedding", "coronavirus", "electricity", "theft", "corruption", "rape", "apartheid", "racism")
+
+# Convert speeches to lowercase for case-insensitive search
+df$speech <- tolower(df$speech)
+
+# Count occurrences for each president and keyword
+count_data <- df %>%
+  group_by(president_13) %>%
+  summarise(across(starts_with("speech"), list(
+    loadshedding = ~sum(str_count(., "loadshedding")),
+    coronavirus = ~sum(str_count(., "coronavirus")),
+    electricity = ~sum(str_count(., "electricity")),
+    theft = ~sum(str_count(., "theft")),
+    corruption = ~sum(str_count(., "corruption")),
+    rape = ~sum(str_count(., "rape")),
+    apartheid = ~sum(str_count(., "apartheid")),
+    racism = ~sum(str_count(., "racism"))
+  ))) %>%
+  pivot_longer(-president_13, names_to="keyword", values_to="count")
+
+count_data$keyword <- gsub("speech_", "", count_data$keyword)
+
+# Plot
+ggplot(count_data, aes(x=president_13, y=count, fill=keyword)) +
+  geom_bar(stat="identity", position="dodge") +
+  theme_minimal() +
+  labs(title="Keyword occurrences by President over the years", x="President", y="Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+for (keyword in keywords) {
+  df_temp <- df %>%
+    group_by(year) %>%
+    summarise(count = sum(str_count(speech, keyword))) %>%
+    mutate(keyword = keyword)
+  
+  results <- bind_rows(results, df_temp)
+}
+
+results <- results %>%
+  arrange(year, keyword)
+
+min_year <- as.numeric(min(results$year, na.rm = TRUE))
+max_year <- as.numeric(max(results$year, na.rm = TRUE))
+
+results <- results %>%
+  mutate(year = as.numeric(year)) %>%
+  mutate(year_bin = cut(year, breaks = seq(min_year, max_year+5, by = 5), labels = FALSE, include.lowest = TRUE)) %>%
+  group_by(year_bin, keyword) %>%
+  summarise(count = sum(count)) %>%
+  mutate(bin_label = paste((year_bin-1)*5 + min_year, year_bin*5 + min_year - 1, sep = "-"))
+
+results <- results %>% filter(!is.na(year_bin))
+
+# Plot the data
+ggplot(results, aes(x = bin_label, y = count, fill = keyword)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Keyword Occurrences in 5-Year Bins", x = "Year Bins", y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+
+
+
+
+
 
