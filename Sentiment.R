@@ -7,7 +7,8 @@ library(lubridate)
 library(devtools)
 
 # Load data
-source("https://raw.githubusercontent.com/ClosestNeighbours/DS4I-Project-2/main/sona-first-steps%20(1).R")
+source("https://raw.githubusercontent.com/ClosestNeighbours/DS4I-Project-2/LDA---Puja/editted_sona_first_steps.R")
+sona$date[36] <- "09-02-2023"
 
 # Load dictionaries
 load(url("https://raw.githubusercontent.com/ClosestNeighbours/DS4I-Project-2/Sentiment-Analysis/dsfi-lexicons.Rdata"))
