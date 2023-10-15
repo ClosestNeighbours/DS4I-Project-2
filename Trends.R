@@ -32,7 +32,7 @@ wordcloud2(text_count_cloud[1:50, ])
 
 # Tokenize the speeches
 tokenized_data <- df %>%
-  unnest_tokens(word, speech)
+  unnest_tokens(word, speech) %>% rename(President = president_13)
 
 # Get count value stats with regards to the sentiment
 
@@ -40,13 +40,13 @@ tokenized_data <- df %>%
 ## and plus five (positive). 
 sentiments_data <- tokenized_data %>%
   inner_join(get_sentiments("afinn")) %>%
-  group_by(year, president_13) %>%
+  group_by(year, President) %>%
   summarise(sentiment_score = mean(value, na.rm=TRUE))
 
 sentiments_data
 
 # Average Sentiment score Throughout the years
-plot <- ggplot(sentiments_data, aes(x=year, y=sentiment_score, color=president_13, group=president_13)) +
+plot <- ggplot(sentiments_data, aes(x=year, y=sentiment_score, color=President, group=President)) +
   geom_line(size=1) +
   geom_point(size=3) +
   labs(title="Sentiment Trend Over the Years", x="Year", y="Sentiment Score") +
@@ -57,16 +57,15 @@ plot <- ggplot(sentiments_data, aes(x=year, y=sentiment_score, color=president_1
 print(plot)
 
 
-
 # Bar plot showing the sentiment score from afinn
-plot2 <- ggplot(sentiments_data, aes(x=year, y=sentiment_score, fill=president_13)) +
+plot2 <- ggplot(sentiments_data, aes(x=year, y=sentiment_score, fill=President)) +
   geom_bar(stat="identity", position="dodge") +
   labs(title="Sentiment Score per Year", x="Year", y="Sentiment Score") +
   theme_minimal()
 
 plot2
 
-plot3 <- ggplot(sentiments_data, aes(x=president_13, y=sentiment_score, fill=president_13)) +
+plot3 <- ggplot(sentiments_data, aes(x=President, y=sentiment_score, fill=President)) +
   geom_boxplot() +
   labs(title="Distribution of Sentiment Scores per President", x="President", y="Sentiment Score") +
   theme_minimal()
@@ -101,7 +100,7 @@ print(result2)
 ggplot(result, aes(x=factor(value), y=count, fill=factor(value))) + 
   geom_bar(stat="identity") + 
   facet_wrap(~year, scales="free_y") + 
-  labs(x="Sentiment Value", y="Count", title="Count of Sentiment Values by Year") +
+  labs(x="Sentiment Value", y="Number of Occurances", title="Count of Sentiment Values by Year") +
   theme_minimal()
 
 ggplot(result2, aes(x=factor(value), y=count, fill=factor(value))) + 
@@ -137,11 +136,13 @@ post_pre <- sentiments_pre_post %>% group_by(president_13,election_time) %>% sum
 
 post_pre <- post_pre %>% filter(!(president_13 %in% c("Motlanthe", "deKlerk")))
 
+post_pre$election_time <- factor(post_pre$election_time, levels = c("pre", "post"))
+
 ggplot(post_pre, aes(x = president_13, y = avg_sent, fill = election_time)) + 
   geom_bar(stat = "identity", position = "dodge") + 
   theme_minimal() + 
-  labs(title = "Average Sentiment Pre and Post Elections", 
-       x = "President", 
+  labs(title = "Average Sentiment During Pre and Post Elections", 
+       x = "Presidents", 
        y = "Average Sentiment", 
        fill = "Election Time")
 
@@ -163,13 +164,12 @@ avg_sentiment_per_decade <- decade %>%
 print(avg_sentiment_per_decade)
 
 ggplot(avg_sentiment_per_decade, aes(x = as.factor(decade), y = avg_sentiment)) +
-  geom_bar(stat = "identity", fill = "skyblue") +
+  geom_bar(stat = "identity") +
   labs(
-    title = "Average Sentiment Per Decade",
+    title = "Average Sentiment Per Decade (1990-2020)",
     x = "Decade",
     y = "Average Sentiment Value"
-  ) +
-  theme_minimal()
+  ) + theme_minimal()
 
 # List of keywords to search for
 keywords <- c("loadshedding", "coronavirus", "electricity", "theft", "corruption", "rape", "apartheid", "racism")
@@ -194,21 +194,23 @@ count_data <- df %>%
 
 count_data$keyword <- gsub("speech_", "", count_data$keyword)
 
+count_data$president_13 <- factor(count_data$president_13, levels = c("deKlerk","Mandela", "Mbeki", "Motlanthe", "Zuma", "Ramaphosa"))
+
 # Plot
 ggplot(count_data, aes(x=president_13, y=count, fill=keyword)) +
   geom_bar(stat="identity", position="dodge") +
   theme_minimal() +
-  labs(title="Keyword occurrences by President over the years", x="President", y="Count") +
+  labs(title="Topic Occurrences by President over the years", x="President", y="Count") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 
 for (keyword in keywords) {
-  df_temp <- df %>%
+  df_temp <- sona %>%
     group_by(year) %>%
     summarise(count = sum(str_count(speech, keyword))) %>%
     mutate(keyword = keyword)
   
-  results <- bind_rows(results, df_temp)
+  results <- bind_rows(sona, df_temp)
 }
 
 results <- results %>%
