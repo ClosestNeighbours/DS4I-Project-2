@@ -2,10 +2,9 @@
 title: "DS4I Project 2"
 format: pdf
 editor: visual
-<<<<<<< Updated upstream
-=======
+execute: 
+  echo: false
 toc: true
->>>>>>> Stashed changes
 ---
 
 ## Quarto
