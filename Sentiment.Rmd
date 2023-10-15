@@ -1,0 +1,179 @@
+```{r setup , include = FALSE, message=FALSE, echo=FALSE}
+knitr::opts_chunk$set(fig.pos = "H", out.extra = "")
+
+# Loading packages
+library(tidyverse)
+library(tidytext)
+library(textdata) 
+library(stringr)
+library(lubridate)
+library(devtools)
+library(kableExtra)
+
+# Load data
+source("https://raw.githubusercontent.com/ClosestNeighbours/DS4I-Project-2/LDA---Puja/editted_sona_first_steps.R")
+sona$date[36] <- "09-02-2023"
+
+# Load dictionaries
+load(url("https://raw.githubusercontent.com/ClosestNeighbours/DS4I-Project-2/Sentiment-Analysis/dsfi-lexicons.Rdata"))
+
+# Preprocess: tokenise & remove stop words
+sona$president_13 <- as.factor(sona$president_13)
+sona$year <- as.numeric(sona$year)
+sona$date <- as.Date(sona$date,format = "%d-%m-%Y")
+
+tidy_sona <- sona %>% unnest_tokens(word, speech, token = "words", to_lower = T) %>% 
+  filter(!word %in% stop_words$word)
+
+# Join bing lexicon
+sona_sentiment <- tidy_sona %>% 
+  left_join(bing, by = "word") %>%
+  rename(bing_sentiment = sentiment) %>%
+  mutate(bing_sentiment = ifelse(is.na(bing_sentiment), 'neutral', bing_sentiment)) %>% 
+  mutate(bing_sentiment = ifelse(bing_sentiment == "oppressed", "negative", bing_sentiment)) %>%
+  mutate(bing_sentiment = ifelse(bing_sentiment %in% c("honour", "hope"), "positive", bing_sentiment))         
+
+# Join nrc lexicon
+sona_sentiment <- sona_sentiment %>% 
+  left_join(nrc, by = "word", relationship = "many-to-many") %>%
+  rename(nrc_sentiment = sentiment) %>%
+  mutate(nrc_sentiment = ifelse(is.na(nrc_sentiment), 'neutral', nrc_sentiment))
+```
+
+## Sentiment Analysis
+
+### Introduction
+
+Sentiment analysis is a text mining technique that aims to extract the thoughts and feelings of script to determine their polarity, i.e. positive, negative or neutral. Three approaches are available to conduct sentiment analysis: supervised, lexicon-based and hybrid. The supervised method utilised machine learning algorithms to train the classifier. It is superior in performance to the lexicon-based method, however it requires a substantial amount of labelled data. Lexicon-based sentiment analysis uses sentiment lexicons (dictionaries) to describe polarity. This method is more computationally efficient, but the results may vary depending on the lexicon and domain. A word may be subjective or objective depending on the context, e.g. in the clause "crude oil", this is an objective use of the word crude; when it is used as "crude language", it is now subjective and has a negative sentiment. Dealing with negation and sarcasm is also a challenge with this approach. The hybrid method is an amalgamation of the supervised and lexicon-based methods (Sadia et al, 2018).
+
+This section will discuss the results obtained from employing the lexicon-based approach to determine the outlook of the South African Presidents. The *bing* and *nrc* lexicons were explored. In the instance that a word was not in the lexicon, the default label was set to "neutral". 
+The *bing* lexicon was developed by Minqing Hu and Bing Liu as the *Opinion Lexicon*. It comprises of 6786 words, where 2005 are "positive" and 4781 are "negative".  
+The *nrc* lexicon has 13872 words and incorporates more sentiments in addition to positive and negative: anger, anticipation, disgust, fear, joy, sadness, surprise and trust. 
+
+```{r nrc table, include = FALSE, message=FALSE, echo=FALSE}
+kbl(as.data.frame(table(nrc$sentiment)), col.names = c("Category", "No. of Words"), caption = "Words in the *nrc* lexicon") %>% kable_styling(latex_options = "HOLD_position")
+```
+
+### Word-Level Analysis
+
+The top 20 positive and negative words in the speeches overall as well as a breakdown per president using the *bing* lexicon are provided below.
+```{r Top 20 positive words, include = FALSE, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Top 20 positive words used in speeches based on the *bing* lexicon"}
+sona_sentiment %>%
+  filter(bing_sentiment == 'positive') %>%
+  count(word) %>%
+  arrange(desc(n)) %>%
+  filter(rank(desc(n)) <= 20) %>%
+  ggplot(aes(reorder(word,n),n)) + 
+  geom_col() + coord_flip() +
+  labs(title = "Top 20 Positive Words", x = "Word", y = "Count")
+```
+
+```{r Top 10 positive words by President, include = FALSE, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Top 20 positive words by president based on the *bing* lexicon"}
+top_pos_pres <- sona_sentiment %>%
+  filter(bing_sentiment == "positive") %>%
+  count(president_13, word) %>%
+  group_by(president_13) %>%
+  filter(rank(desc(n)) <= 10)
+
+top_pos_pres %>%
+  ggplot(aes(reorder(word, n), n)) +
+  geom_col(fill = "skyblue") +
+  facet_wrap(~president_13, scales = "free") +
+  coord_flip() +
+  labs(title = "Top 10 Positive Words per President", x = "", y = "Frequency") 
+```
+
+Overall, the word *improve* was the most used positive word in all of the speeches; this is also true when grouped by all presidents except for deKlerk, whose most used word was *freedom*.  Other recurring words include *progress* and *peace*/*peaceful*.
+
+```{r Top 20 negative words, include = FALSE, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Top 20 negative words used in speeches based on the *bing* lexicon"}
+sona_sentiment %>%
+  filter(bing_sentiment == 'negative') %>%
+  count(word) %>%
+  arrange(desc(n)) %>%
+  filter(rank(desc(n)) <= 20) %>%
+  ggplot(aes(reorder(word,n),n)) + geom_col() + coord_flip() + 
+  labs(title = "Top 20 Negative Words", x = "Word", y = "Count")
+```
+
+```{r Top 10 negative words by President, include = FALSE, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Top 20 negative words by president based on the *bing* lexicon"}
+top_neg_pres <- sona_sentiment %>%
+  filter(bing_sentiment == "negative") %>%
+  count(president_13, word) %>%
+  group_by(president_13) %>%
+  filter(rank(desc(n)) <= 10)
+
+top_neg_pres %>%
+  ggplot(aes(reorder(word, n), n)) +
+  geom_col(fill = "skyblue") +
+  facet_wrap(~president_13, scales = "free") +
+  coord_flip() +
+  labs(title = "Top 10 Negative Words per President", x = "", y = "Frequency") 
+```
+
+*Poverty*, *crime* and *corruption* were the most commonly used negative words. They also appeared in the breakdown by president; except for deKlerk, who did not have any of these three words in his top ten negative words. deKlerk commonly used the words *violent*, *illegal* and *discrimination*.
+
+### Sentiment-Level Analysis
+
+The general feeling of the speeches, broken down by sentiments, by each president were explored using both the *nrc* and *bing* lexicons.
+
+```{r Sentiment by President, include = FALSE, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Proportion of positive to negative words by president based on the *bing* lexicon"}
+sentiment_prop <- sona_sentiment %>%
+  group_by(president_13, bing_sentiment) %>%
+  summarize(word_count = n()) %>% 
+  filter(!bing_sentiment == "neutral") %>% 
+  mutate(proportion = word_count / sum(word_count))
+
+ggplot(sentiment_prop, aes(x = president_13, y = proportion, fill = bing_sentiment)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Proportion of Positive to Negative Words by President",
+    x = "President",
+    y = "Proportion"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_manual(name = "Sentiment", values = c("positive" = "blue", "negative" = "red"), labels = c("Negative", "Positive")) 
+```
+
+The proportions of positive to negative words do not seem to differ by a large amount. The plots do, however, still suggest that *Zuma*, *Mbeki* and *Mandela* were the presidents with more positive themes than the other presidents.
+
+```{r Sentiment barchart (nrc), include = FALSE, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Proportion of positive to negative words by president based on the *bing* lexicon"}
+sona_sentiment %>%
+  add_count(president_13, name = "n_words") %>%
+  group_by(president_13, nrc_sentiment) %>%
+  summarize(prop = n() / first(n_words)) %>% ungroup() %>%
+  filter(nrc_sentiment != "neutral") %>%  
+  ggplot(aes(nrc_sentiment, prop, fill = nrc_sentiment)) +
+  geom_bar(stat = "identity") +
+  facet_wrap(~president_13, scales = "free") +
+  labs(title = "Sentiment Proportions by President", fill = "Sentiment", x = "Proportion", y = "Sentiment") +
+  coord_flip() 
+```
+
+It can be seen that, besides *negative* and *positive* sentiments, common themes were *trust* and *anticipation*. To gain some insight on which words specifically were associated with these two themes, the top 2 words associated with *trust* or *anticipation* are displayed in a table below.
+
+```{r sentiment table}
+senti_table <- sona_sentiment %>%
+    filter(nrc_sentiment %in% c("trust", "anticipation")) %>%
+    group_by(president_13, word, nrc_sentiment, bing_sentiment) %>%
+    summarise(word_count = n()) %>%
+    arrange(president_13, desc(word_count)) %>%
+    group_by(president_13) %>%
+    top_n(2, word_count) %>%
+    ungroup()
+
+kbl(as.data.frame(senti_table[,-5]), col.names = c("President", "Word", "nrc", "bing"), caption = "Top 2 words by president associated with either anticipation or trust according to the *nrc* lexicon") %>% kable_styling(latex_options = "HOLD_position")
+```
+
+Most of the words associated with trust or anticipation in the *nrc* lexicon are labelled as "neutral" in the *bing* lexicon. Due to the multi-level nature of words in the *nrc* lexicon, some words are associated with more than one sentiment, such as *continue*.
+
+### Trends Over Time
+```{r trends, include = FALSE, message=FALSE, echo=FALSE}
+
+```
+
+## References
+
+Sadia et al (2018). <https://ieec.neduet.edu.pk/2018/Papers_2018/15.pdf>
+
+
