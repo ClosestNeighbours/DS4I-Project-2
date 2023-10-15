@@ -41,8 +41,20 @@ The first figure summarises the top 15 words spoken by president while the secon
 
 ## Sentiment Analysis
 
+
+
+
+
 ## Latent Dirichlet Allocation
 
+LDA is a popular topic modelling model which allows one to better understand hidden themes in the collection, classify the documents into these themes and summarise the documents. In an LDA model, each document is comprised of various words as is each topic. This document being referred to is achieved after the 'tidy' data is converted to a 'DocumentTermMatrix'.  
+
+
+
+
+
+
+## Use of Large Language Models
 
 
 
