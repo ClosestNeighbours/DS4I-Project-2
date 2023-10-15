@@ -145,8 +145,30 @@ ggplot(post_pre, aes(x = president_13, y = avg_sent, fill = election_time)) +
        y = "Average Sentiment", 
        fill = "Election Time")
 
-## maybe has something to do with the impeachment
+## Decade Trends
 
+decade <- tokenized_data %>%
+  inner_join(get_sentiments("afinn")) 
 
+decade$date <- dmy(decade$date)
+
+decade <- decade %>%
+  mutate(year = as.numeric(year),
+         decade = 10 * (year %/% 10))
+
+avg_sentiment_per_decade <- decade %>%
+  group_by(decade) %>%
+  summarise(avg_sentiment = mean(value, na.rm = TRUE))
+
+print(avg_sentiment_per_decade)
+
+ggplot(avg_sentiment_per_decade, aes(x = as.factor(decade), y = avg_sentiment)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  labs(
+    title = "Average Sentiment Per Decade",
+    x = "Decade",
+    y = "Average Sentiment Value"
+  ) +
+  theme_minimal()
 
 
