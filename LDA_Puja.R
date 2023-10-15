@@ -3,32 +3,6 @@ library(stringr)
 library(tidytext)
 library(tidyverse)
 
-
-source("https://raw.githubusercontent.com/ClosestNeighbours/DS4I-Project-2/LDA---Puja/editted_sona_first_steps.R")
-
-
-sona$date[36] <- "09-02-2023"
-
-x <- sona$speech
-
-
-y <- sub('^\\w*\\s*\\w*\\s*\\w*\\s*', '', x[1:34])
-
-sona$speech[1:34] <- y
-
-z <- sub("^[A-Za-z]+, \\d{1,2} [A-Za-z]+ \\d{4}  ", "", x[35])
-
-sona$speech[35] <- z
-
-a <- sub("\\d{1,2} [A-Za-z]+ \\d{4}", "", x[36])
-
-sona$speech[36] <- a
-
-
-sona$speech <- str_replace_all(sona$speech, "[^[:alnum:]]", " ")
-
-
-
 #reading in data
 source("https://raw.githubusercontent.com/ClosestNeighbours/DS4I-Project-2/LDA---Puja/editted_sona_first_steps.R")
 
@@ -207,24 +181,24 @@ dtm_mandela <- mandela_tdf %>%
   cast_dtm(president_13, word, n)
 
 
-k_values <- c(2:20)
-
-lda_models_mandela <- list()
-
-for (k in k_values) {
-  lda_models_mandela[[as.character(k)]] <- LDA(dtm_mandela, k, control = list(seed = 5291))
-}
-
-coherence_values_mandela <- numeric(length(k_values))
-
-for (i in 2:length(k_values)) {
-  lda_models_mandela <- lda_models_mandela[[as.character(k_values[i])]]
-  coherence_values_mandela[i] <- topicdoc::topic_coherence(lda_models_mandela, dtm_mandela)
-}
-
-plot(k_values, coherence_values_mandela, type = "b", xlab = "Number of Topics (k)", ylab = "Topic Coherence")
-
-optimal_k <- k_values[which.max(coherence_values_mandela)]
+# k_values <- c(2:20)
+# 
+# lda_models_mandela <- list()
+# 
+# for (k in k_values) {
+#   lda_models_mandela[[as.character(k)]] <- LDA(dtm_mandela, k, control = list(seed = 5291))
+# }
+# 
+# coherence_values_mandela <- numeric(length(k_values))
+# 
+# for (i in 2:length(k_values)) {
+#   lda_models_mandela <- lda_models_mandela[[as.character(k_values[i])]]
+#   coherence_values_mandela[i] <- topicdoc::topic_coherence(lda_models_mandela, dtm_mandela)
+# }
+# 
+# plot(k_values, coherence_values_mandela, type = "b", xlab = "Number of Topics (k)", ylab = "Topic Coherence")
+# 
+# optimal_k <- k_values[which.max(coherence_values_mandela)]
 
 mandela_lda <- LDA(dtm_mandela, k = 2, control = list(seed = 5291))
 str(mandela_lda)
@@ -258,24 +232,24 @@ dtm_zuma <- zuma_tdf %>%
   cast_dtm(president_13, word, n)
 
 
-k_values <- c(2:20)
-
-lda_models_zuma <- list()
-
-for (k in k_values) {
-  lda_models_zuma[[as.character(k)]] <- LDA(dtm_zuma, k, control = list(seed = 5291))
-}
-
-coherence_values_zuma <- numeric(length(k_values))
-
-for (i in 1:length(k_values)) {
-  lda_models_zuma <- lda_models_zuma[[as.character(k_values[i])]]
-  coherence_values_zuma[i] <- topicdoc::topic_coherence(lda_models_zuma, dtm_zuma)
-}
-
-plot(k_values, coherence_values_zuma, type = "b", xlab = "Number of Topics (k)", ylab = "Topic Coherence")
-
-optimal_k <- k_values[which.max(coherence_values_zuma)]
+# k_values <- c(2:20)
+# 
+# lda_models_zuma <- list()
+# 
+# for (k in k_values) {
+#   lda_models_zuma[[as.character(k)]] <- LDA(dtm_zuma, k, control = list(seed = 5291))
+# }
+# 
+# coherence_values_zuma <- numeric(length(k_values))
+# 
+# for (i in 1:length(k_values)) {
+#   lda_models_zuma <- lda_models_zuma[[as.character(k_values[i])]]
+#   coherence_values_zuma[i] <- topicdoc::topic_coherence(lda_models_zuma, dtm_zuma)
+# }
+# 
+# plot(k_values, coherence_values_zuma, type = "b", xlab = "Number of Topics (k)", ylab = "Topic Coherence")
+# 
+# optimal_k <- k_values[which.max(coherence_values_zuma)]
 
 zuma_lda <- LDA(dtm_zuma, k = 2, control = list(seed = 5291))
 str(zuma_lda)
@@ -309,24 +283,24 @@ dtm_mbeki <- mbeki_tdf %>%
   cast_dtm(president_13, word, n)
 
 
-k_values <- c(2:20)
-
-lda_models_mbeki <- list()
-
-for (k in k_values) {
-  lda_models_mbeki[[as.character(k)]] <- LDA(dtm_mbeki, k, control = list(seed = 5291))
-}
-
-coherence_values_mbeki <- numeric(length(k_values))
-
-for (i in 1:length(k_values)) {
-  lda_models_mbeki <- lda_models_mbeki[[as.character(k_values[i])]]
-  coherence_values_mbeki[i] <- topicdoc::topic_coherence(lda_models_mbeki, dtm_mbeki)
-}
-
-plot(k_values, coherence_values_mbeki, type = "b", xlab = "Number of Topics (k)", ylab = "Topic Coherence")
-
-optimal_k <- k_values[which.max(coherence_values_mbeki)]
+# k_values <- c(2:20)
+# 
+# lda_models_mbeki <- list()
+# 
+# for (k in k_values) {
+#   lda_models_mbeki[[as.character(k)]] <- LDA(dtm_mbeki, k, control = list(seed = 5291))
+# }
+# 
+# coherence_values_mbeki <- numeric(length(k_values))
+# 
+# for (i in 1:length(k_values)) {
+#   lda_models_mbeki <- lda_models_mbeki[[as.character(k_values[i])]]
+#   coherence_values_mbeki[i] <- topicdoc::topic_coherence(lda_models_mbeki, dtm_mbeki)
+# }
+# 
+# plot(k_values, coherence_values_mbeki, type = "b", xlab = "Number of Topics (k)", ylab = "Topic Coherence")
+# 
+# optimal_k <- k_values[which.max(coherence_values_mbeki)]
 
 mbeki_lda <- LDA(dtm_mbeki, k = 2, control = list(seed = 5291))
 str(mbeki_lda)
@@ -361,25 +335,25 @@ ramaphosa_tdf <- ramaphosa_tidy %>%
 dtm_ramaphosa <- ramaphosa_tdf %>% 
   cast_dtm(president_13, word, n)
 
-
-k_values <- c(2:20)
-
-lda_models_ramaphosa <- list()
-
-for (k in k_values) {
-  lda_models_ramaphosa[[as.character(k)]] <- LDA(dtm_ramaphosa, k, control = list(seed = 5291))
-}
-
-coherence_values_ramaphosa <- numeric(length(k_values))
-
-for (i in 1:length(k_values)) {
-  lda_models_ramaphosa <- lda_models_ramaphosa[[as.character(k_values[i])]]
-  coherence_values_ramaphosa[i] <- topicdoc::topic_coherence(lda_models_ramaphosa, dtm_ramaphosa)
-}
-
-plot(k_values, coherence_values_ramaphosa, type = "b", xlab = "Number of Topics (k)", ylab = "Topic Coherence")
-
-optimal_k <- k_values[which.max(coherence_values_ramaphosa)]
+# 
+# k_values <- c(2:20)
+# 
+# lda_models_ramaphosa <- list()
+# 
+# for (k in k_values) {
+#   lda_models_ramaphosa[[as.character(k)]] <- LDA(dtm_ramaphosa, k, control = list(seed = 5291))
+# }
+# 
+# coherence_values_ramaphosa <- numeric(length(k_values))
+# 
+# for (i in 1:length(k_values)) {
+#   lda_models_ramaphosa <- lda_models_ramaphosa[[as.character(k_values[i])]]
+#   coherence_values_ramaphosa[i] <- topicdoc::topic_coherence(lda_models_ramaphosa, dtm_ramaphosa)
+# }
+# 
+# plot(k_values, coherence_values_ramaphosa, type = "b", xlab = "Number of Topics (k)", ylab = "Topic Coherence")
+# 
+# optimal_k <- k_values[which.max(coherence_values_ramaphosa)]
 
 ramaphosa_lda <- LDA(dtm_ramaphosa, k = 2, control = list(seed = 5291))
 str(ramaphosa_lda)
@@ -410,24 +384,24 @@ dtm_deKlerk <- deKlerk_tdf %>%
   cast_dtm(president_13, word, n)
 
 
-k_values <- c(2:20)
-
-lda_models_deKlerk <- list()
-
-for (k in k_values) {
-  lda_models_deKlerk[[as.character(k)]] <- LDA(dtm_deKlerk, k, control = list(seed = 5291))
-}
-
-coherence_values_deKlerk <- numeric(length(k_values))
-
-for (i in 1:length(k_values)) {
-  lda_models_deKlerk <- lda_models_deKlerk[[as.character(k_values[i])]]
-  coherence_values_deKlerk[i] <- topicdoc::topic_coherence(lda_models_deKlerk, dtm_deKlerk)
-}
-
-plot(k_values, coherence_values_deKlerk, type = "b", xlab = "Number of Topics (k)", ylab = "Topic Coherence")
-
-optimal_k <- k_values[which.max(coherence_values_deKlerk)]
+# k_values <- c(2:20)
+# 
+# lda_models_deKlerk <- list()
+# 
+# for (k in k_values) {
+#   lda_models_deKlerk[[as.character(k)]] <- LDA(dtm_deKlerk, k, control = list(seed = 5291))
+# }
+# 
+# coherence_values_deKlerk <- numeric(length(k_values))
+# 
+# for (i in 1:length(k_values)) {
+#   lda_models_deKlerk <- lda_models_deKlerk[[as.character(k_values[i])]]
+#   coherence_values_deKlerk[i] <- topicdoc::topic_coherence(lda_models_deKlerk, dtm_deKlerk)
+# }
+# 
+# plot(k_values, coherence_values_deKlerk, type = "b", xlab = "Number of Topics (k)", ylab = "Topic Coherence")
+# 
+# optimal_k <- k_values[which.max(coherence_values_deKlerk)]
 
 deKlerk_lda <- LDA(dtm_deKlerk, k = 2, control = list(seed = 5291))
 str(deKlerk_lda)
