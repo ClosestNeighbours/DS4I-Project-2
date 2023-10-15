@@ -10,15 +10,17 @@ execute:
 
 # Introduction + Lit Review
 
+The State of the Nation Address (Sona) provides a platform for the Head of State to reflect on the performance of government during the previous year and also outline plans and programmes for the new year. It has also been a tradition by presidents to make ground-breaking announcements during this important joint sitting of Parliament (https://www.parliament.gov.za/news/highlights-sona-during-south-africas-democratic-era)
+
 # Data and Methods
 
 ## Data Collection
 
-As the aim of this project was to analyse SONA speeches before and after the election of the President of South Africa, the data used for this project were SONA speeches from 1994 through to 2023. These were accessed from the South African Government website (*https://www.gov.za/state-nation-address*) and include speeches from six presidents: FW de Klerk, Nelson Mandela, Thabo Mbeki, Kgalema Motlanthe, Jacob Zuma and the current president, Cyril Ramaphosa. Overall, 36 speeches were analysed. How these speeches were analysed will be explained in the sections to come.
+As the aim of this project was to analyse State of the Nationa (SONA) speeches delivered by the Presidents of South Africa, the data used for this project were SONA speeches from 1994 through to 2023. These were accessed from the South African Government website (*https://www.gov.za/state-nation-address*) and include speeches from before and after the election of six presidents: FW de Klerk, Nelson Mandela, Thabo Mbeki, Kgalema Motlanthe, Jacob Zuma and the current president, Cyril Ramaphosa. Overall, 36 speeches were analysed. How these speeches were analysed will be explained in the sections to come.
 
 ## Data Cleaning and Preprocessing
 
-In order to analyse and model the SONA data, it had to be cleaned and preprocessed first. The .txt files were first read into R where they were all added to a single dataframe. The information regarding the date and year in which the speech was delivered as well as the president delivering the speech were extracted and adding as columns to the dataframe. In addition to this, the dates were all formatted to the same format, all the punctuation was removed and the words in the speeches were all converted to lowercase. The text was also cleaned to remove the dates that appear at the beginning/towards the beginning of the speeches. Lastly, all numbers were removed for the Linear Discriminant Analysis (LDA). 
+In order to analyse and model the SONA data, it had to be cleaned and preprocessed first. The .txt files were first read into R where they were all added to a single dataframe. The information regarding the date and year in which the speech was delivered as well as the president delivering the speech were extracted and adding as columns to the dataframe. In addition to this, the dates were all formatted to the same format, all the punctuation was removed and the words in the speeches were all converted to lowercase. The text was also cleaned to remove the dates that appear at the beginning/towards the beginning of the speeches. Lastly, all numbers were removed for the latent Dirichlet allocation (LDA). 
 
 The speeches were then converted to a 'tidy' format whereby the data were then processed so that all variables were in columns, all observations are in rows and every value is in a cell where a cell may only have one value. During this process of converting the speeches to a 'tidy' format, the process of tokenisation was also implemented which is the process of taking a text string, such as each individual speech and decomposing it into chunks which in this case were words. Essentially, the speeches were broken down into words and converted to a format where each observation only consisted of one word. After this was done, stop words or words that occur commonly, were removed from the 'tidy' dataset so that these would not add noise while analysing the data. 
 
@@ -26,9 +28,20 @@ After the data had been cleaned and pre-processed, exploratory data analysis was
 
 ## Exploratory Data Analysis 
 
+Before conducting any in-depth analysis of the data through sentiment analysis and LDA, exploratory data analysis (EDA) was performed on the data in order to gain a better understanding of the data. 
+
+First, the number of words per president were counted. The most number of words from a president was from Mbeki with 5622 words followed by Zuma with 5258, Ramaphosa with 4753, Mandela with 4311 and finally Motlanthe and de Klerk with 1631 and 431, respectively. The lower number of words for Motlanthe can be attributed to the fact that he was only president for roughly six month and hence participated in only one SONA. For de Klerk, this may have been because this was the end of the Apartheid regime for which he was the last president. Furthermore, the top ten most used words across all speeches were as follows: government, south people, country, national, development, africa, public, economic, ensure. All of which one would expect to hear given the nature of the SONA speeches. 
+
+Lastly, the top 15 words spoken by each president are summarised in the figures below. DONT KNOW HOW TO ADD PLOTS YET.
+
+The first figure summarises the top 15 words spoken by president while the second figure shows the same with the exclusion of the words: government, people, south, africa, african. These are widely used by most presidents and may not be valuable in indicating trends with regards to the most words used. It can be seen that the words associated with de Klerk are focussed around freedom and the transitioning of South Africa from an Apartheid state to a democratic one through words such as: 'constitution', 'freedom' and 'transitional'. Mandela's most used words 'development' and 'economic' may be attributed to the re-development of South Africa as a democratic state but words such as 'crime' and 'security' indicate a sense of unsafety. Mbeki's words seem to be more related to the economy and development while Motlathe's adress simialr issues with the addition of poverty. Ramaphosa's words are even more so centred around econmic development and businesses which may be due to the effects of the Covid-19 pandemic during his time as president. Lastly, Zuma's words follow a simialr economic and development trend to the rest with the addition of water as the Western Cape droughts occured during his time as president.  
+
+
+
+
 ## Sentiment Analysis
 
-## Linear Discriminant Analysis 
+## Latent Dirichlet Allocation
 
 
 
