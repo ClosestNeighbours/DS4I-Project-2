@@ -21,7 +21,7 @@ sona$speech[36] <- a
 
 sona$speech <- str_replace_all(sona$speech, "[^[:alnum:]]", " ")
 
-sona$speech <- gsub('[[:digit:]]+', '', x)    #remove numbers
+sona$speech <- gsub('[[:digit:]]+', '', sona$speech)    #remove numbers
 
 
 ## tidy format
@@ -83,6 +83,7 @@ sona_tdf <- tidy_sona %>%
 dtm_sona <- sona_tdf %>% 
   cast_dtm(president_13, word, n)
 
+#eliminate words that occur 80-90 times?
 
 #best k value
 library(tm)
