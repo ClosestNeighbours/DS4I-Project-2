@@ -2,25 +2,21 @@
 title: "Write Up - Puja"
 format: pdf
 editor: visual
+toc: true
+execute: 
+  echo: false
 ---
 
-## Quarto
+# Introduction + Lit Review
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+# Data and Methods
 
-## Running Code
+## Data Collection
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+As the aim of this project was to analyse SONA speeches before and after the election of the President of South Africa, the data used for this project were SONA speeches from 1994 through to 2023. These were accessed from the South African Government website (*https://www.gov.za/state-nation-address*) and include speeches from six presidents: FW de Klerk, Nelson Mandela, Thabo Mbeki, Kgalema Motlanthe, Jacob Zuma and the current president, Cyril Ramaphosa. Overall, 36 speeches were analysed. How these speeches were analysed will be explained in the sections to come. 
 
-```{r}
-1 + 1
-```
+## Results
 
-You can add options to executable code like this
+## Discussion
 
-```{r}
-#| echo: false
-2 * 2
-```
-
-The `echo: false` option disables the printing of code (only output is displayed).
+## Conclusions + how can we improve?
