@@ -3,6 +3,7 @@ title: "Write Up - Puja"
 format: pdf
 editor: visual
 toc: true
+number-sections: true
 execute: 
   echo: false
 ---
@@ -13,7 +14,28 @@ execute:
 
 ## Data Collection
 
-As the aim of this project was to analyse SONA speeches before and after the election of the President of South Africa, the data used for this project were SONA speeches from 1994 through to 2023. These were accessed from the South African Government website (*https://www.gov.za/state-nation-address*) and include speeches from six presidents: FW de Klerk, Nelson Mandela, Thabo Mbeki, Kgalema Motlanthe, Jacob Zuma and the current president, Cyril Ramaphosa. Overall, 36 speeches were analysed. How these speeches were analysed will be explained in the sections to come. 
+As the aim of this project was to analyse SONA speeches before and after the election of the President of South Africa, the data used for this project were SONA speeches from 1994 through to 2023. These were accessed from the South African Government website (*https://www.gov.za/state-nation-address*) and include speeches from six presidents: FW de Klerk, Nelson Mandela, Thabo Mbeki, Kgalema Motlanthe, Jacob Zuma and the current president, Cyril Ramaphosa. Overall, 36 speeches were analysed. How these speeches were analysed will be explained in the sections to come.
+
+## Data Cleaning and Preprocessing
+
+In order to analyse and model the SONA data, it had to be cleaned and preprocessed first. The .txt files were first read into R where they were all added to a single dataframe. The information regarding the date and year in which the speech was delivered as well as the president delivering the speech were extracted and adding as columns to the dataframe. In addition to this, the dates were all formatted to the same format, all the punctuation was removed and the words in the speeches were all converted to lowercase. The text was also cleaned to remove the dates that appear at the beginning/towards the beginning of the speeches. Lastly, all numbers were removed for the Linear Discriminant Analysis (LDA). 
+
+The speeches were then converted to a 'tidy' format whereby the data were then processed so that all variables were in columns, all observations are in rows and every value is in a cell where a cell may only have one value. During this process of converting the speeches to a 'tidy' format, the process of tokenisation was also implemented which is the process of taking a text string, such as each individual speech and decomposing it into chunks which in this case were words. Essentially, the speeches were broken down into words and converted to a format where each observation only consisted of one word. After this was done, stop words or words that occur commonly, were removed from the 'tidy' dataset so that these would not add noise while analysing the data. 
+
+After the data had been cleaned and pre-processed, exploratory data analysis was conducted on the data and sentiment analysis as well as LDA was carried out on the speeches and words. 
+
+## Exploratory Data Analysis 
+
+## Sentiment Analysis
+
+## Linear Discriminant Analysis 
+
+
+
+
+
+
+
 
 ## Results
 
