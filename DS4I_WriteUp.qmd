@@ -1,0 +1,83 @@
+---
+title: "DS4I Project 2"
+format: pdf
+editor: visual
+execute: 
+  echo: false
+toc: true
+---
+
+## Abstract
+
+## Introduction
+
+## Sentiment Analysis
+
+## Topic Modelling
+
+## Trends
+
+In this study, we embarked on descriptive analysis of the content of the State of\
+Nations Address speeches by South African presidents from 1994 to 2022. We uti-\
+lizing advanced sentiment analysis, and topic modelling techniques to quantified\
+the emotional tone of each speech and general topics that will provide context and\
+understanding to the broader socio-political environment of South Africa over time.\
+We utilized the Afinn lexicon which is a list of English terms manually rated for\
+valence with an integer between -5 (negative) and +5 (positive).
+
+### Yearly Trends
+
+Figure 1 displays the average sentiment segregated by year and president. Nelson\
+Mandela's term, symbolizing the dawn of democracy in South Africa manifested\
+positive sentiment scores. However, there is a sharp decline after that from 1995-\
+1999. Furthermore, we notice that Mbeki in the early 2000's had more positive\
+sentiment as compared to the late 90's. However, this sentiment diminishes over\
+his tenure, possibly indicating challenges or controversial issues faced during his\
+presidency. Zuma's term showcases dramatic peaks and valleys in sentiment scores.\
+We notice a steady increase in positive sentiment in the late 2000's peaking in 2010\
+at a sentiment score of 1.25. Various factors could be investigated for this. A possible\
+reason for this is the 2010 FIFA World Cup that was hosted in South Africa.\
+However, after the world cup (2010) we notice a volatile pattern associated with\
+Zuma's tenure as contrast to the high witnessed in 2010, there was a drop leading\
+to a sentiment score of below 0.5 in 2013.\
+Furthermore, ever since Ramaphosa has been elected into office in 2018, we notice\
+a steady decline in sentiment score. A possible reason for this could be the load-\
+shedding and Coronavirus struggles that have plagued our country in recent years.\
+These will be further investigated in the section.
+
+![Yearly Sentiment Trends segregated by presidents.](docs/Sent_trend_year)
+
+Figure 2 echos the analysis that is portrayed in Figure 1. A further comment can\
+be extremely negative or positive sentiments (-5 and 5) are sparsely represented\
+across the years, indicating that highly polarized sentiments are rare in the dataset.\
+Throughout most of the years, the neutral sentiment (values 1 and 2) remains pre-\
+dominant, suggesting a generally stable mood or balanced content in the analyzed\
+texts.
+
+![Sentiment Valence Trends by year](docs/Count_Sentiment_Values_by_Year.png)
+
+### Decade Trends
+
+Within the span of three decades, Figure 3 illustrates the average sentiment per\
+decade. The 2000s and 2010s emerge as periods marked by heightened positive\
+sentiment. In contrast, the 1990s and the 2020s manifest a more tempered positivity.\
+
+![Average Sentiment Score Per Decade](docs/Per_Decade.png)
+
+### Pre and Post Election Trends
+
+Figure 4 depicts the average sentiment during the pre and post-election phases for\
+several South African presidents, namely Mandela, Mbeki, Ramaphosa, and Zuma.\
+Analyzing the sentiment before the elections (pre) for each president reveals a trend.\
+Generally, the sentiment before the election is comparatively more negative or less\
+positive than the post-election phase. This pattern could be attributed to the strategic communication employed during election campaigns. It\'s common during election campaigns for leaders or political parties to highlight existing problems or crises to win voter trust by promising solutions. By making the situation seem more critical, candidates can position themselves as the needed change.
+
+![Comparing average sentiment scores pre and post elections](docs/Pre_post_elections.png)
+
+### Overall Trends
+
+It is found that the SONA\'s generally expressed positive sentiments post-elections,\
+as supposed to pre-elections. Another finding, indicated a more negative sentiment\
+in the speeches during the 1990s and the 2020s when juxtaposed against the relatively more positive undertones from 2000 to 2020. These sentiment shifts keenly reflect the changing political landscape and challenges faced in South Africa during these periods. Overall, our findings reveal distinct shifts in the emotional undertones of presidential speeches over time, providing insights into the evolving political narratives and concerns of the nation.
+
+## Discussion 
