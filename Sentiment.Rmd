@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 ```{r setup , include = FALSE, message=FALSE, echo=FALSE}
 knitr::opts_chunk$set(fig.pos = "H", out.extra = "")
 
