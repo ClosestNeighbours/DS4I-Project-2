@@ -75,15 +75,23 @@ ggplot(most_common_words_filtered, aes(x = reorder(word, n), y = n, fill = presi
 
 library(topicmodels)
 
+often_words <- tidy_sona %>%
+  count(word, sort = TRUE) %>% slice_head(n = 20)
+
 sona_tdf <- tidy_sona %>%
   group_by(president_13,word) %>%
   count() %>%  
-  ungroup() 
+  ungroup() %>%
+  filter(!word %in% often_words$word)
 
 dtm_sona <- sona_tdf %>% 
   cast_dtm(president_13, word, n)
 
-#eliminate words that occur 80-90 times?
+
+#pruning?
+dtm_pruned <- removeSparseTerms(dtm_sona, sparse = 0.0001)
+dtm_pruned <- removeSparseTerms(dtm_sona, sparse = 0.80)
+
 
 #best k value
 library(tm)
@@ -111,7 +119,7 @@ optimal_k <- k_values[which.max(coherence_values)]
 
 
 #with optimal k 
-sona_lda <- LDA(dtm_sona, k = 4, control = list(seed = 5291))
+sona_lda <- LDA(dtm_sona, k =9, control = list(seed = 5291))   #not too bad - 7
 str(sona_lda)
 
 sona_topics <- tidy(sona_lda, matrix = 'beta')
@@ -418,4 +426,8 @@ deKlerk_topics %>%
   ggplot(aes(reorder(term, beta), beta, fill = factor(topic))) +
   geom_col(show.legend = FALSE) +
   facet_wrap(~ topic, scales = 'free') + coord_flip()
+
+
+
+
 
