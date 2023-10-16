@@ -20,50 +20,71 @@ As the aim of this project was to analyse State of the Nationa (SONA) speeches d
 
 ## Data Cleaning and Preprocessing
 
-In order to analyse and model the SONA data, it had to be cleaned and preprocessed first. The .txt files were first read into R where they were all added to a single dataframe. The information regarding the date and year in which the speech was delivered as well as the president delivering the speech were extracted and adding as columns to the dataframe. In addition to this, the dates were all formatted to the same format, all the punctuation was removed and the words in the speeches were all converted to lowercase. The text was also cleaned to remove the dates that appear at the beginning/towards the beginning of the speeches. Lastly, all numbers were removed for the latent Dirichlet allocation (LDA). 
+In order to analyse and model the SONA data, it had to be cleaned and preprocessed first. The .txt files were first read into R where they were all added to a single dataframe. The information regarding the date and year in which the speech was delivered as well as the president delivering the speech were extracted and adding as columns to the dataframe. In addition to this, the dates were all formatted to the same format, all the punctuation was removed and the words in the speeches were all converted to lowercase. The text was also cleaned to remove the dates that appear at the beginning/towards the beginning of the speeches. Lastly, all numbers were removed for the latent Dirichlet allocation (LDA).
 
-The speeches were then converted to a 'tidy' format whereby the data were then processed so that all variables were in columns, all observations are in rows and every value is in a cell where a cell may only have one value. During this process of converting the speeches to a 'tidy' format, the process of tokenisation was also implemented which is the process of taking a text string, such as each individual speech and decomposing it into chunks which in this case were words. Essentially, the speeches were broken down into words and converted to a format where each observation only consisted of one word. After this was done, stop words or words that occur commonly, were removed from the 'tidy' dataset so that these would not add noise while analysing the data. 
+The speeches were then converted to a 'tidy' format whereby the data were then processed so that all variables were in columns, all observations are in rows and every value is in a cell where a cell may only have one value. During this process of converting the speeches to a 'tidy' format, the process of tokenisation was also implemented which is the process of taking a text string, such as each individual speech and decomposing it into chunks which in this case were words. Essentially, the speeches were broken down into words and converted to a format where each observation only consisted of one word. After this was done, stop words or words that occur commonly, were removed from the 'tidy' dataset so that these would not add noise while analysing the data.
 
-After the data had been cleaned and pre-processed, exploratory data analysis was conducted on the data and sentiment analysis as well as LDA was carried out on the speeches and words. 
+After the data had been cleaned and pre-processed, exploratory data analysis was conducted on the data and sentiment analysis as well as LDA was carried out on the speeches and words.
 
-## Exploratory Data Analysis 
+## Exploratory Data Analysis
 
-Before conducting any in-depth analysis of the data through sentiment analysis and LDA, exploratory data analysis (EDA) was performed on the data in order to gain a better understanding of the data. 
+Before conducting any in-depth analysis of the data through sentiment analysis and LDA, exploratory data analysis (EDA) was performed on the data in order to gain a better understanding of the data.
 
-First, the number of words per president were counted. The most number of words from a president was from Mbeki with 5622 words followed by Zuma with 5258, Ramaphosa with 4753, Mandela with 4311 and finally Motlanthe and de Klerk with 1631 and 431, respectively. The lower number of words for Motlanthe can be attributed to the fact that he was only president for roughly six month and hence participated in only one SONA. For de Klerk, this may have been because this was the end of the Apartheid regime for which he was the last president. Furthermore, the top ten most used words across all speeches were as follows: government, south people, country, national, development, africa, public, economic, ensure. All of which one would expect to hear given the nature of the SONA speeches. 
+First, the number of words per president were counted. The most number of words from a president was from Mbeki with 5622 words followed by Zuma with 5258, Ramaphosa with 4753, Mandela with 4311 and finally Motlanthe and de Klerk with 1631 and 431, respectively. The lower number of words for Motlanthe can be attributed to the fact that he was only president for roughly six month and hence participated in only one SONA. For de Klerk, this may have been because this was the end of the Apartheid regime for which he was the last president. Furthermore, the top ten most used words across all speeches were as follows: government, south people, country, national, development, africa, public, economic, ensure. All of which one would expect to hear given the nature of the SONA speeches.
 
 Lastly, the top 15 words spoken by each president are summarised in the figures below. DONT KNOW HOW TO ADD PLOTS YET.
 
-The first figure summarises the top 15 words spoken by president while the second figure shows the same with the exclusion of the words: government, people, south, africa, african. These are widely used by most presidents and may not be valuable in indicating trends with regards to the most words used. It can be seen that the words associated with de Klerk are focussed around freedom and the transitioning of South Africa from an Apartheid state to a democratic one through words such as: 'constitution', 'freedom' and 'transitional'. Mandela's most used words 'development' and 'economic' may be attributed to the re-development of South Africa as a democratic state but words such as 'crime' and 'security' indicate a sense of unsafety. Mbeki's words seem to be more related to the economy and development while Motlathe's adress simialr issues with the addition of poverty. Ramaphosa's words are even more so centred around econmic development and businesses which may be due to the effects of the Covid-19 pandemic during his time as president. Lastly, Zuma's words follow a simialr economic and development trend to the rest with the addition of water as the Western Cape droughts occured during his time as president.  
-
-
-
+The first figure summarises the top 15 words spoken by president while the second figure shows the same with the exclusion of the words: government, people, south, africa, african. These are widely used by most presidents and may not be valuable in indicating trends with regards to the most words used. It can be seen that the words associated with de Klerk are focussed around freedom and the transitioning of South Africa from an Apartheid state to a democratic one through words such as: 'constitution', 'freedom' and 'transitional'. Mandela's most used words 'development' and 'economic' may be attributed to the re-development of South Africa as a democratic state but words such as 'crime' and 'security' indicate a sense of unsafety. Mbeki's words seem to be more related to the economy and development while Motlathe's adress simialr issues with the addition of poverty. Ramaphosa's words are even more so centred around econmic development and businesses which may be due to the effects of the Covid-19 pandemic during his time as president. Lastly, Zuma's words follow a simialr economic and development trend to the rest with the addition of water as the Western Cape droughts occured during his time as president.
 
 ## Sentiment Analysis
 
-
-
-
-
 ## Latent Dirichlet Allocation
 
-LDA is a popular topic modelling model which allows one to better understand hidden themes in the collection, classify the documents into these themes and summarise the documents. In an LDA model, each document is comprised of various words as is each topic. This document being referred to is achieved after the 'tidy' data is converted to a 'DocumentTermMatrix'.  
+LDA is a popular topic modelling model which allows one to better understand hidden themes in a collection, classify the documents into these themes and summarise the documents. In an LDA model, each document is comprised of various words as is each topic. This document being referred to is achieved after the 'tidy' data is converted to a 'DocumentTermMatrix'.
+
+In an LDA model, one of the hyperparameters is $k$. If there are $k$ topics, each topic from the document is generated from a distribution with different probabilities. So if $z_{km}$ is the $k$th topic in the $m$th document, it takes a value between 1 and $K$. 
+$$
+z_{km} \sim Multinomial(\theta_m)
+
+$$
+where $\theta_m = (\theta_{m1}, \theta_{m2}, ..., \theta_{mk})'$ is the topic probability. 
+
+Once a topic has been decided upon, words are organised around it. So if $w_{mn}$ is the $n$th word used in the $m$th document, it would take a value between 1 and $V$ with $V$ being the total number of unique words used in all the documents. The equation below shows how a word is generated: 
+$$
+w_{mn}|z_{km} \sim Multinomial(\beta_k)
+
+$$
+where $\beta_k = c(\beta_{k1}, \beta_{k2}, ..., \beta_{kV})'$ is the probability that a word is picked given the topic k is selected. 
+
+Lastly, it is important to get $\theta$ and $\beta$ values as these represent the distribution of topics for a particular document and the distribution of words within each topic. The assumption is that both are generated from a Dirichlet distribution. For topic probability: 
+$$
+\theta_m \sim Dirichlet(\alpha)
+$$
+And for word probability:
+
+$$
+\beta_m \sim Dirichlet(\delta)
+$$
+
+In the context of this project, first the 'tidy' data was converted to a 'DocumentTermMatrix' to which the LDA model was applied to. A gridsearch for the best $k$ hyperparameter was done using the metric of coherence values. This measures the relative distance between words within a topic and suggested that a $k = 4$ be used. An LDA model was created on the overall data as well as for each president. 
+
+TO BE CONTINUED... NEED TO CHANGE SOME RESULTS
+
+
+## Use of Large Language Models - may need to move section
+
+While not an aim of this project, it was a requirement that we experiment with the use of a large language model such as ChatGPT to assist with the assignment. While using basic search engines to help with coding and writing are helpful, ChatGPT is more efficient in providing specific answers to some questions as it can provide textual context, conversational interactions and can remeber previous questions and refer to them. 
+
+In terms of coding, ChatGPT was useful in assisting with code for plot parameters as well as the syntax for certain elements of this document e.g. the equations. However, it sometimes produced code that was not correct or used incorrect functions not belonging to the packages specified. In this case, the error produced in R was inputted back into the conversation and it was almost always able to provide the correct code, albeit after many tries sometimes. The inputs, however, into the conversation had to be very specific to provide the correct context for ChatGPT and to avoid unnescesy back-and-forth on simple questions stemming from a lack of context. One big plus was ChatGPT's ability to remeber previous questions in a conversation so that once the context had been specified, it could draw from previous questions to answer future ones. Overall, from a coding point of view, this large language model performed decently but there was often a lot of promtping that had to be done. 
+
+In terms of understanding specific terminology and better understand the models, it was able to provide a decent summary of these which in conjuction with other resurces helped with the understadning of these models. 
+
+Lastly, in terms of writing -> add something about paraphrasing/simplification?
 
 
 
+# Results
 
+# Discussion
 
-
-## Use of Large Language Models
-
-
-
-
-
-
-
-## Results
-
-## Discussion
-
-## Conclusions + how can we improve?
+# Conclusions + how can we improve?
