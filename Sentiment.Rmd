@@ -44,32 +44,31 @@ sona_sentiment <- sona_sentiment %>%
 
 ### Introduction
 
-Sentiment analysis is a text mining technique that aims to extract the thoughts and feelings of script to determine their polarity, i.e. positive, negative or neutral. Three approaches are available to conduct sentiment analysis: supervised, lexicon-based and hybrid. The supervised method utilised machine learning algorithms to train the classifier. It is superior in performance to the lexicon-based method, however it requires a substantial amount of labelled data. Lexicon-based sentiment analysis uses sentiment lexicons (dictionaries) to describe polarity. This method is more computationally efficient, but the results may vary depending on the lexicon and domain. A word may be subjective or objective depending on the context, e.g. in the clause "crude oil", this is an objective use of the word crude; when it is used as "crude language", it is now subjective and has a negative sentiment. Dealing with negation and sarcasm is also a challenge with this approach. The hybrid method is an amalgamation of the supervised and lexicon-based methods (Sadia et al, 2018).
+Sentiment analysis is a text mining technique that aims to extract the thoughts and feelings of script to determine their polarity, i.e. positive, negative or neutral. Three approaches are available to conduct sentiment analysis: supervised, lexicon-based and hybrid. The supervised method utilises machine learning algorithms to train the classifier. It is superior in performance to the lexicon-based method, however it requires a substantial amount of labelled data. Lexicon-based sentiment analysis uses sentiment lexicons (dictionaries) to describe polarity. This method is more computationally efficient, but the results may vary depending on the lexicon and domain. A word may be subjective or objective depending on the context, e.g. in the clause "crude oil", this is an objective use of the word crude; when it is used as "crude language", it is now subjective and has a negative sentiment. Dealing with negation and sarcasm is also a challenge with this approach. The hybrid method is an amalgamation of the supervised and lexicon-based methods (Sadia et al, 2018).
 
-This section will discuss the results obtained from employing the lexicon-based approach to determine the outlook of the South African Presidents. The *bing* and *nrc* lexicons were explored. In the instance that a word was not in the lexicon, the default label was set to "neutral". 
-The *bing* lexicon was developed by Minqing Hu and Bing Liu as the *Opinion Lexicon*. It comprises of 6786 words, where 2005 are "positive" and 4781 are "negative".  
-The *nrc* lexicon has 13872 words and incorporates more sentiments in addition to positive and negative: anger, anticipation, disgust, fear, joy, sadness, surprise and trust. 
+This section will discuss the results obtained from employing the lexicon-based approach to determine the outlook of the South African Presidents. The *bing* and *nrc* lexicons were explored. In the instance that a word was not in the lexicon, the default label was set to "neutral". The *bing* lexicon was developed by Minqing Hu and Bing Liu as the *Opinion Lexicon*. It comprises of 6786 words, where 2005 are "positive" and 4781 are "negative".\
+The *nrc* lexicon has 13872 words and incorporates more sentiments in addition to positive and negative: anger, anticipation, disgust, fear, joy, sadness, surprise and trust.
 
-```{r nrc table, include = FALSE, message=FALSE, echo=FALSE}
-kbl(as.data.frame(table(nrc$sentiment)), col.names = c("Category", "No. of Words"), caption = "Words in the *nrc* lexicon") %>% kable_styling(latex_options = "HOLD_position")
+```{r nrc table, message=FALSE, echo=FALSE}
+kbl(as.data.frame(table(nrc$sentiment)), col.names = c("Category", "No. of Words"), caption = "Words in the nrc lexicon") %>% kable_styling(latex_options = "HOLD_position")
 ```
 
 ### Word-Level Analysis
 
-The top 20 positive and negative words in the speeches overall as well as a breakdown per president using the *bing* lexicon are provided below.
+In this subsection, a word-level analysis will be conducted. The top 20 positive and negative words in the speeches as a whole, as well as a breakdown per president using the *bing* lexicon are presented below.
 
-```{r Top 20 Positive Words, include = FALSE, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Top 20 positive words used in speeches based on the *bing* lexicon"}
+```{r Top 20 Positive Words, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Top 20 positive words used in speeches based on the bing lexicon"}
 sona_sentiment %>%
   filter(bing_sentiment == 'positive') %>%
   count(word) %>%
   arrange(desc(n)) %>%
   filter(rank(desc(n)) <= 20) %>%
   ggplot(aes(reorder(word,n),n)) + 
-  geom_col() + coord_flip() +
+  geom_col(fill="slateblue3") + coord_flip() +
   labs(title = "Top 20 Positive Words", x = "Word", y = "Count")
 ```
 
-```{r Top 10 Positive Words by President, include = FALSE, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Top 20 positive words by president based on the *bing* lexicon"}
+```{r Top 10 Positive Words by President, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Top 20 positive words by president based on the bing lexicon"}
 top_pos_pres <- sona_sentiment %>%
   filter(bing_sentiment == "positive") %>%
   count(president_13, word) %>%
@@ -84,19 +83,19 @@ top_pos_pres %>%
   labs(title = "Top 10 Positive Words per President", x = "", y = "Frequency") 
 ```
 
-Overall, the word *improve* was the most used positive word in all of the speeches; this is also true when grouped by all presidents except for deKlerk, whose most used word was *freedom*.  Other recurring words include *progress* and *peace*/*peaceful*.
+Overall, the word **improve** was the most used positive word in all of the speeches. This is also true when the words are grouped by president, except for deKlerk, whose most used word was **freedom**. Other recurring words include **progress** and **peace**/**peaceful**.
 
-```{r Top 20 Negative Words, include = FALSE, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Top 20 negative words used in speeches based on the *bing* lexicon"}
+```{r Top 20 Negative Words, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Top 20 negative words used in speeches based on the bing lexicon"}
 sona_sentiment %>%
   filter(bing_sentiment == 'negative') %>%
   count(word) %>%
   arrange(desc(n)) %>%
   filter(rank(desc(n)) <= 20) %>%
-  ggplot(aes(reorder(word,n),n)) + geom_col() + coord_flip() + 
+  ggplot(aes(reorder(word,n),n)) + geom_col(fill="slateblue3") + coord_flip() + 
   labs(title = "Top 20 Negative Words", x = "Word", y = "Count")
 ```
 
-```{r Top 10 Negative Words by President, include = FALSE, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Top 20 negative words by president based on the *bing* lexicon"}
+```{r Top 10 Negative Words by President, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Top 20 negative words by president based on the bing lexicon"}
 top_neg_pres <- sona_sentiment %>%
   filter(bing_sentiment == "negative") %>%
   count(president_13, word) %>%
@@ -111,13 +110,13 @@ top_neg_pres %>%
   labs(title = "Top 10 Negative Words per President", x = "", y = "Frequency") 
 ```
 
-*Poverty*, *crime* and *corruption* were the most commonly used negative words. They also appeared in the breakdown by president; except for deKlerk, who did not have any of these three words in his top ten negative words. deKlerk commonly used the words *violent*, *illegal* and *discrimination*.
+**Poverty**, **crime** and **corruption** were the most commonly used negative words. They also appeared in the breakdown by president; except for deKlerk, who did not have any of these three words in his top ten negative words. deKlerk commonly used the words **violent**, **illegal** and **discrimination**.
 
 ### Sentiment-Level Analysis
 
-The general feeling of the speeches, broken down by sentiments, for each president were explored using both the *nrc* and *bing* lexicons. The neutral words were excluded, as they dominate over the other sentiments.
+The general feeling of the speeches, broken down by sentiments, for each president were examined using both the *nrc* and *bing* lexicons. The neutral words were excluded, as they dominate over the other sentiments.
 
-```{r Sentiment Prop by President, include = FALSE, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Proportion of positive to negative words by president based on the *bing* lexicon"}
+```{r Sentiment Prop by President, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Proportion of positive to negative words by president based on the bing lexicon"}
 sentiment_prop <- sona_sentiment %>%
   group_by(president_13, bing_sentiment) %>%
   summarize(word_count = n()) %>% 
@@ -133,12 +132,12 @@ ggplot(sentiment_prop, aes(x = president_13, y = proportion, fill = bing_sentime
   ) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  scale_fill_manual(name = "Sentiment", values = c("positive" = "blue", "negative" = "red"), labels = c("Negative", "Positive")) 
+  scale_color_discrete(name = "Sentiment", labels = c("Negative", "Positive")) 
 ```
 
-The proportions of positive to negative words do not seem to differ by a large amount. The plots do, however, still suggest that *Zuma*, *Mbeki* and *Mandela* were the presidents with more positive themes than the other presidents.
+The proportions of positive to negative words do not seem to differ by a large amount. However, the plots indicate that **Zuma**, **Mbeki** and **Mandela** expressed relatively more positive sentiments in comparison to the other presidents. To further delve into the presidents' attitudes, the more comprehensive *nrc* lexicon was applied.
 
-```{r Sentiment Bars by President (nrc), include = FALSE, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Proportion of positive to negative words by president based on the *bing* lexicon"}
+```{r Sentiment Bars by President (nrc), message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Proportion of positive to negative words by president based on the bing lexicon"}
 sona_sentiment %>%
   add_count(president_13, name = "n_words") %>%
   group_by(president_13, nrc_sentiment) %>%
@@ -151,9 +150,9 @@ sona_sentiment %>%
   coord_flip() 
 ```
 
-It can be seen that, besides *negative* and *positive* sentiments, common themes were *trust* and *anticipation*. To gain some insight on which words specifically were associated with these two themes, the top 2 words associated with *trust* or *anticipation* for each president are displayed in a table below.
+From the plots, it can be observed that, besides *negative* and *positive* sentiments, prevalent themes include *trust* and *anticipation*. To gain some insight of the words specifically associated with these themes, the top 2 words associated with *trust* or *anticipation* for each president are presented in a table below.
 
-```{r nrc Table, include = FALSE, message=FALSE, echo=FALSE}
+```{r Anticipation and Trust Words, message=FALSE, echo=FALSE}
 senti_table <- sona_sentiment %>%
     filter(nrc_sentiment %in% c("trust", "anticipation")) %>%
     group_by(president_13, word, nrc_sentiment, bing_sentiment) %>%
@@ -163,16 +162,16 @@ senti_table <- sona_sentiment %>%
     top_n(2, word_count) %>%
     ungroup()
 
-kbl(as.data.frame(senti_table[,-5]), col.names = c("President", "Word", "nrc", "bing"), caption = "Top 2 words by president associated with either anticipation or trust according to the *nrc* lexicon") %>% kable_styling(latex_options = "HOLD_position")
+kbl(as.data.frame(senti_table[,-5]), col.names = c("President", "Word", "nrc", "bing"), caption = "Top 2 words by president associated with either anticipation or trust according to the nrc lexicon") %>% kable_styling(latex_options = "HOLD_position")
 ```
 
-Most of the words associated with trust or anticipation in the *nrc* lexicon are labelled as "neutral" in the *bing* lexicon. Due to the multi-level nature of words in the *nrc* lexicon, some words are associated with more than one sentiment, such as *continue*.
+Most of the words associated with trust or anticipation in the *nrc* lexicon are categorised as "neutral" in the *bing* lexicon. This highlights the variability that different dictionaries can yield in an analysis. Additionally, it is important to note that due to the multi-level nature of words in the *nrc* lexicon, some words are associated with more than one sentiment, such as **continue**.
 
-### Trends Over Time
+Changes of the sentiments over time were also investigated. Since there is a large number of neutral words, these were excluded from the analysis. Line plots with corresponding smoothed lines were generated to assess any shifts in positive or negative sentiments.
 
-Changes of the sentiments over time were investigated. Since there is a large number of neutral words, these were once again excluded from the analysis. Line plots with corresponding smoothed lines were created to assess whether there were any shifts in positive or negative sentiments.
+To assess whether the shifts are statistically significant, a logistic regression model was employed. Logistic regression is a modelling technique, based on regression, in which the dependent variable is binary. This is an appropriate model to use because the dependent variable has a binary outcome: *positive* or *negative*.
 
-```{r Trends over Time, include = FALSE, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Proportion of positive to negative words by president based on the *bing* lexicon"}
+```{r Trends over Time, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Proportion of positive to negative words by president based on the bing lexicon"}
 sentiments_time <- sona_sentiment %>%
   group_by(date, bing_sentiment) %>%
   summarize(n = n()) 
@@ -191,9 +190,7 @@ sentiments_time %>% filter(bing_sentiment != 'neutral') %>%
   scale_color_discrete(name="Sentiment", labels = c("Negative", "Positive"))
 ```
 
-From the plot, it seems that there has generally been a decline in negative sentiment over the years. To investigate whether this change is statistically significant, a logistic regression model is fit. Logistic regression is a modelling technique, based on regression, in which the dependent variable is binary. This is an appropriate model to use because the dependent variable has a binary outcome: *positive* or *negative*.
-
-```{r Fit Binomial GLM, include = FALSE, message=FALSE, echo=FALSE}
+```{r Fit Binomial GLM, message=FALSE, echo=FALSE}
 glm_model <- glm(as.factor(bing_sentiment) ~ date, data = subset(sentiments_time, bing_sentiment != "neutral"), family = "binomial")
 
 glm_summary <- summary(glm_model)
@@ -201,13 +198,16 @@ glm_summary <- summary(glm_model)
 kbl(as.data.frame(glm_summary$coefficients), caption = "Results from applying logistic regression") %>% kable_styling(latex_options = "HOLD_position")
 ```
 
-The p-values obtained from the analysis are above the traditional threshold of 0.05, meaning there was no significant decrease in the proportion of negative sentiments over time.
+From the plot, it appears that there has generally been a decline in negative sentiment over the years.\
+The p-values obtained from the logistic regression, however, are above the traditional threshold of 0.05, indicating that there was no significant decrease in the proportion of negative sentiments over time.
 
-### Bigrams
-An n-gram is a sequence of *n* words in a text. Bigrams are pairs of words that are adjacent to each other. Some words, such as "not" change the meaning of the preceding word by negating it. It is therefore important to consider this when performing sentiment analysis. The following section will explore the most common positive and negative bigrams in the speeches using the *bing* dictionary. To determine the net sentiment of a bigram, positive words are given a value of 1 and negative words are given a value of -1. Words that are preceded by a negation word ('not', 'no', 'never', 'without' or 'anti') had their sentiment reversed.
-A few of the words in the *bing* dictionary did not agree with the context and were thus adjusted in the analysis. The words 'honour' and 'hope' were changed from *neutral* to *positive*. The word 'oppression' was changed from *neutral* to *negative*.
+### Bigrams Analysis
 
-```{r Dealing With Negation, include = FALSE, message=FALSE, echo=FALSE}
+An n-gram is a sequence of *n* words in a text. Bigrams, in particular, are pairs of words that are adjacent to each other. Certain words, such as "not" change the meaning of the subsequent word by negating it. It is therefore important to consider this when conducting sentiment analysis.
+
+This subsection section will explore the most common positive and negative bigrams in the speeches using the *bing* dictionary. To determine the net sentiment of a bigram, positive words are assigned a value of 1 and negative words are assigned a value of -1. Words that are preceded by a negation word ('not', 'no', 'never', 'without' or 'anti') had their sentiment reversed. During the analysis, a few of the labels given to words in the *bing* dictionary did not align with this context and were thus adjusted. Consequently, 'honour' and 'hope' were changed from *neutral* to *positive*. The word 'oppression' was reclassified from *neutral* to *negative*.
+
+```{r Dealing With Negation, message=FALSE, echo=FALSE}
 # Create bigrams and add sentiment for each word
 bigrams_separated  <- sona %>%
   mutate(speech = str_replace_all(speech, replace_reg, '')) %>%
@@ -250,38 +250,73 @@ bigrams_separated <- bigrams_separated %>%
   unite(bigram, word1, word2, sep = ' ', remove = FALSE)
 ```
 
-```{r Top 20 Positive Bigrams, include = FALSE, message=FALSE, echo=FALSE}
+```{r Top 20 Positive Bigrams, message=FALSE, echo=FALSE}
 bigrams_separated %>%
   filter(net_sentiment > 0) %>% # get positive bigrams
   count(bigram, sort = TRUE) %>%
   filter(rank(desc(n)) < 20) %>%
-  ggplot(aes(reorder(bigram,n),n)) + geom_col() + coord_flip() +
+  ggplot(aes(reorder(bigram,n),n)) + geom_col(fill="slateblue3") + coord_flip() +
   labs(x = "", y="Count", title = "Top 20 Positive Bigrams")
 ```
 
-```{r Top 20 Negative Bigrams, include = FALSE, message=FALSE, echo=FALSE}
+```{r Top 20 Negative Bigrams, message=FALSE, echo=FALSE}
 bigrams_separated %>%
   filter(net_sentiment < 0) %>% # get negative bigrams
   count(bigram, sort = TRUE) %>%
   filter(rank(desc(n)) < 20) %>%
-  ggplot(aes(reorder(bigram,n),n)) + geom_col() + coord_flip() +
+  ggplot(aes(reorder(bigram,n),n)) + geom_col(fill="slateblue3") + coord_flip() +
   labs(x = "", y="Count", title = "Top 20 Negative Bigrams")
 ```
 
-```{r Top 20 Negative Bigrams with Negation, include = FALSE, message=FALSE, echo=FALSE}
+The findings illustrated in the plots partially align with what was observed in the top 20 positive and negative words. In the case of positive words and bigrams, several words appeared in both sets, such as **improve**, **support**, and **progress**. For the negative bigrams, the main themes were similar as before: **poverty**, **crime** and **corruption**. Interestingly, none of the negative bigrams contained negation words; these were subsequently extracted separately.
+
+```{r Top 20 Bigrams with Negation, message=FALSE, echo=FALSE}
 bigrams_separated %>%
   filter(net_sentiment < 0) %>% # get negative bigrams
   filter(word1 %in% negation_words) %>% # get bigrams where the first word is negation
   count(bigram, sort = TRUE) %>%
   arrange(desc(n)) %>% 
   head(20) %>%
-  ggplot(aes(reorder(bigram, n), n)) + geom_col() + coord_flip() +
+  ggplot(aes(reorder(bigram, n), n)) + geom_col(fill="slateblue3") + coord_flip() +
   labs(x = "", y = "Count", title = "Top 20 Negative Bigrams with Negation Words")
 ```
 
+The most frequently occuring negation words in the bigrams were **not** and **no**. Some sentences that include the "not enough" bigram are:
+
+-   "But the response is that not enough criminals are being arrested and the quality of investigation is poor."
+
+-   "Not enough jobs are being created."
+
+-   "While structural reforms are necessary for us to revive economic growth, they are not enough on their own."
+
+These examples highlight the importance of taking negation words into account as they reverse the sentiments of the sentences. 
+
+### Discussion
+
+In this section, a sentiment analysis of the State of Nation Addresses was conducted to discern the overall feelings expressed by the South African presidents over time. It was discovered that most of the presidents, with the exception of deKlerk, had common interests: peace, freedom and progress. Recurring concerns were centred around poverty, crime and corruption. The analysis indicated that concerns over these themes did not change over time, as the logistic regression model indicated that the sentiment trend was consistent. It is worth noting that this analysis had some limitations, such as the under-representation of some presidents and the subjective nature of lexicons.
+
+## Use of Large Language Models
+
+An example of applying ChatGPT to generate code was requesting for a function that extract sentences containing specific bigrams. Before providing much context, the response given was steps to manually do it in a programming language. When prompted for code, ChatGPT assumed that it was being done in Python. To provide context, the programming language as well as the structure of the tidy data was provided as a response. R code was subsequently returned and it worked exactly as expected. Comments were also provided to guide the user.
+
+```{r ChatGPT Bigram Code, echo=TRUE, eval=FALSE}
+# Define the specific bigram
+specific_bigram <- "specific bigram"  # Replace with your desired bigram
+
+# Initialize a list to store sentences containing the bigram
+sentences_with_bigram <- character(0)
+
+# Search for the bigram in each sentence
+for (sentence in sona_sentences$sentence) {
+  if (grepl(specific_bigram, sentence, ignore.case = TRUE)) {
+    sentences_with_bigram <- c(sentences_with_bigram, sentence)
+  }
+}
+
+# Print or manipulate the extracted sentences
+print(sentences_with_bigram)
+```
 
 ## References
 
 Sadia et al (2018). <https://ieec.neduet.edu.pk/2018/Papers_2018/15.pdf>
-
-
