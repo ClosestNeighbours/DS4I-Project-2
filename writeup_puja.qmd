@@ -85,6 +85,18 @@ Lastly, in terms of writing -> add something about paraphrasing/simplification?
 
 # Results
 
+## Sentiment Analysis 
+
+
+## LDA
+
+Need to work on ass 1 - will add later :)
+
+
+## Trends Over Time
+
+
+
 # Discussion
 
 # Conclusions + how can we improve?
