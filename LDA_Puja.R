@@ -171,7 +171,15 @@ sona_gamma %>%
 pres_group_by_topic <- sona_gamma %>% group_by(topic) %>% group_by(topic, president_13) %>%
   summarise(president_appearances = n_distinct(filename))
 
-
+ggplot(pres_group_by_topic, aes(x = president_13, y = president_appearances, fill = factor(topic))) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "President Appearances by Topic",
+    x = "President",
+    y = "Number of Appearances"
+  ) +
+  theme_minimal() +
+  facet_wrap(~ topic, scales = "free_x")
 
 
 
@@ -179,7 +187,8 @@ pres_group_by_topic <- sona_gamma %>% group_by(topic) %>% group_by(topic, presid
 
 #mandela
 
-mandela_tidy <- tidy_sona %>% filter(president_13 == "Mandela")
+mandela_tidy <- tidy_sona %>% filter(president_13 == "Mandela") %>%
+  filter(!word %in% often_words$word)
 
 mandela_tdf <- mandela_tidy %>%
   group_by(president_13,word) %>%
@@ -230,7 +239,8 @@ mandela_topics %>%
 
 #zuma
 
-zuma_tidy <- tidy_sona %>% filter(president_13 == "Zuma")
+zuma_tidy <- tidy_sona %>% filter(president_13 == "Zuma") %>%
+  filter(!word %in% often_words$word)
 
 zuma_tdf <- zuma_tidy %>%
   group_by(president_13,word) %>%
@@ -281,7 +291,8 @@ zuma_topics %>%
 
 #mbeki
 
-mbeki_tidy <- tidy_sona %>% filter(president_13 == "Mbeki")
+mbeki_tidy <- tidy_sona %>% filter(president_13 == "Mbeki") %>%
+  filter(!word %in% often_words$word)
 
 mbeki_tdf <- mbeki_tidy %>%
   group_by(president_13,word) %>%
@@ -334,7 +345,8 @@ mbeki_topics %>%
 
 #ramaphosa
 
-ramaphosa_tidy <- tidy_sona %>% filter(president_13 == "Ramaphosa")
+ramaphosa_tidy <- tidy_sona %>% filter(president_13 == "Ramaphosa") %>%
+  filter(!word %in% often_words$word)
 
 ramaphosa_tdf <- ramaphosa_tidy %>%
   group_by(president_13,word) %>%
@@ -382,7 +394,9 @@ ramaphosa_topics %>%
 
 #deKlerk
 
-deKlerk_tidy <- tidy_sona %>% filter(president_13 == "deKlerk")
+deKlerk_tidy <- tidy_sona %>% filter(president_13 == "deKlerk") %>%
+  filter(!word %in% often_words$word)
+
 
 deKlerk_tdf <- deKlerk_tidy %>%
   group_by(president_13,word) %>%
@@ -428,6 +442,54 @@ deKlerk_topics %>%
   facet_wrap(~ topic, scales = 'free') + coord_flip()
 
 
+#Motlanthe
+
+Motlanthe_tidy <- tidy_sona %>% filter(president_13 == "Motlanthe") %>%
+  filter(!word %in% often_words$word)
+
+
+Motlanthe_tdf <- Motlanthe_tidy %>%
+  group_by(president_13,word) %>%
+  count() %>%  
+  ungroup() 
+
+dtm_Motlanthe <- Motlanthe_tdf %>% 
+  cast_dtm(president_13, word, n)
+
+
+# k_values <- c(2:20)
+# 
+# lda_models_Motlanthe <- list()
+# 
+# for (k in k_values) {
+#   lda_models_Motlanthe[[as.character(k)]] <- LDA(dtm_Motlanthe, k, control = list(seed = 5291))
+# }
+# 
+# coherence_values_Motlanthe <- numeric(length(k_values))
+# 
+# for (i in 1:length(k_values)) {
+#   lda_models_Motlanthe <- lda_models_Motlanthe[[as.character(k_values[i])]]
+#   coherence_values_Motlanthe[i] <- topicdoc::topic_coherence(lda_models_Motlanthe, dtm_Motlanthe)
+# }
+# 
+# plot(k_values, coherence_values_Motlanthe, type = "b", xlab = "Number of Topics (k)", ylab = "Topic Coherence")
+# 
+# optimal_k <- k_values[which.max(coherence_values_Motlanthe)]
+
+Motlanthe_lda <- LDA(dtm_Motlanthe, k = 2, control = list(seed = 5291))
+str(Motlanthe_lda)
+
+Motlanthe_topics <- tidy(Motlanthe_lda, matrix = 'beta')
+head(Motlanthe_topics)
+
+#top 20 terms in each topic
+Motlanthe_topics %>%
+  group_by(topic) %>%
+  slice_max(n = 20, order_by = beta) %>% ungroup() %>%
+  arrange(topic, -beta) %>%
+  ggplot(aes(reorder(term, beta), beta, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = 'free') + coord_flip()
 
 
 

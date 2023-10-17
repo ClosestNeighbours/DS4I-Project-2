@@ -66,9 +66,8 @@ $$
 \beta_m \sim Dirichlet(\delta)
 $$
 
-In the context of this project, first the 'tidy' data was converted to a 'DocumentTermMatrix' to which the LDA model was applied to. A gridsearch for the best $k$ hyperparameter was done using the metric of coherence values. This measures the relative distance between words within a topic and suggested that a $k = 4$ be used. An LDA model was created on the overall data as well as for each president. 
+In the context of this project, first the 'tidy' data was converted to a 'DocumentTermMatrix' to which the LDA model was applied to. First, the top 20 most used words overall were removed from the dataset as a means of pruning the data. A gridsearch for the best $k$ hyperparameter was conducted using the metric of coherence values. This measures the relative distance between words within a topic and suggested that a $k = 17$ be used. However, upon inspection of these topics, there was a lot of overlap. The next highest values were for greater than 17. Finally, a $k=9$ was chosen as the topics were clear and there was little overlap. An LDA model was created on the overall data as well as for each president. For each individual president, a value of $k=2$ was chosen. 
 
-TO BE CONTINUED... NEED TO CHANGE SOME RESULTS
 
 
 ## Use of Large Language Models - may need to move section
@@ -90,7 +89,25 @@ Lastly, in terms of writing -> add something about paraphrasing/simplification?
 
 ## LDA
 
-Need to work on ass 1 - will add later :)
+As mentioned earlier, 9 topics were produced from the data. The 20 most used words can be seen in the figure below. ADD FIGURE While there is still some overlap among the topics, the general idea of these is fairly clear. The first topic seems to focus on a new democratic South Africa and the challenges this brings in the improvement on formerly oppressed bodies. Topic two mentions the words, 'crime', 'security', 'improve' and 'progress', which among many other words touches on the crime issues related to South Africa as well as the need progress as violent crimes have been prevalent in South Africa since the end of Apartheid. The third topic focusses on 'energy', 'infrastructure', 'health', 'water', 'mining' and 'women'. This may be a a nod to South Africa's water and energy infrastructure and development as well as the need to invest more in these plans and infrastructure to ensure consistent supply. 'Women' and 'children' which may be an indication of the vulnerability of these groups to the aformentioned issues or the need to include women in these sectors. Topic four looks at 'water' and 'infrastructure' again but also mentions 'cape', 'comunities', 'rural' which may be referring to the Cape Town drought which occurred from 2015 - 2018 where rural areas were affected badly. Topic 5 looks at resource issues again but with focus on the economy and business and to provide support to them as the following words are mentioned: 'water', 'crisis', 'challenges', 'electricity', 'businesses', 'employment', 'support' and 'companies'.
+
+Topic six mentions 'women', 'crisis', 'hope', 'improve' which may refer to the gender-based violence issue in South Africa which disproportionately affects women. Topic seven refers to a transition from an Apartheid South Africa to a demoratic South Africa. Topic 8 contains 'billions', 'energy', 'support', 'commission', 'corruption' all which refer to South Africa's high corruption levels, especially in regards to the energy sector, more specifically ESKOM. Lastly, the ninth topic seems to focus on 'service' 'issues' and 'poverty' 'issues' which need to be addressed for the 'black' majority of South Africa who have been disproportionately been affected by poor service delivery and poverty due to the ramifications on Apartheid laws and poor initiative to uplift since then. 
+
+Overall, it was found that, per topic, Mandela and Ramaphosa appeared 7 times, Mbeki and Zuma 10 times and Motlanthe and de Klerk 1 time. This shows each presidents contribution to the topics. 
+
+Next, topic modelling was done for each president. While two topics we produced for each president, for those with a lower number of words, there was some overlap. Going chronologically, we start with de Klerk. de Klerk's first topic focussed on words such as 'freedom', 'constitution', 'peaceful', support' as well as 'zulu' which as true to the climate during the speech was in reference to the transitioning to a democratic and free South Africa. Zulu is mentioned as it was ensured in the constitution that the Zulu leaders be given a certain amount of political power as respect to the Zulu Kingdom. His second topic refers to 'election' and 'future' as this one is more focussed on the future of South Africa and the move forward.
+
+Mandela's first topic mentions 'progress', 'past', 'hope', 'improve', 'time', 'building', 'democracy' all of which are a related to improving the life of previously marginalised groups through a new, democratic state. His second topic focusses on many issues South Africa still faces such as crime and women's rights as well as security. Police is also mentioned in this topic as well as reconstruction. This topic may be related to the issues South Africa is facing and potential methods of change.
+
+Mbeki's first topic addressed the need for improvement of services and infrastructure for local communities as well as some mention of international resources. The second topic looks at some of South Africa's issues such as 'poverty' and 'crime' and potential words that could be used to address these issues. 'Water' is also mentioned in this topic which could be an additional issue being addressed.
+
+As Motlanthe only gave one speech, his topics are not very well defined. The first looks issues related to South Africa as well ways for improvement. While the second speaks to many things such as 'democracy', 'poverty' and 'children' too.
+
+On the topc of water, Zuma's first topic mentions both 'water' and 'cape' as an indication of reference to the Cape Town droughts. It also mentions 'business', 'health' and 'education' all of which were sectors affected by this droughts. The topic also mentions 'job' and 'jobs' both of which may refer to the unemployment rates and promises of job creation. The second topic looks at resources such as 'electricity', 'water', 'energy' and also words such as 'support' and 'women'. This topic may be referring to the consistent supply of these resources and ways to ensure this while also focussing on support for women.
+
+Lastly, the current president, Ramaphosa's, first topic is in relation to 'energy', 'eskom' and 'challenges' which is a nod to the energy issues South Africa is facing in relation to Eskom. 'Investment' and related words are mentioned implying this topic also includes the measures that are currently in place. 'Health' is also mentioned as well as 'capacity' which may be referring to the Covid-19 pandemic. The second topic mentions 'corruption' and 'electricity', 'investment' and related words which focusses on the corruption aspect of this issue. 
+
+
 
 
 ## Trends Over Time
