@@ -1,3 +1,15 @@
+library(stringr)
+library(dplyr)
+library(tidytext)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(wordcloud2)
+library(tm)
+library(topicmodels)
+library(magrittr)
+library(qdap)
+library(lubridate)
 #reading in data
 source("https://raw.githubusercontent.com/ClosestNeighbours/DS4I-Project-2/LDA---Puja/editted_sona_first_steps.R")
 

@@ -11,6 +11,16 @@ toc: true
 
 ## Introduction
 
+A State of Nation Address (SONA) is a speech given by the President of South Africa in which the president reports on the status of the nation. It functions as an annual report that include political and socio-economic topics. These include but not limited to topics surrounding the nation's budget, economy, news, agenda, progress, achievements and the president's priorities and legislative proposals. The SONA gives us an idea of broader political landscape and socio-economic issues and challenges that are plauging the country. At the same time, it also reflect on the achievements and growth and progress the country has made in the past year. Furthermore, it provides us with a direction and understanding of the countries plans. With that being said, to comprehensively analyze the history of the SONA speeches will provide us extensive perspective and viewpoint of the struggles and triumph over the course of South Africa.
+
+In this assignment, we aim to provide that perspective and viewpoint from a computational approach. We will utilize sentiment analysis and topic modelling techniques to quantified the emotional tone of each president and reoccurring topics that will provide context and understanding to the broader socio-political and economic environment of South Africa. More specifically, utilizing sentiment analysis and a topic modelling technique called Latent Dirichlet Allocation (LDA) to analyze the SONA speeches from 1994 and 2022.
+
+Sentiment analysis refers to the use of natural language processing (NLP), text analysis, computational linguistics, to identify, extract, quantify, and study affective states and subjective information. Furthermore, Topic modelling is a statistical and unsupervised learning technique to identify and discover topics within a collection of text or documents. It is commonly used to classify documents and discover hidden semantic properties in a corpus of text.
+
+A related study involves exploring sentiment and topics from Philippine President in the SONA from John Miranda and Rex P. Bringula (2021). The study showcased the SONAs generally expressed positive sentiments while the lowest negative sentiment was during the martial law period in 1974 Furthermore, another related study includes Mining Tourist's Perception toward Indonesia Tourism Destination. Results shows that Joy is the most prominent emotion accompanying visitors' experiences (Herry Irawan, Riefvan Achmad (2019)).
+
+The relevant work showcases that researchers have found significant results when investigating documents of texts with regards to evaluating emotive content or extracting common themes and topics.
+
 ## Sentiment Analysis
 
 ## Topic Modelling
@@ -70,14 +80,24 @@ Figure 4 depicts the average sentiment during the pre and post-election phases f
 several South African presidents, namely Mandela, Mbeki, Ramaphosa, and Zuma.\
 Analyzing the sentiment before the elections (pre) for each president reveals a trend.\
 Generally, the sentiment before the election is comparatively more negative or less\
-positive than the post-election phase. This pattern could be attributed to the strategic communication employed during election campaigns. It\'s common during election campaigns for leaders or political parties to highlight existing problems or crises to win voter trust by promising solutions. By making the situation seem more critical, candidates can position themselves as the needed change.
+positive than the post-election phase. This pattern could be attributed to the strategic communication employed during election campaigns. It's common during election campaigns for leaders or political parties to highlight existing problems or crises to win voter trust by promising solutions. By making the situation seem more critical, candidates can position themselves as the needed change.
 
-![Comparing average sentiment scores pre and post elections](docs/Pre_post_elections.png)
+![Comparing average sentiment scores pre and post elections.](docs/Pre_post_elections.png)
+
+## Topic Modelling Trends 
+
+![Figure demonstrating two topics against beta from 1994-1999](docs/lda_1990)
+
+![Figure demonstrating two topics against beta from 2000-2010](docs/lda_2000)
+
+![Figure demonstrating two topics against beta from 2010-2020](docs/lda_2010)
+
+![Figure demonstrating two topics against beta from 2020-2022](docs/lda_2020)
 
 ### Overall Trends
 
-It is found that the SONA\'s generally expressed positive sentiments post-elections,\
+It is found that the SONA's generally expressed positive sentiments post-elections,\
 as supposed to pre-elections. Another finding, indicated a more negative sentiment\
 in the speeches during the 1990s and the 2020s when juxtaposed against the relatively more positive undertones from 2000 to 2020. These sentiment shifts keenly reflect the changing political landscape and challenges faced in South Africa during these periods. Overall, our findings reveal distinct shifts in the emotional undertones of presidential speeches over time, providing insights into the evolving political narratives and concerns of the nation.
 
-## Discussion 
+## Discussion
