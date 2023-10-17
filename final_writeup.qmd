@@ -406,6 +406,27 @@ Lastly, the current president, Ramaphosa's, first topic is in relation to 'energ
 
 ## Trends
 
+### Topic Modelling Trends
+
+
+In the assignment, we conducted an analysis using Latent Dirichlet Allocation (LDA), we attempted to identify thematic topics in the SONA speeches across various decades.
+
+In the 1990s, there was a emphasis on the foundational elements of the South African democracy. Words such as 'democracy', 'constitution', 'building', and 'restructuring' prominently feature in this era.
+
+!\[Figure demonstrating two topics against beta from 1994-1999\](docs/lda_1990)
+
+Fast forward to the 2000s, the LDA topics revealed a shift towards enhancing and refining policies, programs, and institutions. Additionally, another topic that was of focus was service deliveries for the South African populace, emphasizing aspects such as security and water.
+
+!\[Figure demonstrating two topics against beta from 2000-2010\](docs/lda_2000)
+
+The following decade (2010-2020), the SONA speeches seem to emphasize on capitalizing on opportunities and building the nation's education and entrepreneurial potential. The topics highlighted a push for bolstering education and supporting businesses.
+
+!\[Figure demonstrating two topics against beta from 2010-2020\](docs/lda_2010)
+
+In the most recent era, post-2020, the narrative seems to have shifted towards rectifying service delivery and corruption, notably within entities such as Eskom. This analysis also touches noted challenges such as job creation and the energy crisis related to Eskom.
+
+!\[Figure demonstrating two topics against beta from 2020-2022\](docs/lda_2020)
+
 # Discussion
 
 In this section, a sentiment analysis of the State of Nation Addresses was conducted to discern the overall feelings expressed by the South African presidents over time. It was discovered that most of the presidents, with the exception of deKlerk, had common interests: peace, freedom and progress. Recurring concerns were centered around poverty, crime and corruption. The analysis indicated that concerns over these themes did not change over time, as the logistic regression model indicated that the sentiment trend was consistent. It is worth noting that this analysis had some limitations, such as the under-representation of some presidents and the subjective nature of lexicons.
