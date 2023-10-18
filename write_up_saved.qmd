@@ -498,7 +498,7 @@ Lastly, in terms of limitations and scope for future improvement, some of the pr
 # Author Contributions
 
 | Section                                         | Contributors                                             |
-|---------------------------------|---------------------------------------|
+|-------------------------------------------------|----------------------------------------------------------|
 | Sentiment Analysis                              | Susana Maganga                                           |
 | LDA                                             | Puja Pande                                               |
 | Trends Over Time for LDA and Sentiment Analysis | Ndivhuwo Nyase                                           |
