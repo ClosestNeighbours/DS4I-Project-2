@@ -5,6 +5,7 @@ format: html
 editor: visual
 toc: true
 number-sections: true
+embed-resources: true
 execute: 
   echo: false
 ---
@@ -446,7 +447,7 @@ Lastly, the current president, Ramaphosa's, first topic is in relation to 'energ
 
 The first figure below displays the average sentiment segregated by year and president. Nelson Mandela's term, symbolizing the dawn of democracy in South Africa manifested positive sentiment scores. However, there is a sharp decline after that from 1995-1999. Furthermore, we notice that Mbeki in the early 2000's had more positive sentiment as compared to the late 90's. However, this sentiment diminishes over his tenure, possibly indicating challenges or controversial issues faced during his presidency. Zuma's term showcases dramatic peaks and valleys in sentiment scores. We notice a steady increase in positive sentiment in the late 2000's peaking in 2010 at a sentiment score of 1.25. Various factors could be investigated for this. A possible reason for this is the 2010 FIFA World Cup that was hosted in South Africa. However, after the world cup (2010) we notice a volatile pattern associated with Zuma's tenure as contrast to the high witnessed in 2010, there was a drop leading to a sentiment score of below 0.5 in 2013. Furthermore, ever since Ramaphosa has been elected into office in 2018, we notice a steady decline in sentiment score. A possible reason for this could be the loadshedding and Coronavirus struggles that have plagued our country in recent years. These will be further investigated in the trends for topic modelling section.
 
-![Yearly Sentiment Trends segregated by presidents.](docs/Sent_trend_year)
+![Yearly Sentiment Trends segregated by presidents.](docs/Sentiment_Trend_over_the_years.png)
 
 The second figure echos the analysis that is portrayed in the figure above. A further comment can be extremely negative or positive sentiments (-5 and 5) are sparsely represented across the years, indicating that highly polarized sentiments are rare in the dataset. Throughout most of the years, the neutral sentiment (values 1 and 2) remains pre-dominant, suggesting a generally stable mood.
 
