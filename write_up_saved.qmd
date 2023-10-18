@@ -15,7 +15,7 @@ A State of Nation Address (SONA) is a speech given by the President of South Afr
 
 In this light, the comprehensive analysis of previous SONA speeches from 1994-2023 can provide us with an extensive perspective and viewpoint of the struggles and triumphs over the course history in South Africa. In this assignment, we aim to provide that perspective and viewpoint from a computational approach. We utilise sentiment analysis and topic modelling techniques, specifically Latent Dirichlet Allocation (LDA), to quantify the emotional tone of each president and recognise reoccurring topics that will provide context and understanding to the broader socio-political and economic environment of South Africa.
 
-Sentiment analysis refers to the use of natural language processing (NLP), text analysis and computational linguistics, to identify, extract, quantify, and study affective states and subjective information. On the other hand, topic modelling is a statistical and unsupervised learning technique to identify and discover topics within a collection of text or documents. It is commonly used to classify documents and discover hidden semantic properties in a corpus of text. A related study involves exploring sentiment and topics from Philippine President in the SONA from John Miranda and Rex P. Bringula (2021). The study showcased the SONAs generally expressed positive sentiments while the lowest negative sentiment was during the martial law period in 1974. Furthermore, another related study includes Mining Tourist's Perception toward Indonesia Tourism Destination. Results shows that Joy is the most prominent emotion accompanying visitors' experiences (Herry Irawan, Riefvan Achmad (2019)). The relevant work showcases that researchers have found significant results when investigating documents of texts with regards to evaluating emotive content or extracting common themes and topics.
+Sentiment analysis refers to the use of natural language processing (NLP), text analysis and computational linguistics, to identify, extract, quantify, and study affective states and subjective information. On the other hand, topic modelling is a statistical and unsupervised learning technique to identify and discover topics within a collection of text or documents. It is commonly used to classify documents and discover hidden semantic properties in a corpus of text. A related study involves exploring sentiment and topics from Philippine President in the SONA from John Miranda and Rex P. Bringula (2021). The study showcased the SONAs generally expressed positive sentiments while the lowest negative sentiment was during the martial law period in 1974. In this study, they were also able to present which concerns were focused on in their speeches. Furthermore, another related study includes Mining Tourist's Perception toward Indonesia Tourism Destination. Results shows that joy is the most prominent emotion accompanying visitors' experiences (Herry Irawan, Riefvan Achmad (2019)). The relevant work showcases that researchers have found significant results when investigating documents of texts with regards to evaluating emotive content or extracting common themes and topics.
 
 ```{r setup , include = FALSE, message=FALSE, echo=FALSE}
 knitr::opts_chunk$set(fig.pos = "H", out.extra = "")
@@ -81,9 +81,13 @@ First, the number of words per president were counted. The most number of words 
 
 Lastly, the top 15 words spoken by each president are summarised in the figures below.
 
-The first figure summaries the top 15 words spoken by president while the second figure shows the same with the exclusion of the words: government, people, south, africa, african. These are widely used by most presidents and may not be valuable in indicating trends with regards to the most words used. It can be seen that the words associated with de Klerk are focused around freedom and the transitioning of South Africa from an Apartheid state to a democratic one through words such as: 'constitution', 'freedom' and 'transitional'. Mandela's most used words 'development' and 'economic' may be attributed to the re-development of South Africa as a democratic state but words such as 'crime' and 'security' indicate a sense of unsafety. Mbeki's words seem to be more related to the economy and development while Motlathe's address similar issues with the addition of poverty. Ramaphosa's words are even more so centered around economic development and businesses which may be due to the effects of the Covid-19 pandemic during his time as president. Lastly, Zuma's words follow a similar economic and development trend to the rest with the addition of water as the Western Cape droughts occurred during his time as president.
+![15 Most Spoken Words Per President Including Common Words](mostspokenwords_15)
 
-It can be seen that the words associated with de Klerk are focused around freedom and the transitioning of South Africa from an Apartheid state to a democratic one through words such as: 'constitution', 'freedom' and 'transitional'. Mandela's most used words 'development' and 'society' may be attributed to the re-development of South Africa as a democratic state but words such as 'crime' draw attention to the wider social issues. Mbeki's words seem to be more related to the economy and development while Motlathe's address similar issues with the addition of poverty. Ramaphosa's words are even more so centered around economic development and businesses which may be due to the effects of the Covid-19 pandemic during his time as president. Lastly, Zuma's words follow a similar economic and development trend to the rest.
+The first figure summaries the top 15 words spoken by president while the second figure shows the same with the exclusion of the words: government, people, south, africa, african.
+
+![15 Most Spoken Words Per President Not Including Common Words](mostspokenwords_common)
+
+These are widely used by most presidents and may not be valuable in indicating trends with regards to the most words used. The second figure changes significantly after the removal of the common words. It can be seen that the words associated with de Klerk are focused around freedom and the transitioning of South Africa from an Apartheid state to a democratic one through words such as: 'constitution', 'freedom' and 'transitional'. Mandela's most used words 'development' and 'society' may be attributed to the re-development of South Africa as a democratic state but words such as 'crime' draw attention to the wider social issues. Mbeki's words seem to be more related to the economy and development while Motlathe's address similar issues with the addition of poverty. Ramaphosa's words are even more so centered around economic development and businesses which may be due to the effects of the Covid-19 pandemic during his time as president. Lastly, Zuma's words follow a similar economic and development trend to the rest.
 
 ## Sentiment Analysis
 
@@ -119,9 +123,9 @@ In the context of this project, first the 'tidy' data was converted to a 'Docume
 
 ## Use of Large Language Models
 
-While not an aim of this project, it was a requirement that we experiment with the use of a large language model such as ChatGPT to assist with the assignment. While using basic search engines to help with coding and writing are helpful, ChatGPT is more efficient in providing specific answers to some questions as it can provide textual context, conversational interactions and can remeber previous questions and refer to them.
+While not an aim of this project, it was a requirement that we experiment with the use of a large language model such as ChatGPT to assist with the assignment. While using basic search engines to help with coding and writing are helpful, ChatGPT is more efficient in providing specific answers to some questions as it can provide textual context, conversational interactions and can remember previous questions and refer to them.
 
-In terms of coding, ChatGPT was useful in assisting with code for various function parameters as well as the syntax for certain elements of this document e.g. the equations. However, it sometimes produced code that was not correct or used incorrect functions not belonging to the packages specified. In this case, the error produced in R was inputted back into the conversation and it was almost always able to provide the correct code, albeit after many tries sometimes. The inputs, however, into the conversation had to be very specific to provide the correct context for ChatGPT and to avoid unnecesary back-and-forth on simple questions stemming from a lack of context. One big plus was ChatGPT's ability to remember previous questions in a conversation so that once the context had been specified, it could draw from previous questions to answer future ones. Overall, from a coding point of view, this large language model performed decently but there was often a lot of prompting that had to be done.
+In terms of coding, ChatGPT was useful in assisting with code for various function parameters as well as the syntax for certain elements of this document e.g. the equations. However, it sometimes produced code that was not correct or used incorrect functions not belonging to the packages specified. In this case, the error produced in R was inputted back into the conversation and it was almost always able to provide the correct code, albeit after many tries sometimes. The inputs, however, into the conversation had to be very specific to provide the correct context for ChatGPT and to avoid unnecessary back-and-forth on simple questions stemming from a lack of context. One big plus was ChatGPT's ability to remember previous questions in a conversation so that once the context had been specified, it could draw from previous questions to answer future ones. Overall, from a coding point of view, this large language model performed decently but there was often a lot of prompting that had to be done.
 
 An example of applying ChatGPT to generate code was requesting for a function that extract sentences containing specific bigrams. Before providing much context, the response given was steps to manually do it in a programming language. When prompted for code, ChatGPT assumed that it was being done in Python. To provide context, the programming language as well as the structure of the tidy data was provided as a response. R code was subsequently returned and it worked exactly as expected. Comments were also provided to guide the user.
 
@@ -145,7 +149,7 @@ print(sentences_with_bigram)
 
 In terms of understanding specific terminology and better understanding the models, it was able to provide a decent summary of these which in conjunction with other resources helped with the understanding of these models. And lastly, in terms of writing, ChatGPT was a useful tool for simplifying language, paraphrasing sentences and providing succinct alternatives to inputted sentences.
 
-# Results
+# Results and Discussion
 
 ## Sentiment Analysis
 
@@ -404,7 +408,7 @@ As mentioned earlier, 9 topics were produced from the data. The 20 most used wor
 
 ![The 20 Most Used Terms per Topic](newimage)
 
-While there is still some overlap among the topics, the general idea of these is fairly clear. The first topic seems to focus on a new democratic South Africa and the challenges this brings in the improvement on formerly oppressed bodies. Topic two mentions the words, 'crime', 'security', 'improve' and 'progress', which among many other words touches on the crime issues related to South Africa as well as the need for progress as violent crimes have been prevalent in South Africa since the end of Apartheid. The third topic focuses on 'energy', 'infrastructure', 'health', 'water', 'mining' and 'women'. This may be a nod to South Africa's water and energy infrastructure and development as well as the need to invest more in these plans and infrastructure to ensure consistent supply. 'Women' and 'children' which may be an indication of the vulnerability of these groups to the aformentioned issues or the need to include women in these sectors. Topic four looks at 'water' and 'infrastructure' again but also mentions 'cape', 'communities', 'rural' which may be referring to the Cape Town drought which occurred from 2015 - 2018 where rural areas were affected badly. Topic 5 looks at resource issues again but with a focus on the economy and business and to provide support to them as the following words are mentioned: 'water', 'crisis', 'challenges', 'electricity', 'businesses', 'employment', 'support' and 'companies'.
+While there is still some overlap among the topics, the general idea of these is fairly clear. The first topic seems to focus on a new democratic South Africa and the challenges this brings in the improvement on formerly oppressed bodies. Topic two mentions the words, 'crime', 'security', 'improve' and 'progress', which among many other words touches on the crime issues related to South Africa as well as the need for progress as violent crimes have been prevalent in South Africa since the end of Apartheid. The third topic focuses on 'energy', 'infrastructure', 'health', 'water', 'mining' and 'women'. This may be a nod to South Africa's water and energy infrastructure and development as well as the need to invest more in these plans and infrastructure to ensure consistent supply. 'Women' and 'children' which may be an indication of the vulnerability of these groups to the aforementioned issues or the need to include women in these sectors. Topic four looks at 'water' and 'infrastructure' again but also mentions 'cape', 'communities', 'rural' which may be referring to the Cape Town drought which occurred from 2015 - 2018 where rural areas were affected badly. Topic 5 looks at resource issues again but with a focus on the economy and business and to provide support to them as the following words are mentioned: 'water', 'crisis', 'challenges', 'electricity', 'businesses', 'employment', 'support' and 'companies'.
 
 Topic six mentions 'women', 'crisis', 'hope', 'improve' which may refer to the gender-based violence issues in South Africa which disproportionate affect women. Topic seven refers to a transition from an Apartheid South Africa to a democratic South Africa. Topic 8 contains 'billions', 'energy', 'support', 'commission', 'corruption' all which refer to South Africa's high corruption levels, especially in regards to the energy sector, more specifically Eskom. Lastly, the ninth topic seems to focus on 'service' 'issues' and 'poverty' 'issues' which need to be addressed for the 'black' majority of South Africa who have been disproportionately been affected by poor service delivery and poverty due to the ramifications on Apartheid laws and poor initiative to uplift since then.
 
@@ -428,7 +432,7 @@ As Motlanthe only gave one speech, his topics are not very well defined. The fir
 
 ![Topic Modelling for Motlanthe](motlanthe)
 
-On the topic of water, Zuma's first topic mentions both 'water' and 'cape' as an indication of reference to the Cape Town droughts. It also mentions 'business', 'health' and 'education' all of which were sectors affected by this droughts. The topic also mentions 'job' and 'jobs' both of which may refer to the unemployment rates and promises of job creation. The second topic looks at resources such as 'electricity', 'water', 'energy' and also words such as 'support' and 'women'. This topic may be referring to the consistent supply of these resources and ways to ensure this while also focusing on support for women.
+On the topic of water, Zuma's first topic mentions both 'water' and 'cape' as an indication of reference to the Cape Town droughts. It also mentions 'business', 'health' and 'education' all of which were sectors affected by this droughts. The topic also mentions 'job' and 'jobs' both of which may refer to the unemployment rates and promises of job creation. The second topic looks at resources such as 'electricity', 'water', 'energy' and also words such as 'support' and 'women'. This topic may be referring to the consistent supply of these resources and ways to ensure this while also focusing on support for women, especially in light of gender-based violence issues.
 
 ![Topic Modelling for Zuma](zuma)
 
@@ -464,24 +468,6 @@ The following figure depicts the average sentiment during the pre and post-elect
 
 It is found that the SONAs generally expressed positive sentiments post-elections, as supposed to pre-elections. Another finding, indicated a more negative sentiment in the speeches during the 1990s and the 2020s when juxtaposed against the relatively more positive undertones from 2000 to 2020. These sentiment shifts keenly reflect the changing political landscape and challenges faced in South Africa during these periods. Overall, our findings reveal distinct shifts in the emotional undertones of presidential speeches over time, providing insights into the evolving political narratives and concerns of the nation.
 
-![Yearly Sentiment Trends segregated by presidents.](docs/Sent_trend_year)
-
-Figure 2 echos the analysis that is portrayed in Figure 1. A further comment can be extremely negative or positive sentiments (-5 and 5) are sparsely represented across the years, indicating that highly polarized sentiments are rare in the dataset. Throughout most of the years, the neutral sentiment (values 1 and 2) remains predominant, suggesting a generally stable mood or balanced content in the analyzed texts.
-
-![Sentiment Valence Trends by year](docs/Count_Sentiment_Values_by_Year.png)
-
-### Decade Trends
-
-Within the span of three decades, Figure 3 illustrates the average sentiment per decade. The 2000s and 2010s emerge as periods marked by heightened positive sentiment. In contrast, the 1990s and the 2020s manifest a more tempered positivity.
-
-![Average Sentiment Score Per Decade](docs/Per_Decade.png)
-
-### Pre and Post Election Trends
-
-The figure below depicts the average sentiment during the pre and post-election phases for several South African presidents, namely Mandela, Mbeki, Ramaphosa, and Zuma Analyzing the sentiment before the elections (pre) for each president reveals a trend. Generally, the sentiment before the election is comparatively more negative or less positive than the post-election phase. This pattern could be attributed to the strategic communication employed during election campaigns. It's common during election campaigns for leaders or political parties to highlight existing problems or crises to win voter trust by promising solutions. By making the situation seem more critical, candidates can position themselves as the needed change.
-
-![Comparing average sentiment scores pre and post elections.](docs/Pre_post_elections.png)
-
 ### Topic Modelling Trends
 
 In the 1990s, there was a emphasis on the foundational elements of the South African democracy. Words such as 'democracy', 'constitution', 'building', and 'restructuring' prominently feature in this era.
@@ -500,14 +486,35 @@ In the most recent era, post-2020, the narrative seems to have shifted towards r
 
 \![Figure demonstrating two topics against beta from 2020-2022\](docs/lda_2020)
 
-# Discussion and Conclusions
+# Conclusions
 
-In this section, a sentiment analysis of the State of Nation Addresses was conducted to discern the overall feelings expressed by the South African presidents over time. It was discovered that most of the presidents, with the exception of deKlerk, had common interests: peace, freedom and progress. Recurring concerns were centered around poverty, crime and corruption. The analysis indicated that concerns over these themes did not change over time, as the logistic regression model indicated that the sentiment trend was consistent. It is worth noting that this analysis had some limitations, such as the under-representation of some presidents and the subjective nature of lexicons.
+A sentiment analysis of the State of Nation Addresses was conducted to discern the overall feelings expressed by the South African presidents over time. It was discovered that most of the presidents, with the exception of deKlerk, had common interests: peace, freedom and progress. Recurring concerns were centered around poverty, crime and corruption. The analysis indicated that concerns over these themes did not change over time, as the logistic regression model indicated that the sentiment trend was consistent.
+
+In the LDA, the topics found for each president summarised the political climate of their times well and were insightful into seeing which issues were at hand and the progression of. Overall, the topics progress from democracy and freedom related words to economic and development jargon which was mentioned by almost all the presidents with a nod to non-economic and social issues such as crime, poverty, women or water throughout the speeches.
+
+Lastly, in terms of limitations and scope for future improvement, some of the presidents were under-represented which limited the validity of the analysis of their sentiments and topics. There were also hindrances due to the subjective nature of lexicons as many words may have been classified. With the LDA, the topic interpretations were done manually and the interpretations are subject to the researcher. For future work, researchers may want to balance their dataset for a more representative analysis and the application of automatic keyword extraction may be used to classify the topics in real time.
+
+# Author Contributions
+
+| Section                                         | Contributors                                             |
+|--------------------------------------------|----------------------------|
+| Sentiment Analysis                              | Susana Maganga                                           |
+| LDA                                             | Puja Pande                                               |
+| Trends Over Time for LDA and Sentiment Analysis | Ndivhuwo Nyase                                           |
+| EDA                                             | Puja Pande                                               |
+| Use of Large Language Models                    | Puja Pande and Susana Maganga                            |
+| Report Write-Up (All Sections)                  | Ndivhuwo Nyase, Susana Maganga, Puja Pande (All Authors) |
+
+: Author Contributions to This Project
 
 # References
 
-Sadia, A., Khan, F.K., & Bashir, F. (2018). *An Overview of Lexicon-Based Approach For Sentiment Analysis*.
+Irawan, H., Akmalia, G. and Masrury, R.A., 2019, September. Mining tourist's perception toward Indonesia tourism destination using sentiment analysis and topic modelling. In *Proceedings of the 2019 4th International Conference on Cloud Computing and Internet of Things* (pp. 7-12).
 
 Kulshrestha, R. (2020). *Latent Dirichlet Allocation(LDA)*. \[online\] Medium. Available at: <https://towardsdatascience.com/latent-dirichlet-allocation-lda-9d1cd064ffa2>. \[Accessed 17 October 2023\].
+
+Miranda, J.P.P. and Bringula, R.P., 2021. Exploring Philippine Presidents' speeches: A sentiment analysis and topic modeling approach. *Cogent Social Sciences*, *7*(1), p.1932030.
+
+Sadia, A., Khan, F.K., & Bashir, F. (2018). *An Overview of Lexicon-Based Approach For Sentiment Analysis*.
 
 Zhang, Z. (n.d.). *Text Mining for Social and Behavioral Research Using R*. \[online\] books.psychstat.org. Available at: <https://books.psychstat.org/textmining/topic-models.html> \[Accessed 17 October 2023\].
