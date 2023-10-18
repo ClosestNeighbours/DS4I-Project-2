@@ -81,11 +81,11 @@ First, the number of words per president were counted. The most number of words 
 
 Lastly, the top 15 words spoken by each president are summarised in the figures below.
 
-![15 Most Spoken Words Per President Including Common Words](New pics/15mostcommon.png)
+![15 Most Spoken Words Per President Including Common Words](New%20pics/15mostcommon.png)
 
 The first figure summaries the top 15 words spoken by president while the second figure shows the same with the exclusion of the words: government, people, south, africa, african.
 
-![15 Most Spoken Words Per President Not Including Common Words](New pics/15mostcommon_withoutcommon.png)
+![15 Most Spoken Words Per President Not Including Common Words](New%20pics/15mostcommon_withoutcommon.png)
 
 These are widely used by most presidents and may not be valuable in indicating trends with regards to the most words used. The second figure changes significantly after the removal of the common words. It can be seen that the words associated with de Klerk are focused around freedom and the transitioning of South Africa from an Apartheid state to a democratic one through words such as: 'constitution', 'freedom' and 'transitional'. Mandela's most used words 'development' and 'society' may be attributed to the re-development of South Africa as a democratic state but words such as 'crime' draw attention to the wider social issues. Mbeki's words seem to be more related to the economy and development while Motlathe's address similar issues with the addition of poverty. Ramaphosa's words are even more so centered around economic development and businesses which may be due to the effects of the Covid-19 pandemic during his time as president. Lastly, Zuma's words follow a similar economic and development trend to the rest.
 
@@ -165,7 +165,7 @@ kbl(as.data.frame(table(nrc$sentiment)), col.names = c("Category", "No. of Words
 
 In this subsection, a word-level analysis was conducted. The top 20 positive and negative words in the speeches as a whole, as well as a breakdown per president using the *bing* lexicon are presented below.
 
-```{r Top 20 Positive Words, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Top 20 positive words used in speeches based on the bing lexicon"}
+```{r Top 20 Positive Words, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", fig.cap="Top 20 positive words used in speeches based on the bing lexicon"}
 sona_sentiment %>%
   filter(bing_sentiment == 'positive') %>%
   count(word) %>%
@@ -176,7 +176,7 @@ sona_sentiment %>%
   labs(title = "Top 20 Positive Words", x = "Word", y = "Count")
 ```
 
-```{r Top 10 Positive Words by President, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Top 20 positive words by president based on the bing lexicon"}
+```{r Top 10 Positive Words by President, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", fig.cap="Top 20 positive words by president based on the bing lexicon"}
 top_pos_pres <- sona_sentiment %>%
   filter(bing_sentiment == "positive") %>%
   count(president_13, word) %>%
@@ -193,7 +193,7 @@ top_pos_pres %>%
 
 Overall, the word **improve** was the most used positive word in all of the speeches. This is also true when the words are grouped by president, except for deKlerk, whose most used word was **freedom**. Other recurring words include **progress** and **peace**/**peaceful**.
 
-```{r Top 20 Negative Words, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Top 20 negative words used in speeches based on the bing lexicon"}
+```{r Top 20 Negative Words, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", fig.cap="Top 20 negative words used in speeches based on the bing lexicon"}
 sona_sentiment %>%
   filter(bing_sentiment == 'negative') %>%
   count(word) %>%
@@ -203,7 +203,7 @@ sona_sentiment %>%
   labs(title = "Top 20 Negative Words", x = "Word", y = "Count")
 ```
 
-```{r Top 10 Negative Words by President, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Top 20 negative words by president based on the bing lexicon"}
+```{r Top 10 Negative Words by President, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", fig.cap="Top 20 negative words by president based on the bing lexicon"}
 top_neg_pres <- sona_sentiment %>%
   filter(bing_sentiment == "negative") %>%
   count(president_13, word) %>%
@@ -224,7 +224,7 @@ top_neg_pres %>%
 
 The general feeling of the speeches, broken down by sentiments, for each president were examined using both the *nrc* and *bing* lexicons. The neutral words were excluded, as they dominate over the other sentiments.
 
-```{r Sentiment Prop by President, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Proportion of positive to negative words by president based on the bing lexicon"}
+```{r Sentiment Prop by President, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", fig.cap="Proportion of positive to negative words by president based on the bing lexicon"}
 sentiment_prop <- sona_sentiment %>%
   group_by(president_13, bing_sentiment) %>%
   summarize(word_count = n()) %>% 
@@ -245,7 +245,7 @@ ggplot(sentiment_prop, aes(x = president_13, y = proportion, fill = bing_sentime
 
 The proportions of positive to negative words do not seem to differ by a large amount. However, the plots indicate that **Zuma**, **Mbeki** and **Mandela** expressed relatively more positive sentiments in comparison to the other presidents. To further delve into the presidents' attitudes, the more comprehensive *nrc* lexicon was applied.
 
-```{r Sentiment Bars by President (nrc), message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Proportion of positive to negative words by president based on the bing lexicon"}
+```{r Sentiment Bars by President (nrc), message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", fig.cap="Proportion of positive to negative words by president based on the bing lexicon"}
 sona_sentiment %>%
   add_count(president_13, name = "n_words") %>%
   group_by(president_13, nrc_sentiment) %>%
@@ -279,7 +279,7 @@ Changes of the sentiments over time were also investigated. Line plots with corr
 
 To assess whether the shifts are statistically significant, a logistic regression model was employed. Logistic regression is a modelling technique, based on regression, in which the dependent variable is binary. This is an appropriate model to use because the dependent variable has a binary outcome: *positive* or *negative*.
 
-```{r Trends over Time, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", out.width="60%", fig.cap="Proportion of positive to negative words by president based on the bing lexicon"}
+```{r Trends over Time, message=FALSE, echo=FALSE, fig.align='center', fig.show="hold", fig.cap="Proportion of positive to negative words by president based on the bing lexicon"}
 sentiments_time <- sona_sentiment %>%
   group_by(date, bing_sentiment) %>%
   summarize(n = n()) 
@@ -406,7 +406,7 @@ These examples highlight the importance of taking negation words into account as
 
 As mentioned earlier, 9 topics were produced from the data. The 20 most used words can be seen in the figure below.
 
-![The 20 Most Used Terms per Topic](New pics/20mostused.png)
+![The 20 Most Used Terms per Topic](New%20pics/20mostused.png)
 
 While there is still some overlap among the topics, the general idea of these is fairly clear. The first topic seems to focus on a new democratic South Africa and the challenges this brings in the improvement on formerly oppressed bodies. Topic two mentions the words, 'crime', 'security', 'improve' and 'progress', which among many other words touches on the crime issues related to South Africa as well as the need for progress as violent crimes have been prevalent in South Africa since the end of Apartheid. The third topic focuses on 'energy', 'infrastructure', 'health', 'water', 'mining' and 'women'. This may be a nod to South Africa's water and energy infrastructure and development as well as the need to invest more in these plans and infrastructure to ensure consistent supply. 'Women' and 'children' which may be an indication of the vulnerability of these groups to the aforementioned issues or the need to include women in these sectors. Topic four looks at 'water' and 'infrastructure' again but also mentions 'cape', 'communities', 'rural' which may be referring to the Cape Town drought which occurred from 2015 - 2018 where rural areas were affected badly. Topic 5 looks at resource issues again but with a focus on the economy and business and to provide support to them as the following words are mentioned: 'water', 'crisis', 'challenges', 'electricity', 'businesses', 'employment', 'support' and 'companies'.
 
@@ -418,27 +418,27 @@ Overall, it was found that, per topic, Mandela and Ramaphosa appeared 7 times, M
 
 Next, topic modelling was conducted for each president. While two topics were produced for each president, for those with a lower number of words, there was some overlap. Going chronologically, we start with de Klerk. de Klerk's first topic focused on words such as 'freedom', 'constitution', 'peaceful', support' as well as 'zulu' which as true to the climate during the speech was in reference to the transitioning to a democratic and free South Africa. Zulu is mentioned as it was ensured in the constitution that the Zulu leaders be given a certain amount of political power as respect to the Zulu Kingdom. His second topic refers to 'election' and 'future' as this one is more focused on the future of South Africa and the move forward.
 
-![Topic Modelling for de Klerk](New pics/dklerk.png)
+![Topic Modelling for de Klerk](New%20pics/dklerk.png)
 
 Mandela's first topic mentions 'progress', 'past', 'hope', 'improve', 'time', 'building', 'democracy' all of which are a related to improving the life of previously marginalized groups through a new, democratic state. His second topic focuses on many issues South Africa still faces such as crime and women's rights as well as security. Police is also mentioned in this topic as well as reconstruction. This topic may be related to the social issues South Africa is facing and potential methods of change.
 
-![Topic Modelling for Mandela](New pics/mandela.png)
+![Topic Modelling for Mandela](New%20pics/mandela.png)
 
 Mbeki's first topic addressed the need for improvement of services and infrastructure for local communities as well as some mention of international resources. The second topic looks at some of South Africa's issues such as 'poverty' and 'crime' and potential words that could be used to address these issues. 'Water' is also mentioned in this topic which may be an additional issue being addressed.
 
-![Topic Modelling for Mbeki](New pics/mbeki.png)
+![Topic Modelling for Mbeki](New%20pics/mbeki.png)
 
 As Motlanthe only gave one speech, his topics are not very well defined. The first looks issues related to South Africa as well ways for improvement. While the second speaks to many things such as 'democracy', 'poverty' and 'children' too.
 
-![Topic Modelling for Motlanthe](New pics/motlanthe.png)
+![Topic Modelling for Motlanthe](New%20pics/motlanthe.png)
 
 On the topic of water, Zuma's first topic mentions both 'water' and 'cape' as an indication of reference to the Cape Town droughts. It also mentions 'business', 'health' and 'education' all of which were sectors affected by this droughts. The topic also mentions 'job' and 'jobs' both of which may refer to the unemployment rates and promises of job creation. The second topic looks at resources such as 'electricity', 'water', 'energy' and also words such as 'support' and 'women'. This topic may be referring to the consistent supply of these resources and ways to ensure this while also focusing on support for women, especially in light of gender-based violence issues.
 
-![Topic Modelling for Zuma](New pics/zuma.png)
+![Topic Modelling for Zuma](New%20pics/zuma.png)
 
 Lastly, the current president, Ramaphosa's, first topic is in relation to 'energy', 'eskom' and 'challenges' which is a nod to the energy issues South Africa is facing in relation to Eskom. 'Investment' and related words are mentioned implying this topic also includes the measures that are currently in place. 'Health' is also mentioned as well as 'capacity' which may be referring to the Covid-19 pandemic. The second topic mentions 'corruption' and 'electricity', 'investment' and related words which may be a nod to the corruption in the energy sector, especially Eskom.
 
-![Topic Modelling for Ramaphosa](New pics/ramaphosa.png)
+![Topic Modelling for Ramaphosa](New%20pics/ramaphosa.png)
 
 ## Trends
 
@@ -497,7 +497,7 @@ Lastly, in terms of limitations and scope for future improvement, some of the pr
 # Author Contributions
 
 | Section                                         | Contributors                                             |
-|--------------------------------------------|----------------------------|
+|---------------------------------|---------------------------------------|
 | Sentiment Analysis                              | Susana Maganga                                           |
 | LDA                                             | Puja Pande                                               |
 | Trends Over Time for LDA and Sentiment Analysis | Ndivhuwo Nyase                                           |
