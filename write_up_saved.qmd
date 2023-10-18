@@ -472,19 +472,19 @@ It is found that the SONAs generally expressed positive sentiments post-election
 
 In the 1990s, there was a emphasis on the foundational elements of the South African democracy. Words such as 'democracy', 'constitution', 'building', and 'restructuring' prominently feature in this era.
 
-![Figure Demonstrating Two Topics Against Beta from 1994-1999](docs/lda_1990)
+![Figure Demonstrating Two Topics Against Beta from 1994-1999](docs/lda_1990.png)
 
 Fast forward to the 2000s, the LDA topics revealed a shift towards enhancing and refining policies, programs, and institutions. Additionally, another topic that was of focus was service deliveries for the South African populace, emphasizing aspects such as security and water.
 
-![Figure Demonstrating Two Topics Against Beta from 2000-2010](docs/lda_2000)
+![Figure Demonstrating Two Topics Against Beta from 2000-2010](docs/lda_2000.png)
 
 The following decade (2010-2020), the SONA speeches seem to emphasize on capitalizing on opportunities and building the nation's education and entrepreneurial potential. The topics highlighted a push for bolstering education and supporting businesses.
 
-![Figure Demonstrating Two Topics Against Beta from 2010-2020](docs/lda_2010)
+![Figure Demonstrating Two Topics Against Beta from 2010-2020](docs/lda_2010.png)
 
 In the most recent era, post-2020, the narrative seems to have shifted towards rectifying service delivery and corruption, notably within entities such as Eskom. This analysis also touches noted challenges such as job creation and the energy crisis related to Eskom.
 
-![Figure Demonstrating Two Topics Against Beta from 2020-2023](docs/lda_2020)
+![Figure Demonstrating Two Topics Against Beta from 2020-2023](docs/lda_2020.png)
 
 # Conclusions
 
