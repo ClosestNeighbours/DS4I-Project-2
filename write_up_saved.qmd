@@ -1,7 +1,7 @@
 ---
 title: "STA5073Z Assignment 2"
 author: "Susana Maganga, Ndivhuwo Nyase and Puja Pande"
-format: pdf
+format: html
 editor: visual
 toc: true
 number-sections: true
@@ -81,11 +81,11 @@ First, the number of words per president were counted. The most number of words 
 
 Lastly, the top 15 words spoken by each president are summarised in the figures below.
 
-![15 Most Spoken Words Per President Including Common Words](mostspokenwords_15)
+![15 Most Spoken Words Per President Including Common Words](New pics/15mostcommon.png)
 
 The first figure summaries the top 15 words spoken by president while the second figure shows the same with the exclusion of the words: government, people, south, africa, african.
 
-![15 Most Spoken Words Per President Not Including Common Words](mostspokenwords_common)
+![15 Most Spoken Words Per President Not Including Common Words](New pics/15mostcommon_withoutcommon.png)
 
 These are widely used by most presidents and may not be valuable in indicating trends with regards to the most words used. The second figure changes significantly after the removal of the common words. It can be seen that the words associated with de Klerk are focused around freedom and the transitioning of South Africa from an Apartheid state to a democratic one through words such as: 'constitution', 'freedom' and 'transitional'. Mandela's most used words 'development' and 'society' may be attributed to the re-development of South Africa as a democratic state but words such as 'crime' draw attention to the wider social issues. Mbeki's words seem to be more related to the economy and development while Motlathe's address similar issues with the addition of poverty. Ramaphosa's words are even more so centered around economic development and businesses which may be due to the effects of the Covid-19 pandemic during his time as president. Lastly, Zuma's words follow a similar economic and development trend to the rest.
 
@@ -406,7 +406,7 @@ These examples highlight the importance of taking negation words into account as
 
 As mentioned earlier, 9 topics were produced from the data. The 20 most used words can be seen in the figure below.
 
-![The 20 Most Used Terms per Topic](newimage)
+![The 20 Most Used Terms per Topic](New pics/20mostused.png)
 
 While there is still some overlap among the topics, the general idea of these is fairly clear. The first topic seems to focus on a new democratic South Africa and the challenges this brings in the improvement on formerly oppressed bodies. Topic two mentions the words, 'crime', 'security', 'improve' and 'progress', which among many other words touches on the crime issues related to South Africa as well as the need for progress as violent crimes have been prevalent in South Africa since the end of Apartheid. The third topic focuses on 'energy', 'infrastructure', 'health', 'water', 'mining' and 'women'. This may be a nod to South Africa's water and energy infrastructure and development as well as the need to invest more in these plans and infrastructure to ensure consistent supply. 'Women' and 'children' which may be an indication of the vulnerability of these groups to the aforementioned issues or the need to include women in these sectors. Topic four looks at 'water' and 'infrastructure' again but also mentions 'cape', 'communities', 'rural' which may be referring to the Cape Town drought which occurred from 2015 - 2018 where rural areas were affected badly. Topic 5 looks at resource issues again but with a focus on the economy and business and to provide support to them as the following words are mentioned: 'water', 'crisis', 'challenges', 'electricity', 'businesses', 'employment', 'support' and 'companies'.
 
@@ -418,27 +418,27 @@ Overall, it was found that, per topic, Mandela and Ramaphosa appeared 7 times, M
 
 Next, topic modelling was conducted for each president. While two topics were produced for each president, for those with a lower number of words, there was some overlap. Going chronologically, we start with de Klerk. de Klerk's first topic focused on words such as 'freedom', 'constitution', 'peaceful', support' as well as 'zulu' which as true to the climate during the speech was in reference to the transitioning to a democratic and free South Africa. Zulu is mentioned as it was ensured in the constitution that the Zulu leaders be given a certain amount of political power as respect to the Zulu Kingdom. His second topic refers to 'election' and 'future' as this one is more focused on the future of South Africa and the move forward.
 
-![Topic Modelling for de Klerk](deklerk)
+![Topic Modelling for de Klerk](New pics/dklerk.png)
 
 Mandela's first topic mentions 'progress', 'past', 'hope', 'improve', 'time', 'building', 'democracy' all of which are a related to improving the life of previously marginalized groups through a new, democratic state. His second topic focuses on many issues South Africa still faces such as crime and women's rights as well as security. Police is also mentioned in this topic as well as reconstruction. This topic may be related to the social issues South Africa is facing and potential methods of change.
 
-![Topic Modelling for Mandela](mandela)
+![Topic Modelling for Mandela](New pics/mandela.png)
 
 Mbeki's first topic addressed the need for improvement of services and infrastructure for local communities as well as some mention of international resources. The second topic looks at some of South Africa's issues such as 'poverty' and 'crime' and potential words that could be used to address these issues. 'Water' is also mentioned in this topic which may be an additional issue being addressed.
 
-![Topic Modelling for Mbeki](Mbeki)
+![Topic Modelling for Mbeki](New pics/mbeki.png)
 
 As Motlanthe only gave one speech, his topics are not very well defined. The first looks issues related to South Africa as well ways for improvement. While the second speaks to many things such as 'democracy', 'poverty' and 'children' too.
 
-![Topic Modelling for Motlanthe](motlanthe)
+![Topic Modelling for Motlanthe](New pics/motlanthe.png)
 
 On the topic of water, Zuma's first topic mentions both 'water' and 'cape' as an indication of reference to the Cape Town droughts. It also mentions 'business', 'health' and 'education' all of which were sectors affected by this droughts. The topic also mentions 'job' and 'jobs' both of which may refer to the unemployment rates and promises of job creation. The second topic looks at resources such as 'electricity', 'water', 'energy' and also words such as 'support' and 'women'. This topic may be referring to the consistent supply of these resources and ways to ensure this while also focusing on support for women, especially in light of gender-based violence issues.
 
-![Topic Modelling for Zuma](zuma)
+![Topic Modelling for Zuma](New pics/zuma.png)
 
 Lastly, the current president, Ramaphosa's, first topic is in relation to 'energy', 'eskom' and 'challenges' which is a nod to the energy issues South Africa is facing in relation to Eskom. 'Investment' and related words are mentioned implying this topic also includes the measures that are currently in place. 'Health' is also mentioned as well as 'capacity' which may be referring to the Covid-19 pandemic. The second topic mentions 'corruption' and 'electricity', 'investment' and related words which may be a nod to the corruption in the energy sector, especially Eskom.
 
-![Topic Modelling for Ramaphosa](Ramaphosa)
+![Topic Modelling for Ramaphosa](New pics/ramaphosa.png)
 
 ## Trends
 
@@ -472,19 +472,19 @@ It is found that the SONAs generally expressed positive sentiments post-election
 
 In the 1990s, there was a emphasis on the foundational elements of the South African democracy. Words such as 'democracy', 'constitution', 'building', and 'restructuring' prominently feature in this era.
 
-\![Figure demonstrating two topics against beta from 1994-1999\](docs/lda_1990)
+![Figure Demonstrating Two Topics Against Beta from 1994-1999](docs/lda_1990)
 
 Fast forward to the 2000s, the LDA topics revealed a shift towards enhancing and refining policies, programs, and institutions. Additionally, another topic that was of focus was service deliveries for the South African populace, emphasizing aspects such as security and water.
 
-\![Figure demonstrating two topics against beta from 2000-2010\](docs/lda_2000)
+![Figure Demonstrating Two Topics Against Beta from 2000-2010](docs/lda_2000)
 
 The following decade (2010-2020), the SONA speeches seem to emphasize on capitalizing on opportunities and building the nation's education and entrepreneurial potential. The topics highlighted a push for bolstering education and supporting businesses.
 
-\![Figure demonstrating two topics against beta from 2010-2020\](docs/lda_2010)
+![Figure Demonstrating Two Topics Against Beta from 2010-2020](docs/lda_2010)
 
 In the most recent era, post-2020, the narrative seems to have shifted towards rectifying service delivery and corruption, notably within entities such as Eskom. This analysis also touches noted challenges such as job creation and the energy crisis related to Eskom.
 
-\![Figure demonstrating two topics against beta from 2020-2022\](docs/lda_2020)
+![Figure Demonstrating Two Topics Against Beta from 2020-2023](docs/lda_2020)
 
 # Conclusions
 

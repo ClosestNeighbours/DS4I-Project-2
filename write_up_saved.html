@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Susana Maganga, Ndivhuwo Nyase and Puja Pande">
+
+<title>STA5073Z Assignment 2</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="write_up_saved_files/libs/clipboard/clipboard.min.js"></script>
+<script src="write_up_saved_files/libs/quarto-html/quarto.js"></script>
+<script src="write_up_saved_files/libs/quarto-html/popper.min.js"></script>
+<script src="write_up_saved_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="write_up_saved_files/libs/quarto-html/anchor.min.js"></script>
+<link href="write_up_saved_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="write_up_saved_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="write_up_saved_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="write_up_saved_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="write_up_saved_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+<script src="write_up_saved_files/libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="write_up_saved_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#data-and-methods" id="toc-data-and-methods" class="nav-link" data-scroll-target="#data-and-methods"><span class="header-section-number">2</span> Data and Methods</a>
+  <ul class="collapse">
+  <li><a href="#data-collection" id="toc-data-collection" class="nav-link" data-scroll-target="#data-collection"><span class="header-section-number">2.1</span> Data Collection</a></li>
+  <li><a href="#data-cleaning-and-preprocessing" id="toc-data-cleaning-and-preprocessing" class="nav-link" data-scroll-target="#data-cleaning-and-preprocessing"><span class="header-section-number">2.2</span> Data Cleaning and Preprocessing</a></li>
+  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis"><span class="header-section-number">2.3</span> Exploratory Data Analysis</a></li>
+  <li><a href="#sentiment-analysis" id="toc-sentiment-analysis" class="nav-link" data-scroll-target="#sentiment-analysis"><span class="header-section-number">2.4</span> Sentiment Analysis</a></li>
+  <li><a href="#latent-dirichlet-allocation" id="toc-latent-dirichlet-allocation" class="nav-link" data-scroll-target="#latent-dirichlet-allocation"><span class="header-section-number">2.5</span> Latent Dirichlet Allocation</a></li>
+  <li><a href="#use-of-large-language-models" id="toc-use-of-large-language-models" class="nav-link" data-scroll-target="#use-of-large-language-models"><span class="header-section-number">2.6</span> Use of Large Language Models</a></li>
+  </ul></li>
+  <li><a href="#results-and-discussion" id="toc-results-and-discussion" class="nav-link" data-scroll-target="#results-and-discussion"><span class="header-section-number">3</span> Results and Discussion</a>
+  <ul class="collapse">
+  <li><a href="#sentiment-analysis-1" id="toc-sentiment-analysis-1" class="nav-link" data-scroll-target="#sentiment-analysis-1"><span class="header-section-number">3.1</span> Sentiment Analysis</a>
+  <ul class="collapse">
+  <li><a href="#word-level-analysis" id="toc-word-level-analysis" class="nav-link" data-scroll-target="#word-level-analysis"><span class="header-section-number">3.1.1</span> Word-Level Analysis</a></li>
+  <li><a href="#sentiment-level-analysis" id="toc-sentiment-level-analysis" class="nav-link" data-scroll-target="#sentiment-level-analysis"><span class="header-section-number">3.1.2</span> Sentiment-Level Analysis</a></li>
+  <li><a href="#bigrams-analysis" id="toc-bigrams-analysis" class="nav-link" data-scroll-target="#bigrams-analysis"><span class="header-section-number">3.1.3</span> Bigrams Analysis</a></li>
+  </ul></li>
+  <li><a href="#latent-dirichlet-allocation-1" id="toc-latent-dirichlet-allocation-1" class="nav-link" data-scroll-target="#latent-dirichlet-allocation-1"><span class="header-section-number">3.2</span> Latent Dirichlet Allocation</a>
+  <ul class="collapse">
+  <li><a href="#analysis-of-all-presidents" id="toc-analysis-of-all-presidents" class="nav-link" data-scroll-target="#analysis-of-all-presidents"><span class="header-section-number">3.2.1</span> Analysis of All Presidents</a></li>
+  <li><a href="#analysis-of-individual-presidents" id="toc-analysis-of-individual-presidents" class="nav-link" data-scroll-target="#analysis-of-individual-presidents"><span class="header-section-number">3.2.2</span> Analysis of Individual Presidents</a></li>
+  </ul></li>
+  <li><a href="#trends" id="toc-trends" class="nav-link" data-scroll-target="#trends"><span class="header-section-number">3.3</span> Trends</a>
+  <ul class="collapse">
+  <li><a href="#yearly-trends" id="toc-yearly-trends" class="nav-link" data-scroll-target="#yearly-trends"><span class="header-section-number">3.3.1</span> Yearly Trends</a></li>
+  <li><a href="#decade-trends" id="toc-decade-trends" class="nav-link" data-scroll-target="#decade-trends"><span class="header-section-number">3.3.2</span> Decade Trends</a></li>
+  <li><a href="#pre-and-post-election-trends" id="toc-pre-and-post-election-trends" class="nav-link" data-scroll-target="#pre-and-post-election-trends"><span class="header-section-number">3.3.3</span> Pre and Post Election Trends</a></li>
+  <li><a href="#overall-trends" id="toc-overall-trends" class="nav-link" data-scroll-target="#overall-trends"><span class="header-section-number">3.3.4</span> Overall Trends</a></li>
+  <li><a href="#topic-modelling-trends" id="toc-topic-modelling-trends" class="nav-link" data-scroll-target="#topic-modelling-trends"><span class="header-section-number">3.3.5</span> Topic Modelling Trends</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions"><span class="header-section-number">4</span> Conclusions</a></li>
+  <li><a href="#author-contributions" id="toc-author-contributions" class="nav-link" data-scroll-target="#author-contributions"><span class="header-section-number">5</span> Author Contributions</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">6</span> References</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">STA5073Z Assignment 2</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Susana Maganga, Ndivhuwo Nyase and Puja Pande </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>A State of Nation Address (SONA) is a speech given by the President of South Africa in which the president reports on the status of the nation. It functions as an annual report that include political and socio-economic topics. These include but not limited to topics surrounding the nation’s budget, economy, news, agenda, progress, achievements and the president’s priorities and legislative proposals. The SONA gives the public an idea of broader political landscape and socio-economic issues and challenges that are plaguing the country. At the same time, it also reflects on the achievements, growth and progress the country has made in the past year. Furthermore, it provides the public with a direction and understanding of the countries plans.</p>
+<p>In this light, the comprehensive analysis of previous SONA speeches from 1994-2023 can provide us with an extensive perspective and viewpoint of the struggles and triumphs over the course history in South Africa. In this assignment, we aim to provide that perspective and viewpoint from a computational approach. We utilise sentiment analysis and topic modelling techniques, specifically Latent Dirichlet Allocation (LDA), to quantify the emotional tone of each president and recognise reoccurring topics that will provide context and understanding to the broader socio-political and economic environment of South Africa.</p>
+<p>Sentiment analysis refers to the use of natural language processing (NLP), text analysis and computational linguistics, to identify, extract, quantify, and study affective states and subjective information. On the other hand, topic modelling is a statistical and unsupervised learning technique to identify and discover topics within a collection of text or documents. It is commonly used to classify documents and discover hidden semantic properties in a corpus of text. A related study involves exploring sentiment and topics from Philippine President in the SONA from John Miranda and Rex P. Bringula (2021). The study showcased the SONAs generally expressed positive sentiments while the lowest negative sentiment was during the martial law period in 1974. In this study, they were also able to present which concerns were focused on in their speeches. Furthermore, another related study includes Mining Tourist’s Perception toward Indonesia Tourism Destination. Results shows that joy is the most prominent emotion accompanying visitors’ experiences (Herry Irawan, Riefvan Achmad (2019)). The relevant work showcases that researchers have found significant results when investigating documents of texts with regards to evaluating emotive content or extracting common themes and topics.</p>
+</section>
+<section id="data-and-methods" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Data and Methods</h1>
+<section id="data-collection" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="data-collection"><span class="header-section-number">2.1</span> Data Collection</h2>
+<p>As the aim of this project was to analyse previous SONA speeches delivered by the presidents of South Africa, the data used for this project were SONA speeches from 1994 through to 2023. These were accessed from the South African Government website (<em>https://www.gov.za/state-nation-address</em>) and include speeches from six former presidents: FW de Klerk, Nelson Mandela, Thabo Mbeki, Kgalema Motlanthe, Jacob Zuma and the current president, Cyril Ramaphosa. Overall, 36 speeches were analysed. The sections to follow detail how these speeches were analysed.</p>
+</section>
+<section id="data-cleaning-and-preprocessing" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="data-cleaning-and-preprocessing"><span class="header-section-number">2.2</span> Data Cleaning and Preprocessing</h2>
+<p>In order to analyse and model the SONA speeches, they had to be cleaned and preprocessed first. The .txt files were first read into R where they were all added to a single dataframe. The information regarding the date and year in which the speech was delivered as well as the president delivering the speech were extracted and adding as columns to the dataframe. In addition to this, the dates were all formatted to the same format, all the punctuation was removed and the words in the speeches were all converted to lowercase. The text was also cleaned to remove the dates that appear at the beginning/towards the beginning of the speeches. Lastly, all numbers were removed for the LDA analysis.</p>
+<p>The speeches were then converted to a ‘tidy’ format whereby the data were then processed so that all variables were in columns, all observations were in rows and every value was in a cell where a cell only had one value. During this process of converting the speeches to a ‘tidy’ format, the process of tokenisation was also implemented which is the process of taking a text string, such as each individual speech and decomposing it into chunks which in this case were words. Essentially, the speeches were broken down into words and converted to a format where each observation only consisted of one word. After this was done, stop words or words that occur commonly, were removed from the ‘tidy’ dataset so that these would not add noise while analysing the data.</p>
+<p>After the data had been cleaned and pre-processed, exploratory data analysis was conducted on the data and sentiment analysis as well as LDA was carried out on the speeches and words.</p>
+</section>
+<section id="exploratory-data-analysis" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="exploratory-data-analysis"><span class="header-section-number">2.3</span> Exploratory Data Analysis</h2>
+<p>Before conducting any in-depth analysis of the data through sentiment analysis and LDA, exploratory data analysis (EDA) was performed on the data in order to gain a better understanding of the data.</p>
+<p>First, the number of words per president were counted. The most number of words from a president was from Mbeki with 5622 words followed by Zuma with 5258, Ramaphosa with 4753, Mandela with 4311 and finally Motlanthe and de Klerk with 1631 and 431, respectively. The lower number of words for Motlanthe can be attributed to the fact that he was only president for roughly six month and hence participated in only one SONA. For de Klerk, this may have been because this was the end of the Apartheid regime for which he was the last president. Furthermore, the top ten most used words across all speeches were as follows: government, south people, country, national, development, africa, public, economic, ensure. All of which one would expect to hear given the nature of the SONA speeches.</p>
+<p>Lastly, the top 15 words spoken by each president are summarised in the figures below.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mostspokenwords_15.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">15 Most Spoken Words Per President Including Common Words</figcaption>
+</figure>
+</div>
+<p>The first figure summaries the top 15 words spoken by president while the second figure shows the same with the exclusion of the words: government, people, south, africa, african.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mostspokenwords_common.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">15 Most Spoken Words Per President Not Including Common Words</figcaption>
+</figure>
+</div>
+<p>These are widely used by most presidents and may not be valuable in indicating trends with regards to the most words used. The second figure changes significantly after the removal of the common words. It can be seen that the words associated with de Klerk are focused around freedom and the transitioning of South Africa from an Apartheid state to a democratic one through words such as: ‘constitution’, ‘freedom’ and ‘transitional’. Mandela’s most used words ‘development’ and ‘society’ may be attributed to the re-development of South Africa as a democratic state but words such as ‘crime’ draw attention to the wider social issues. Mbeki’s words seem to be more related to the economy and development while Motlathe’s address similar issues with the addition of poverty. Ramaphosa’s words are even more so centered around economic development and businesses which may be due to the effects of the Covid-19 pandemic during his time as president. Lastly, Zuma’s words follow a similar economic and development trend to the rest.</p>
+</section>
+<section id="sentiment-analysis" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="sentiment-analysis"><span class="header-section-number">2.4</span> Sentiment Analysis</h2>
+<p>Sentiment analysis is a text mining technique that aims to extract the thoughts and feelings of script to determine their polarity, i.e.&nbsp;positive, negative or neutral. Three approaches are available to conduct sentiment analysis: supervised, lexicon-based and hybrid. The supervised method utilises machine learning algorithms to train the classifier. It is superior in performance to the lexicon-based method, however it requires a substantial amount of labelled data. Lexicon-based sentiment analysis uses sentiment lexicons (dictionaries) to describe polarity. This method is more computationally efficient, but the results may vary depending on the lexicon and domain. A word may be subjective or objective depending on the context, e.g.&nbsp;in the clause “crude oil”, this is an objective use of the word crude; when it is used as “crude language”, it is now subjective and has a negative sentiment. Dealing with negation and sarcasm is also a challenge with this approach. The hybrid method is an amalgamation of the supervised and lexicon-based methods (Sadia et al, 2018).</p>
+</section>
+<section id="latent-dirichlet-allocation" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="latent-dirichlet-allocation"><span class="header-section-number">2.5</span> Latent Dirichlet Allocation</h2>
+<p>LDA is a popular topic modelling model which allows one to better understand hidden themes in a collection, classify the documents into these themes and summarise the documents (Kulshrestha, R., 2020). In an LDA model, each document is comprised of various words as is each topic. This document being referred to is achieved after the ‘tidy’ data is converted to a ‘DocumentTermMatrix’.</p>
+<p>In an LDA model, one of the hyperparameters is <span class="math inline">\(k\)</span>. If there are <span class="math inline">\(k\)</span> topics, each topic from the document is generated from a distribution with different probabilities. So if <span class="math inline">\(z_{km}\)</span> is the <span class="math inline">\(k\)</span>th topic in the <span class="math inline">\(m\)</span>th document, it takes a value between 1 and <span class="math inline">\(K\)</span> (Zhang, Z., 2018).</p>
+<p><span class="math display">\[ z_{km} \sim Multinomial(\theta_{m}) \]</span></p>
+<p>where <span class="math inline">\(\theta_m = (\theta_{m1}, \theta_{m2}, ..., \theta_{mk})'\)</span> is the topic probability.</p>
+<p>Once a topic has been decided upon, words are organised around it. So if <span class="math inline">\(w_{mn}\)</span> is the <span class="math inline">\(n\)</span>th word used in the <span class="math inline">\(m\)</span>th document, it would take a value between 1 and <span class="math inline">\(V\)</span> with <span class="math inline">\(V\)</span> being the total number of unique words used in all the documents. The equation below shows how a word is generated:</p>
+<p><span class="math display">\[ w_{mn}|z_{km} \sim Multinomial(\beta\_k)\]</span></p>
+<p>where <span class="math inline">\(\beta_k = c(\beta_{k1}, \beta_{k2}, ..., \beta_{kV})'\)</span> is the probability that a word is picked given the topic k is selected.</p>
+<p>Lastly, it is important to get <span class="math inline">\(\theta\)</span> and <span class="math inline">\(\beta\)</span> values as these represent the distribution of topics for a particular document and the distribution of words within each topic. The assumption is that both are generated from a Dirichlet distribution. For topic probability:</p>
+<p><span class="math display">\[
+\theta_m \sim Dirichlet(\alpha)
+\]</span> And for word probability:</p>
+<p><span class="math display">\[
+\beta_m \sim Dirichlet(\delta)
+\]</span></p>
+<p>In the context of this project, first the ‘tidy’ data was converted to a ‘DocumentTermMatrix’ to which the LDA model was applied to. First, the top 20 most used words overall were removed from the dataset as a means of pruning the data. A grid search for the best <span class="math inline">\(k\)</span> hyperparameter was conducted using the metric of coherence values. This measures the relative distance between words within a topic and suggested that a <span class="math inline">\(k = 17\)</span> be used. However, upon inspection of these topics, there was much overlap. The next highest values were for greater than 17. Finally, a <span class="math inline">\(k=9\)</span> was chosen as the topics were clear and there was little overlap. An LDA model was created on the overall data as well as for each president. For each individual president, a value of <span class="math inline">\(k=2\)</span> was chosen.</p>
+</section>
+<section id="use-of-large-language-models" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="use-of-large-language-models"><span class="header-section-number">2.6</span> Use of Large Language Models</h2>
+<p>While not an aim of this project, it was a requirement that we experiment with the use of a large language model such as ChatGPT to assist with the assignment. While using basic search engines to help with coding and writing are helpful, ChatGPT is more efficient in providing specific answers to some questions as it can provide textual context, conversational interactions and can remember previous questions and refer to them.</p>
+<p>In terms of coding, ChatGPT was useful in assisting with code for various function parameters as well as the syntax for certain elements of this document e.g.&nbsp;the equations. However, it sometimes produced code that was not correct or used incorrect functions not belonging to the packages specified. In this case, the error produced in R was inputted back into the conversation and it was almost always able to provide the correct code, albeit after many tries sometimes. The inputs, however, into the conversation had to be very specific to provide the correct context for ChatGPT and to avoid unnecessary back-and-forth on simple questions stemming from a lack of context. One big plus was ChatGPT’s ability to remember previous questions in a conversation so that once the context had been specified, it could draw from previous questions to answer future ones. Overall, from a coding point of view, this large language model performed decently but there was often a lot of prompting that had to be done.</p>
+<p>An example of applying ChatGPT to generate code was requesting for a function that extract sentences containing specific bigrams. Before providing much context, the response given was steps to manually do it in a programming language. When prompted for code, ChatGPT assumed that it was being done in Python. To provide context, the programming language as well as the structure of the tidy data was provided as a response. R code was subsequently returned and it worked exactly as expected. Comments were also provided to guide the user.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the specific bigram</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>specific_bigram <span class="ot">&lt;-</span> <span class="st">"specific bigram"</span>  <span class="co"># Replace with your desired bigram</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize a list to store sentences containing the bigram</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>sentences_with_bigram <span class="ot">&lt;-</span> <span class="fu">character</span>(<span class="dv">0</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Search for the bigram in each sentence</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (sentence <span class="cf">in</span> sona_sentences<span class="sc">$</span>sentence) {</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">grepl</span>(specific_bigram, sentence, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    sentences_with_bigram <span class="ot">&lt;-</span> <span class="fu">c</span>(sentences_with_bigram, sentence)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Print or manipulate the extracted sentences</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sentences_with_bigram)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In terms of understanding specific terminology and better understanding the models, it was able to provide a decent summary of these which in conjunction with other resources helped with the understanding of these models. And lastly, in terms of writing, ChatGPT was a useful tool for simplifying language, paraphrasing sentences and providing succinct alternatives to inputted sentences.</p>
+</section>
+</section>
+<section id="results-and-discussion" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Results and Discussion</h1>
+<section id="sentiment-analysis-1" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="sentiment-analysis-1"><span class="header-section-number">3.1</span> Sentiment Analysis</h2>
+<p>The results obtained from employing the lexicon-based approach to determine the outlook of the South African Presidents will be discussed. The <em>bing</em> and <em>nrc</em> lexicons were explored. In the instance that a word was not in the lexicon, the default label was set to “neutral”. The <em>bing</em> lexicon was developed by Minqing Hu and Bing Liu as the <em>Opinion Lexicon</em>. It comprises of 6786 words, where 2005 are “positive” and 4781 are “negative”.</p>
+<p>The <em>nrc</em> lexicon was compiled by crowdsourcing on Amazon Mechanical Turk by Saif Mohammad and Peter Turney. The lexicon has 13872 words and incorporates more sentiments in addition to positive and negative: anger, anticipation, disgust, fear, joy, sadness, surprise and trust.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Words in the nrc lexicon</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Category</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">No. of Words</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">anger</td>
+<td style="text-align: right;">1245</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">anticipation</td>
+<td style="text-align: right;">837</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">disgust</td>
+<td style="text-align: right;">1056</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">fear</td>
+<td style="text-align: right;">1474</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">joy</td>
+<td style="text-align: right;">687</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">negative</td>
+<td style="text-align: right;">3316</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">positive</td>
+<td style="text-align: right;">2308</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sadness</td>
+<td style="text-align: right;">1187</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">surprise</td>
+<td style="text-align: right;">532</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">trust</td>
+<td style="text-align: right;">1230</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<section id="word-level-analysis" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="word-level-analysis"><span class="header-section-number">3.1.1</span> Word-Level Analysis</h3>
+<p>In this subsection, a word-level analysis was conducted. The top 20 positive and negative words in the speeches as a whole, as well as a breakdown per president using the <em>bing</em> lexicon are presented below.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="write_up_saved_files/figure-html/Top%2020%20Positive%20Words-1.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption class="figure-caption">Top 20 positive words used in speeches based on the bing lexicon</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="write_up_saved_files/figure-html/Top%2010%20Positive%20Words%20by%20President-1.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption class="figure-caption">Top 20 positive words by president based on the bing lexicon</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Overall, the word <strong>improve</strong> was the most used positive word in all of the speeches. This is also true when the words are grouped by president, except for deKlerk, whose most used word was <strong>freedom</strong>. Other recurring words include <strong>progress</strong> and <strong>peace</strong>/<strong>peaceful</strong>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="write_up_saved_files/figure-html/Top%2020%20Negative%20Words-1.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption class="figure-caption">Top 20 negative words used in speeches based on the bing lexicon</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="write_up_saved_files/figure-html/Top%2010%20Negative%20Words%20by%20President-1.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption class="figure-caption">Top 20 negative words by president based on the bing lexicon</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Poverty</strong>, <strong>crime</strong> and <strong>corruption</strong> were the most commonly used negative words. They also appeared in the breakdown by president; except for deKlerk, who did not have any of these three words in his top ten negative words. deKlerk commonly used the words <strong>violent</strong>, <strong>illegal</strong> and <strong>discrimination</strong>.</p>
+</section>
+<section id="sentiment-level-analysis" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="sentiment-level-analysis"><span class="header-section-number">3.1.2</span> Sentiment-Level Analysis</h3>
+<p>The general feeling of the speeches, broken down by sentiments, for each president were examined using both the <em>nrc</em> and <em>bing</em> lexicons. The neutral words were excluded, as they dominate over the other sentiments.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="write_up_saved_files/figure-html/Sentiment%20Prop%20by%20President-1.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption class="figure-caption">Proportion of positive to negative words by president based on the bing lexicon</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The proportions of positive to negative words do not seem to differ by a large amount. However, the plots indicate that <strong>Zuma</strong>, <strong>Mbeki</strong> and <strong>Mandela</strong> expressed relatively more positive sentiments in comparison to the other presidents. To further delve into the presidents’ attitudes, the more comprehensive <em>nrc</em> lexicon was applied.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="write_up_saved_files/figure-html/Sentiment%20Bars%20by%20President%20(nrc)-1.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption class="figure-caption">Proportion of positive to negative words by president based on the bing lexicon</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>From the plots, it can be observed that, besides <em>negative</em> and <em>positive</em> sentiments, prevalent themes include <em>trust</em> and <em>anticipation</em>. To gain some insight of the words specifically associated with these themes, the top 2 words associated with <em>trust</em> or <em>anticipation</em> for each president are presented in a table below.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Top 2 words by president associated with either anticipation or trust according to the nrc lexicon</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">President</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Word</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">nrc</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">bing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">deKlerk</td>
+<td style="text-align: left;">constitutional</td>
+<td style="text-align: left;">trust</td>
+<td style="text-align: left;">neutral</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">deKlerk</td>
+<td style="text-align: left;">freedom</td>
+<td style="text-align: left;">trust</td>
+<td style="text-align: left;">positive</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mandela</td>
+<td style="text-align: left;">public</td>
+<td style="text-align: left;">anticipation</td>
+<td style="text-align: left;">neutral</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mandela</td>
+<td style="text-align: left;">nation</td>
+<td style="text-align: left;">trust</td>
+<td style="text-align: left;">neutral</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mbeki</td>
+<td style="text-align: left;">public</td>
+<td style="text-align: left;">anticipation</td>
+<td style="text-align: left;">neutral</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mbeki</td>
+<td style="text-align: left;">continue</td>
+<td style="text-align: left;">anticipation</td>
+<td style="text-align: left;">neutral</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mbeki</td>
+<td style="text-align: left;">continue</td>
+<td style="text-align: left;">trust</td>
+<td style="text-align: left;">neutral</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Motlanthe</td>
+<td style="text-align: left;">public</td>
+<td style="text-align: left;">anticipation</td>
+<td style="text-align: left;">neutral</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Motlanthe</td>
+<td style="text-align: left;">system</td>
+<td style="text-align: left;">trust</td>
+<td style="text-align: left;">neutral</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ramaphosa</td>
+<td style="text-align: left;">economy</td>
+<td style="text-align: left;">trust</td>
+<td style="text-align: left;">neutral</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ramaphosa</td>
+<td style="text-align: left;">public</td>
+<td style="text-align: left;">anticipation</td>
+<td style="text-align: left;">neutral</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Zuma</td>
+<td style="text-align: left;">continue</td>
+<td style="text-align: left;">anticipation</td>
+<td style="text-align: left;">neutral</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Zuma</td>
+<td style="text-align: left;">continue</td>
+<td style="text-align: left;">trust</td>
+<td style="text-align: left;">neutral</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>Most of the words associated with trust or anticipation in the <em>nrc</em> lexicon are categorised as “neutral” in the <em>bing</em> lexicon. This highlights the variability that different dictionaries can yield in an analysis. Additionally, it is important to note that due to the multi-level nature of words in the <em>nrc</em> lexicon, some words are associated with more than one sentiment, such as <strong>continue</strong>.</p>
+<p>Changes of the sentiments over time were also investigated. Line plots with corresponding smoothed lines were generated to assess any shifts in positive or negative sentiments.</p>
+<p>To assess whether the shifts are statistically significant, a logistic regression model was employed. Logistic regression is a modelling technique, based on regression, in which the dependent variable is binary. This is an appropriate model to use because the dependent variable has a binary outcome: <em>positive</em> or <em>negative</em>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="write_up_saved_files/figure-html/Trends%20over%20Time-1.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<figcaption class="figure-caption">Proportion of positive to negative words by president based on the bing lexicon</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Results from applying logistic regression</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Estimate</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Std. Error</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">z value</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Pr(&gt;|z|)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.0694006</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">date</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0000745</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<p>From the plot, it appears that there has generally been a decline in negative sentiment over the years.</p>
+<p>The p-values obtained from the logistic regression, however, are above the traditional threshold of 0.05, indicating that there was no significant decrease in the proportion of negative sentiments over time.</p>
+</section>
+<section id="bigrams-analysis" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="bigrams-analysis"><span class="header-section-number">3.1.3</span> Bigrams Analysis</h3>
+<p>An n-gram is a sequence of <em>n</em> words in a text. Bigrams, in particular, are pairs of words that are adjacent to each other. Certain words, such as “not” change the meaning of the subsequent word by negating it. It is therefore important to consider this when conducting sentiment analysis.</p>
+<p>This subsection section will explore the most common positive and negative bigrams in the speeches using the <em>bing</em> dictionary. To determine the net sentiment of a bigram, positive words are assigned a value of 1 and negative words are assigned a value of -1. Words that are preceded by a negation word (‘not’, ‘no’, ‘never’, ‘without’ or ‘anti’) had their sentiment reversed. During the analysis, a few of the labels given to words in the <em>bing</em> dictionary did not align with this context and were thus adjusted. Consequently, ‘honour’ and ‘hope’ were changed from <em>neutral</em> to <em>positive</em>. The word ‘oppression’ was reclassified from <em>neutral</em> to <em>negative</em>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="write_up_saved_files/figure-html/Top%2020%20Positive%20Bigrams-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="write_up_saved_files/figure-html/Top%2020%20Negative%20Bigrams-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The findings illustrated in the plots partially align with what was observed in the top 20 positive and negative words. In the case of positive words and bigrams, several words appeared in both sets, such as <strong>improve</strong>, <strong>support</strong>, and <strong>progress</strong>. For the negative bigrams, the main themes were similar as before: <strong>poverty</strong>, <strong>crime</strong> and <strong>corruption</strong>. Interestingly, none of the negative bigrams contained negation words; these were subsequently extracted separately.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="write_up_saved_files/figure-html/Top%2020%20Bigrams%20with%20Negation-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The most frequently occuring negation words in the bigrams were <strong>not</strong> and <strong>no</strong>. Some sentences that include the “not enough” bigram are:</p>
+<ul>
+<li><p>“But the response is that not enough criminals are being arrested and the quality of investigation is poor.”</p></li>
+<li><p>“Not enough jobs are being created.”</p></li>
+<li><p>“While structural reforms are necessary for us to revive economic growth, they are not enough on their own.”</p></li>
+</ul>
+<p>These examples highlight the importance of taking negation words into account as they reverse the sentiments of the sentences.</p>
+</section>
+</section>
+<section id="latent-dirichlet-allocation-1" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="latent-dirichlet-allocation-1"><span class="header-section-number">3.2</span> Latent Dirichlet Allocation</h2>
+<section id="analysis-of-all-presidents" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="analysis-of-all-presidents"><span class="header-section-number">3.2.1</span> Analysis of All Presidents</h3>
+<p>As mentioned earlier, 9 topics were produced from the data. The 20 most used words can be seen in the figure below.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="newimage.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">The 20 Most Used Terms per Topic</figcaption>
+</figure>
+</div>
+<p>While there is still some overlap among the topics, the general idea of these is fairly clear. The first topic seems to focus on a new democratic South Africa and the challenges this brings in the improvement on formerly oppressed bodies. Topic two mentions the words, ‘crime’, ‘security’, ‘improve’ and ‘progress’, which among many other words touches on the crime issues related to South Africa as well as the need for progress as violent crimes have been prevalent in South Africa since the end of Apartheid. The third topic focuses on ‘energy’, ‘infrastructure’, ‘health’, ‘water’, ‘mining’ and ‘women’. This may be a nod to South Africa’s water and energy infrastructure and development as well as the need to invest more in these plans and infrastructure to ensure consistent supply. ‘Women’ and ‘children’ which may be an indication of the vulnerability of these groups to the aforementioned issues or the need to include women in these sectors. Topic four looks at ‘water’ and ‘infrastructure’ again but also mentions ‘cape’, ‘communities’, ‘rural’ which may be referring to the Cape Town drought which occurred from 2015 - 2018 where rural areas were affected badly. Topic 5 looks at resource issues again but with a focus on the economy and business and to provide support to them as the following words are mentioned: ‘water’, ‘crisis’, ‘challenges’, ‘electricity’, ‘businesses’, ‘employment’, ‘support’ and ‘companies’.</p>
+<p>Topic six mentions ‘women’, ‘crisis’, ‘hope’, ‘improve’ which may refer to the gender-based violence issues in South Africa which disproportionate affect women. Topic seven refers to a transition from an Apartheid South Africa to a democratic South Africa. Topic 8 contains ‘billions’, ‘energy’, ‘support’, ‘commission’, ‘corruption’ all which refer to South Africa’s high corruption levels, especially in regards to the energy sector, more specifically Eskom. Lastly, the ninth topic seems to focus on ‘service’ ‘issues’ and ‘poverty’ ‘issues’ which need to be addressed for the ‘black’ majority of South Africa who have been disproportionately been affected by poor service delivery and poverty due to the ramifications on Apartheid laws and poor initiative to uplift since then.</p>
+<p>Overall, it was found that, per topic, Mandela and Ramaphosa appeared 7 times, Mbeki and Zuma 10 times and Motlanthe and de Klerk 1 time. This shows each presidents contribution to the topics.</p>
+</section>
+<section id="analysis-of-individual-presidents" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="analysis-of-individual-presidents"><span class="header-section-number">3.2.2</span> Analysis of Individual Presidents</h3>
+<p>Next, topic modelling was conducted for each president. While two topics were produced for each president, for those with a lower number of words, there was some overlap. Going chronologically, we start with de Klerk. de Klerk’s first topic focused on words such as ‘freedom’, ‘constitution’, ‘peaceful’, support’ as well as ‘zulu’ which as true to the climate during the speech was in reference to the transitioning to a democratic and free South Africa. Zulu is mentioned as it was ensured in the constitution that the Zulu leaders be given a certain amount of political power as respect to the Zulu Kingdom. His second topic refers to ‘election’ and ‘future’ as this one is more focused on the future of South Africa and the move forward.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="deklerk.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Topic Modelling for de Klerk</figcaption>
+</figure>
+</div>
+<p>Mandela’s first topic mentions ‘progress’, ‘past’, ‘hope’, ‘improve’, ‘time’, ‘building’, ‘democracy’ all of which are a related to improving the life of previously marginalized groups through a new, democratic state. His second topic focuses on many issues South Africa still faces such as crime and women’s rights as well as security. Police is also mentioned in this topic as well as reconstruction. This topic may be related to the social issues South Africa is facing and potential methods of change.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mandela.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Topic Modelling for Mandela</figcaption>
+</figure>
+</div>
+<p>Mbeki’s first topic addressed the need for improvement of services and infrastructure for local communities as well as some mention of international resources. The second topic looks at some of South Africa’s issues such as ‘poverty’ and ‘crime’ and potential words that could be used to address these issues. ‘Water’ is also mentioned in this topic which may be an additional issue being addressed.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Mbeki.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Topic Modelling for Mbeki</figcaption>
+</figure>
+</div>
+<p>As Motlanthe only gave one speech, his topics are not very well defined. The first looks issues related to South Africa as well ways for improvement. While the second speaks to many things such as ‘democracy’, ‘poverty’ and ‘children’ too.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="motlanthe.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Topic Modelling for Motlanthe</figcaption>
+</figure>
+</div>
+<p>On the topic of water, Zuma’s first topic mentions both ‘water’ and ‘cape’ as an indication of reference to the Cape Town droughts. It also mentions ‘business’, ‘health’ and ‘education’ all of which were sectors affected by this droughts. The topic also mentions ‘job’ and ‘jobs’ both of which may refer to the unemployment rates and promises of job creation. The second topic looks at resources such as ‘electricity’, ‘water’, ‘energy’ and also words such as ‘support’ and ‘women’. This topic may be referring to the consistent supply of these resources and ways to ensure this while also focusing on support for women, especially in light of gender-based violence issues.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="zuma.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Topic Modelling for Zuma</figcaption>
+</figure>
+</div>
+<p>Lastly, the current president, Ramaphosa’s, first topic is in relation to ‘energy’, ‘eskom’ and ‘challenges’ which is a nod to the energy issues South Africa is facing in relation to Eskom. ‘Investment’ and related words are mentioned implying this topic also includes the measures that are currently in place. ‘Health’ is also mentioned as well as ‘capacity’ which may be referring to the Covid-19 pandemic. The second topic mentions ‘corruption’ and ‘electricity’, ‘investment’ and related words which may be a nod to the corruption in the energy sector, especially Eskom.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Ramaphosa.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Topic Modelling for Ramaphosa</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="trends" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="trends"><span class="header-section-number">3.3</span> Trends</h2>
+<section id="yearly-trends" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="yearly-trends"><span class="header-section-number">3.3.1</span> Yearly Trends</h3>
+<p>The first figure below displays the average sentiment segregated by year and president. Nelson Mandela’s term, symbolizing the dawn of democracy in South Africa manifested positive sentiment scores. However, there is a sharp decline after that from 1995-1999. Furthermore, we notice that Mbeki in the early 2000’s had more positive sentiment as compared to the late 90’s. However, this sentiment diminishes over his tenure, possibly indicating challenges or controversial issues faced during his presidency. Zuma’s term showcases dramatic peaks and valleys in sentiment scores. We notice a steady increase in positive sentiment in the late 2000’s peaking in 2010 at a sentiment score of 1.25. Various factors could be investigated for this. A possible reason for this is the 2010 FIFA World Cup that was hosted in South Africa. However, after the world cup (2010) we notice a volatile pattern associated with Zuma’s tenure as contrast to the high witnessed in 2010, there was a drop leading to a sentiment score of below 0.5 in 2013. Furthermore, ever since Ramaphosa has been elected into office in 2018, we notice a steady decline in sentiment score. A possible reason for this could be the loadshedding and Coronavirus struggles that have plagued our country in recent years. These will be further investigated in the trends for topic modelling section.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="docs/Sent_trend_year.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Yearly Sentiment Trends segregated by presidents.</figcaption>
+</figure>
+</div>
+<p>The second figure echos the analysis that is portrayed in the figure above. A further comment can be extremely negative or positive sentiments (-5 and 5) are sparsely represented across the years, indicating that highly polarized sentiments are rare in the dataset. Throughout most of the years, the neutral sentiment (values 1 and 2) remains pre-dominant, suggesting a generally stable mood.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="docs/Count_Sentiment_Values_by_Year.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Sentiment Valence Trends by year</figcaption>
+</figure>
+</div>
+</section>
+<section id="decade-trends" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="decade-trends"><span class="header-section-number">3.3.2</span> Decade Trends</h3>
+<p>Within the span of three decades, this figure illustrates the average sentiment per decade. The 2000s and 2010s emerge as periods marked by heightened positive sentiment. In contrast, the 1990s and the 2020s manifest a more tempered positivity.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="docs/Per_Decade.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Average Sentiment Score Per Decade</figcaption>
+</figure>
+</div>
+</section>
+<section id="pre-and-post-election-trends" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="pre-and-post-election-trends"><span class="header-section-number">3.3.3</span> Pre and Post Election Trends</h3>
+<p>The following figure depicts the average sentiment during the pre and post-election phases for several South African presidents, namely Mandela, Mbeki, Ramaphosa, and Zuma. Analyzing the sentiment before the elections (pre) for each president reveals a trend. Generally, the sentiment before the election is comparatively more negative or less positive than the post-election phase. This pattern could be attributed to the strategic communication employed during election campaigns. It is common during election campaigns for leaders or political parties to highlight existing problems or crises to win voter trust by promising solutions. By making the situation seem more critical, candidates can position themselves as the needed change.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="docs/Pre_post_elections.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Comparing average sentiment scores pre and post elections</figcaption>
+</figure>
+</div>
+</section>
+<section id="overall-trends" class="level3" data-number="3.3.4">
+<h3 data-number="3.3.4" class="anchored" data-anchor-id="overall-trends"><span class="header-section-number">3.3.4</span> Overall Trends</h3>
+<p>It is found that the SONAs generally expressed positive sentiments post-elections, as supposed to pre-elections. Another finding, indicated a more negative sentiment in the speeches during the 1990s and the 2020s when juxtaposed against the relatively more positive undertones from 2000 to 2020. These sentiment shifts keenly reflect the changing political landscape and challenges faced in South Africa during these periods. Overall, our findings reveal distinct shifts in the emotional undertones of presidential speeches over time, providing insights into the evolving political narratives and concerns of the nation.</p>
+</section>
+<section id="topic-modelling-trends" class="level3" data-number="3.3.5">
+<h3 data-number="3.3.5" class="anchored" data-anchor-id="topic-modelling-trends"><span class="header-section-number">3.3.5</span> Topic Modelling Trends</h3>
+<p>In the 1990s, there was a emphasis on the foundational elements of the South African democracy. Words such as ‘democracy’, ‘constitution’, ‘building’, and ‘restructuring’ prominently feature in this era.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="docs/lda_1990.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure Demonstrating Two Topics Against Beta from 1994-1999</figcaption>
+</figure>
+</div>
+<p>Fast forward to the 2000s, the LDA topics revealed a shift towards enhancing and refining policies, programs, and institutions. Additionally, another topic that was of focus was service deliveries for the South African populace, emphasizing aspects such as security and water.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="docs/lda_2000.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure Demonstrating Two Topics Against Beta from 2000-2010</figcaption>
+</figure>
+</div>
+<p>The following decade (2010-2020), the SONA speeches seem to emphasize on capitalizing on opportunities and building the nation’s education and entrepreneurial potential. The topics highlighted a push for bolstering education and supporting businesses.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="docs/lda_2010.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure Demonstrating Two Topics Against Beta from 2010-2020</figcaption>
+</figure>
+</div>
+<p>In the most recent era, post-2020, the narrative seems to have shifted towards rectifying service delivery and corruption, notably within entities such as Eskom. This analysis also touches noted challenges such as job creation and the energy crisis related to Eskom.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="docs/lda_2020.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure Demonstrating Two Topics Against Beta from 2020-2022</figcaption>
+</figure>
+</div>
+</section>
+</section>
+</section>
+<section id="conclusions" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Conclusions</h1>
+<p>A sentiment analysis of the State of Nation Addresses was conducted to discern the overall feelings expressed by the South African presidents over time. It was discovered that most of the presidents, with the exception of deKlerk, had common interests: peace, freedom and progress. Recurring concerns were centered around poverty, crime and corruption. The analysis indicated that concerns over these themes did not change over time, as the logistic regression model indicated that the sentiment trend was consistent.</p>
+<p>In the LDA, the topics found for each president summarised the political climate of their times well and were insightful into seeing which issues were at hand and the progression of. Overall, the topics progress from democracy and freedom related words to economic and development jargon which was mentioned by almost all the presidents with a nod to non-economic and social issues such as crime, poverty, women or water throughout the speeches.</p>
+<p>Lastly, in terms of limitations and scope for future improvement, some of the presidents were under-represented which limited the validity of the analysis of their sentiments and topics. There were also hindrances due to the subjective nature of lexicons as many words may have been classified. With the LDA, the topic interpretations were done manually and the interpretations are subject to the researcher. For future work, researchers may want to balance their dataset for a more representative analysis and the application of automatic keyword extraction may be used to classify the topics in real time.</p>
+</section>
+<section id="author-contributions" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Author Contributions</h1>
+<table class="table">
+<caption>Author Contributions to This Project</caption>
+<colgroup>
+<col style="width: 61%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Section</th>
+<th>Contributors</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sentiment Analysis</td>
+<td>Susana Maganga</td>
+</tr>
+<tr class="even">
+<td>LDA</td>
+<td>Puja Pande</td>
+</tr>
+<tr class="odd">
+<td>Trends Over Time for LDA and Sentiment Analysis</td>
+<td>Ndivhuwo Nyase</td>
+</tr>
+<tr class="even">
+<td>EDA</td>
+<td>Puja Pande</td>
+</tr>
+<tr class="odd">
+<td>Use of Large Language Models</td>
+<td>Puja Pande and Susana Maganga</td>
+</tr>
+<tr class="even">
+<td>Report Write-Up (All Sections)</td>
+<td>Ndivhuwo Nyase, Susana Maganga, Puja Pande (All Authors)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="references" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> References</h1>
+<p>Irawan, H., Akmalia, G. and Masrury, R.A., 2019, September. Mining tourist’s perception toward Indonesia tourism destination using sentiment analysis and topic modelling. In <em>Proceedings of the 2019 4th International Conference on Cloud Computing and Internet of Things</em> (pp.&nbsp;7-12).</p>
+<p>Kulshrestha, R. (2020). <em>Latent Dirichlet Allocation(LDA)</em>. [online] Medium. Available at: <a href="https://towardsdatascience.com/latent-dirichlet-allocation-lda-9d1cd064ffa2" class="uri">https://towardsdatascience.com/latent-dirichlet-allocation-lda-9d1cd064ffa2</a>. [Accessed 17 October 2023].</p>
+<p>Miranda, J.P.P. and Bringula, R.P., 2021. Exploring Philippine Presidents’ speeches: A sentiment analysis and topic modeling approach. <em>Cogent Social Sciences</em>, <em>7</em>(1), p.1932030.</p>
+<p>Sadia, A., Khan, F.K., &amp; Bashir, F. (2018). <em>An Overview of Lexicon-Based Approach For Sentiment Analysis</em>.</p>
+<p>Zhang, Z. (n.d.). <em>Text Mining for Social and Behavioral Research Using R</em>. [online] books.psychstat.org. Available at: <a href="https://books.psychstat.org/textmining/topic-models.html" class="uri">https://books.psychstat.org/textmining/topic-models.html</a> [Accessed 17 October 2023].</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
